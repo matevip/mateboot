@@ -1,0 +1,27 @@
+spring:
+  profiles:
+    active: @spring.active@
+  main:
+    allow-bean-definition-overriding: true
+#  mvc:
+#    throw-exception-if-no-handler-found: true
+  #不要为我们工程中的资源文件建立映射
+#  resources:
+#    add-mappings: false
+  redis:
+    #redis 单机环境配置
+    host: 127.0.0.1
+    port: 6379
+    password:
+    database: 0
+    ssl: false
+    #redis 集群环境配置
+    #cluster:
+    #  nodes: 127.0.0.1:7001,127.0.0.1:7002,127.0.0.1:7003
+    #  commandTimeout: 5000
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    druid:
+      # MySql校验
+      validation-query: select 1
+
