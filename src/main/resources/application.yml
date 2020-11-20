@@ -3,11 +3,11 @@ spring:
     active: @spring.active@
   main:
     allow-bean-definition-overriding: true
-#  mvc:
-#    throw-exception-if-no-handler-found: true
+  #  mvc:
+  #    throw-exception-if-no-handler-found: true
   #不要为我们工程中的资源文件建立映射
-#  resources:
-#    add-mappings: false
+  #  resources:
+  #    add-mappings: false
   redis:
     #redis 单机环境配置
     host: 127.0.0.1
