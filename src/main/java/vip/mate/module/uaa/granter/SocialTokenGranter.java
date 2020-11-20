@@ -20,7 +20,7 @@ import org.springframework.security.oauth2.provider.*;
 import org.springframework.security.oauth2.provider.token.AbstractTokenGranter;
 import org.springframework.security.oauth2.provider.token.AuthorizationServerTokenServices;
 import vip.mate.core.redis.core.RedisService;
-import vip.mate.core.security.social.SocialAuthenticationToken;
+import vip.mate.module.uaa.social.SocialAuthenticationToken;
 
 import java.util.LinkedHashMap;
 import java.util.Map;

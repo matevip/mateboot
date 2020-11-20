@@ -13,7 +13,7 @@ import org.springframework.security.oauth2.provider.token.AbstractTokenGranter;
 import org.springframework.security.oauth2.provider.token.AuthorizationServerTokenServices;
 import vip.mate.core.common.constant.Oauth2Constant;
 import vip.mate.core.redis.core.RedisService;
-import vip.mate.core.security.sms.SmsCodeAuthenticationToken;
+import vip.mate.module.uaa.sms.SmsCodeAuthenticationToken;
 
 import java.util.LinkedHashMap;
 import java.util.Map;

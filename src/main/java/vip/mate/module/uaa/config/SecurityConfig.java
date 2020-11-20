@@ -35,12 +35,12 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
-import vip.mate.core.security.config.IgnoreUrlPropsConfig;
+import vip.mate.core.security.config.IgnoreUrlPropsConfiguration;
 import vip.mate.core.security.handle.MateAuthenticationFailureHandler;
 import vip.mate.core.security.handle.MateAuthenticationSuccessHandler;
-import vip.mate.core.security.sms.SmsCodeAuthenticationSecurityConfig;
-import vip.mate.core.security.social.SocialAuthenticationSecurityConfig;
 import vip.mate.module.uaa.service.impl.UserDetailsServiceImpl;
+import vip.mate.module.uaa.sms.SmsCodeAuthenticationSecurityConfig;
+import vip.mate.module.uaa.social.SocialAuthenticationSecurityConfig;
 
 /**
  * 安全配置中心
@@ -52,7 +52,7 @@ import vip.mate.module.uaa.service.impl.UserDetailsServiceImpl;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private IgnoreUrlPropsConfig ignoreUrlPropsConfig;
+    private IgnoreUrlPropsConfiguration ignoreUrlPropsConfig;
 
     @Autowired
     public PasswordEncoder passwordEncoder;
