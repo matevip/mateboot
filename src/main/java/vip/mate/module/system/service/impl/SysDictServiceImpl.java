@@ -41,7 +41,7 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
     }
 
     @Override
-    public IPage<SysDict> listPage(Page page, Search search) {
+    public IPage<SysDict> listPage(Page<SysDict> page, Search search) {
         LambdaQueryWrapper<SysDict> queryWrapper = new LambdaQueryWrapper<>();
         if (StringUtil.isNotBlank(search.getStartDate())) {
             queryWrapper.between(SysDict::getCreateTime, search.getStartDate(), search.getEndDate());

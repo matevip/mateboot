@@ -1,7 +1,5 @@
 package vip.mate.module.system.service;
 
-//import com.alicp.jetcache.anno.Cached;
-
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -21,12 +19,30 @@ import java.util.List;
  */
 public interface ISysDictService extends IService<SysDict> {
 
-//    @Cached(name= SystemConstant.SYS_DICT_CACHE, expire = 3600)
-    Result<String> getValue(String code, String dictKey);
+	/**
+	 * 获取值
+	 *
+	 * @param code    代码
+	 * @param dictKey 键值
+	 * @return String
+	 */
+	Result<String> getValue(String code, String dictKey);
 
-//    @Cached(name= SystemConstant.SYS_DICT_CACHE, key="#code", expire = 3600)
-    Result<List<SysDict>> getList(String code);
+	/**
+	 * 获取列表
+	 *
+	 * @param code 　代码
+	 * @return List
+	 */
+	Result<List<SysDict>> getList(String code);
 
-    IPage<SysDict> listPage(Page page, Search search);
+	/**
+	 * 获取分页
+	 *
+	 * @param page   　分页参数
+	 * @param search 　搜索关键词
+	 * @return SysDict
+	 */
+	IPage<SysDict> listPage(Page<SysDict> page, Search search);
 
 }

@@ -256,7 +256,7 @@ public class CryptoUtil {
             e.printStackTrace();
             throw new RuntimeException(e);
         } finally {
-            IOUtils.closeQuietly(input);
+            close(input);
         }
     }
 
@@ -276,7 +276,21 @@ public class CryptoUtil {
             e.printStackTrace();
             throw new RuntimeException(e);
         } finally {
-            IOUtils.closeQuietly(input);
+           close(input);
+        }
+    }
+
+    /**
+     * 关闭连接
+     * @param input InputStream
+     */
+    public static void close(InputStream input) {
+        if (input != null) {
+            try {
+                input.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 

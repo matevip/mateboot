@@ -43,11 +43,11 @@ public class SysBlacklistController extends BaseController {
     @GetMapping("/page")
     @ApiOperation(value = "黑名单分页", notes = "黑名单分页")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "current", required = true, value = "当前页", paramType = "form"),
-            @ApiImplicitParam(name = "size", required = true, value = "每页显示数据", paramType = "form"),
-            @ApiImplicitParam(name = "keyword", required = true, value = "模糊查询关键词", paramType = "form"),
-            @ApiImplicitParam(name = "startDate", required = true, value = "创建开始日期", paramType = "form"),
-            @ApiImplicitParam(name = "endDate", required = true, value = "创建结束日期", paramType = "form"),
+            @ApiImplicitParam(name = "current", required = true, value = "当前页", paramType = "form", dataTypeClass = String.class),
+            @ApiImplicitParam(name = "size", required = true, value = "每页显示数据", paramType = "form", dataTypeClass = String.class),
+            @ApiImplicitParam(name = "keyword", required = true, value = "模糊查询关键词", paramType = "form", dataTypeClass = String.class),
+            @ApiImplicitParam(name = "startDate", required = true, value = "创建开始日期", paramType = "form", dataTypeClass = String.class),
+            @ApiImplicitParam(name = "endDate", required = true, value = "创建结束日期", paramType = "form", dataTypeClass = String.class),
     })
     public Result<?> page(Page page, Search search) {
         return Result.data(sysBlacklistService.listPage(page, search));
