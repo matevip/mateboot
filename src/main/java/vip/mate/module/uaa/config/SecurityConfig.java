@@ -19,7 +19,7 @@ package vip.mate.module.uaa.config;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.http.HttpMethod;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -32,7 +32,6 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.session.SessionManagementFilter;
 import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 import vip.mate.core.security.config.IgnoreUrlPropsConfiguration;
@@ -49,6 +48,7 @@ import vip.mate.module.uaa.social.SocialAuthenticationSecurityConfig;
  * @date 2019-10-11 23:25
  **/
 @EnableWebSecurity
+@Order(1)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -127,14 +127,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         });
         config
                 .antMatchers("/mate-uaa/auth/**").permitAll()
-                .antMatchers("/mate-uaa/oauth/**").permitAll()
+                .antMatchers("/mate-uaa/oauth/token").permitAll()
                 .antMatchers("/mate-system/**").permitAll()
                 .antMatchers("/actuator/**").permitAll()
                 .antMatchers("/v2/api-docs").permitAll()
                 .antMatchers("/v2/api-docs-ext").permitAll()
-                .antMatchers(HttpMethod.OPTIONS).permitAll()
-                //对preflight(options)放行,允许跨域
-                .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .cors()//新加入
