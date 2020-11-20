@@ -130,8 +130,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/mate-uaa/oauth/token").permitAll()
                 .antMatchers("/mate-system/**").permitAll()
                 .antMatchers("/actuator/**").permitAll()
-                .antMatchers("/v2/api-docs").permitAll()
-                .antMatchers("/v2/api-docs-ext").permitAll()
+                .antMatchers("/v3/api-docs").permitAll()
+                .antMatchers("/doc.html").permitAll()
+                .antMatchers("/webjars/**").permitAll()
+                .antMatchers("**/favicon.ico").permitAll()
+                .antMatchers("/swagger-resources/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .cors()//新加入
