@@ -28,7 +28,6 @@ public class WebConfig implements WebMvcConfigurer {
                 //跨域允许时间
                 .maxAge(3600);
     }
-
     @Bean
     public PasswordEncoder passwordEncoder() {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();

@@ -6,15 +6,15 @@
 
     <groupId>vip.mate</groupId>
     <artifactId>mateboot</artifactId>
-    <version>1.0.1</version>
+    <version>4.0.8-SNAPSHOT</version>
 
     <properties>
-        <matecloud.core.version>1.6.8</matecloud.core.version>
+        <matecloud.core.version>3.8.8</matecloud.core.version>
         <java.version>1.8</java.version>
         <maven.plugin.version>3.8.1</maven.plugin.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <docker-maven-plugin.version>1.2.2</docker-maven-plugin.version>
-        <spring.boot.version>2.3.6.RELEASE</spring.boot.version>
+        <spring.boot.version>2.5.2</spring.boot.version>
     </properties>
 
     <dependencies>
@@ -59,7 +59,12 @@
             <groupId>vip.mate</groupId>
             <artifactId>mate-starter-oss</artifactId>
         </dependency>
-
+        <!-- Sa-Token 权限认证, 在线文档：http://sa-token.dev33.cn/ -->
+        <dependency>
+            <groupId>cn.dev33</groupId>
+            <artifactId>sa-token-spring-boot-starter</artifactId>
+            <version>1.21.0</version>
+        </dependency>
     </dependencies>
 
     <dependencyManagement>
