@@ -1,0 +1,141 @@
+mate:
+  # 名称
+  name: MateBoot
+  # 版本
+  version: ${revision}
+  # 版权年份
+  copyrightYear: 2023
+  # 激活状态
+  active: @profiles.active@
+  # 是否开启文档
+  docEnable: true
+
+# 开发环境配置
+server:
+  # 服务器的HTTP端口，默认为8080
+  port: 8888
+  servlet:
+    # 应用的访问路径
+    context-path: /
+  # undertow 配置
+  undertow:
+    # HTTP post内容的最大大小。当值为-1时，默认值为大小是无限的
+    max-http-post-size: -1
+    # 以下的配置会影响buffer,这些buffer会用于服务器连接的IO操作,有点类似netty的池化内存管理
+    # 每块buffer的空间大小,越小的空间被利用越充分
+    buffer-size: 512
+    # 是否分配的直接内存
+    direct-buffers: true
+    threads:
+      # 设置IO线程数, 它主要执行非阻塞的任务,它们会负责多个连接, 默认设置每个CPU核心一个线程
+      io: 8
+      # 阻塞任务线程池, 当执行类似servlet请求阻塞操作, undertow会从这个线程池中取得线程,它的值设置取决于系统的负载
+      worker: 256
+
+# Spring配置
+spring:
+  application:
+    name: ${mate.name}
+  # 资源信息
+  messages:
+    # 国际化资源文件路径
+    basename: i18n/messages
+  profiles:
+    # 环境 dev|test|prod
+    active: ${mate.active}
+  # 文件上传
+  servlet:
+    multipart:
+      # 单个文件大小
+      max-file-size: 10MB
+      # 设置总上传的文件大小
+      max-request-size: 20MB
+  mvc:
+    format:
+      date-time: yyyy-MM-dd HH:mm:ss
+  jackson:
+    # 日期格式化
+    date-format: yyyy-MM-dd HH:mm:ss
+    serialization:
+      # 格式化输出
+      indent_output: false
+      # 忽略无法转换的对象
+      fail_on_empty_beans: false
+    deserialization:
+      # 允许对象忽略json中不存在的属性
+      fail_on_unknown_properties: false
+
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/**/*.xml
+  # 实体扫描，多个package用逗号或者分号分隔
+  typeAliasesPackage: vip.mate.*.entity
+  # TODO
+  mapperPackage: vip.mate.*.entity
+  global-config:
+    # 数据库相关配置
+    db-config:
+      # ID自增
+      id-type: AUTO
+      # 逻辑已删除值
+      logic-delete-value: 1
+      # 逻辑未删除值
+      logic-not-delete-value: 0
+    banner: false
+  # 原生配置
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: false
+    call-setters-on-nulls: true
+    jdbc-type-for-null: 'null'
+  configuration-properties:
+    prefix:
+    blobType: BLOB
+    boolValue: TRUE
+
+#easy trans 数据翻译组件
+easy-trans:
+  #启用redis缓存 如果不用redis请设置为false
+  is-enable-redis: false
+  #启用全局翻译(拦截所有responseBody进行自动翻译)，如果对于性能要求很高可关闭此配置
+  is-enable-global: true
+  #启用平铺模式
+  is-enable-tile: true
+
+knife4j:
+  enable: true
+  setting:
+    custom-code: 500
+    enable-footer-custom: false
+
+springdoc:
+  api-docs:
+    # 是否开启接口文档
+    enabled: ${mate.docEnable}
+  #  swagger-ui:
+  #    # 持久化认证数据
+  #    persistAuthorization: true
+  info:
+    # 标题
+    title: '标题：${mate.name}多租户管理系统_接口文档'
+    # 描述
+    description: '描述：用于管理集团旗下公司的人员信息,具体包括XXX,XXX模块...'
+    # 版本
+    version: '版本号: ${mate.version}'
+    # 作者信息
+    contact:
+      name: Lion Li
+      email: crazylionli@163.com
+      url: https://gitee.com/dromara/RuoYi-Vue-Plus
+  components:
+    # 鉴权方式配置
+    security-schemes:
+      apiKey:
+        type: APIKEY
+        in: HEADER
+        name: ${sa-token.token-name}
+  #这里定义了两个分组，可定义多个，也可以不定义
+  group-configs:
+    - group: 2.人工智能模块
+      packages-to-scan: vip.mate.ai
+    - group: 3.代码生成模块
+      packages-to-scan: vip.mate.generator

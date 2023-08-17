@@ -1,0 +1,9 @@
+${AnsiColor.BRIGHT_GREEN}
+ ▄    ▄   ▄▄  ▄▄▄▄▄▄▄ ▄▄▄▄▄▄ ▄▄▄▄▄   ▄▄▄▄   ▄▄▄▄ ▄▄▄▄▄▄▄
+ ██  ██   ██     █    █      █    █ ▄▀  ▀▄ ▄▀  ▀▄   █
+ █ ██ █  █  █    █    █▄▄▄▄▄ █▄▄▄▄▀ █    █ █    █   █
+ █ ▀▀ █  █▄▄█    █    █      █    █ █    █ █    █   █
+ █    █ █    █   █    █▄▄▄▄▄ █▄▄▄▄▀  █▄▄█   █▄▄█    █
+
+${AnsiColor.BLUE}:: MATE TEAM :: ${spring.application.name}: ${AnsiColor.BRIGHT_GREEN}${spring.profiles.active}${AnsiColor.BLUE}: ${AnsiColor.BRIGHT_GREEN}v${mate.version}${AnsiColor.BLUE} ::
+${AnsiColor.BLUE}:: Spring-Boot: ${AnsiColor.BRIGHT_GREEN}${spring-boot.version}${AnsiColor.BLUE} :: PORT: ${AnsiColor.BRIGHT_GREEN}${server.port}${AnsiColor.DEFAULT}

@@ -1,9 +1,0 @@
-${AnsiColor.BRIGHT_GREEN}
-______  _______________________________________________________
-___   |/  /__    |__  __/__  ____/__  __ )_  __ \_  __ \__  __/
-__  /|_/ /__  /| |_  /  __  __/  __  __  |  / / /  / / /_  /
-_  /  / / _  ___ |  /   _  /___  _  /_/ // /_/ // /_/ /_  /
-/_/  /_/  /_/  |_/_/    /_____/  /_____/ \____/ \____/ /_/
-
-${AnsiColor.BLUE}:: MATECLOUD :: ${spring.application.name}: ${AnsiColor.BRIGHT_GREEN}${spring.profiles.active}${AnsiColor.BLUE}: ${AnsiColor.BRIGHT_GREEN}v@project.version@${AnsiColor.BLUE} ::
-${AnsiColor.BLUE}:: Spring-Boot: ${AnsiColor.BRIGHT_GREEN}${spring-boot.version}${AnsiColor.BLUE} :: PORT: ${AnsiColor.BRIGHT_GREEN}${server.port}${AnsiColor.DEFAULT}

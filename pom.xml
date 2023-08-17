@@ -1,133 +1,243 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <groupId>vip.mate</groupId>
     <artifactId>mateboot</artifactId>
-    <version>4.0.8-SNAPSHOT</version>
+    <version>${revision}</version>
+    <modelVersion>4.0.0</modelVersion>
 
+    <name>mate-boot</name>
+    <packaging>pom</packaging>
+
+    <description>
+        MateBoot快速开发平台
+    </description>
+    <modules>
+        <module>mate-core</module>
+        <module>mate-platform</module>
+        <module>mate-plugin</module>
+        <module>mate-bootstrap</module>
+    </modules>
     <properties>
-        <matecloud.core.version>3.8.8</matecloud.core.version>
-        <java.version>1.8</java.version>
-        <maven.plugin.version>3.8.1</maven.plugin.version>
+        <revision>1.0.8-SNAPSHOT</revision>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <docker-maven-plugin.version>1.2.2</docker-maven-plugin.version>
-        <spring.boot.version>2.5.2</spring.boot.version>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <java.version>17</java.version>
+        <spring-boot.version>3.1.2</spring-boot.version>
+        <satoken.version>1.35.0.RC</satoken.version>
+        <mybatis-plus.version>3.5.3.1</mybatis-plus.version>
+        <dynamic-ds.version>3.5.2</dynamic-ds.version>
+        <mysql.version>8.0.33</mysql.version>
+        <HikariCP.version>5.0.1</HikariCP.version>
+        <mapstruct.version>1.5.5.Final</mapstruct.version>
+        <fastjson.version>2.0.34</fastjson.version>
+
+        <hutool.version>5.8.18</hutool.version>
+
+        <knife4j.version>4.3.0</knife4j.version>
+
+        <maven-surefire-plugin.version>3.1.2</maven-surefire-plugin.version>
+        <flatten-maven-plugin.version>1.5.0</flatten-maven-plugin.version>
+        <maven-compiler-plugin.verison>3.11.0</maven-compiler-plugin.verison>
+        <lombok.version>1.18.28</lombok.version>
+
     </properties>
 
-    <dependencies>
-        <dependency>
-            <groupId>vip.mate</groupId>
-            <artifactId>mate-starter-web</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>vip.mate</groupId>
-            <artifactId>mate-starter-common</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>vip.mate</groupId>
-            <artifactId>mate-starter-database</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>vip.mate</groupId>
-            <artifactId>mate-starter-redis</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>vip.mate</groupId>
-            <artifactId>mate-starter-security</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>commons-lang</groupId>
-            <artifactId>commons-lang</artifactId>
-            <version>2.6</version>
-        </dependency>
-        <dependency>
-            <groupId>vip.mate</groupId>
-            <artifactId>mate-starter-file</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.github.whvcse</groupId>
-            <artifactId>easy-captcha</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>vip.mate</groupId>
-            <artifactId>mate-starter-auth</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>vip.mate</groupId>
-            <artifactId>mate-starter-oss</artifactId>
-        </dependency>
-        <!-- Sa-Token 权限认证, 在线文档：http://sa-token.dev33.cn/ -->
-        <dependency>
-            <groupId>cn.dev33</groupId>
-            <artifactId>sa-token-spring-boot-starter</artifactId>
-            <version>1.21.0</version>
-        </dependency>
-    </dependencies>
-
+    <!-- 依赖声明 -->
     <dependencyManagement>
         <dependencies>
+            <!-- SpringBoot的依赖配置-->
             <dependency>
-                <groupId>vip.mate</groupId>
-                <artifactId>mate-starter-dependencies</artifactId>
-                <version>${matecloud.core.version}</version>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring-boot.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+
+            <!-- HuTool 的依赖配置-->
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-bom</artifactId>
+                <version>${hutool.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <!-- Mybatis-Plus -->
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-boot-starter</artifactId>
+                <version>${mybatis-plus.version}</version>
+            </dependency>
+
+            <!-- Dynamic-Datasource 多数据源-->
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>dynamic-datasource-spring-boot-starter</artifactId>
+                <version>${dynamic-ds.version}</version>
+            </dependency>
+
+            <!-- Mysql驱动包 -->
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql.version}</version>
+            </dependency>
+
+            <!-- 数据库连接池-->
+            <dependency>
+                <groupId>com.zaxxer</groupId>
+                <artifactId>HikariCP</artifactId>
+                <version>${HikariCP.version}</version>
+            </dependency>
+
+            <!-- Sa-Token 权限认证, 在线文档：http://sa-token.dev33.cn/ -->
+            <dependency>
+                <groupId>cn.dev33</groupId>
+                <artifactId>sa-token-spring-boot3-starter</artifactId>
+                <version>${satoken.version}</version>
+            </dependency>
+            <!-- Sa-Token 整合 jwt -->
+            <dependency>
+                <groupId>cn.dev33</groupId>
+                <artifactId>sa-token-jwt</artifactId>
+                <version>${satoken.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.dev33</groupId>
+                <artifactId>sa-token-core</artifactId>
+                <version>${satoken.version}</version>
+            </dependency>
+
+            <!-- 阿里JSON解析器 -->
+            <dependency>
+                <groupId>com.alibaba.fastjson2</groupId>
+                <artifactId>fastjson2</artifactId>
+                <version>${fastjson.version}</version>
+            </dependency>
+
+            <!-- 对象转换工具 -->
+            <dependency>
+                <groupId>org.mapstruct</groupId>
+                <artifactId>mapstruct</artifactId>
+                <version>${mapstruct.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mapstruct</groupId>
+                <artifactId>mapstruct-processor</artifactId>
+                <version>${mapstruct.version}</version>
+            </dependency>
+
+            <!-- Knife4j OpenApi3 -->
+            <dependency>
+                <groupId>com.github.xiaoymin</groupId>
+                <artifactId>knife4j-openapi3-jakarta-spring-boot-starter</artifactId>
+                <version>${knife4j.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct-processor</artifactId>
+        </dependency>
+    </dependencies>
+
     <build>
+        <finalName>${project.name}--${profiles.active}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.1</version>
+                <version>${maven-compiler-plugin.verison}</version>
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
                     <encoding>${project.build.sourceEncoding}</encoding>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>${lombok.version}</version>
+                        </path>
+                        <path>
+                            <groupId>org.springframework.boot</groupId>
+                            <artifactId>spring-boot-configuration-processor</artifactId>
+                            <version>${spring-boot.version}</version>
+                        </path>
+                    </annotationProcessorPaths>
                     <compilerArgs>
                         <arg>-parameters</arg>
                     </compilerArgs>
                 </configuration>
             </plugin>
+            <!-- 单元测试使用 -->
             <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>${spring.boot.version}</version>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${maven-surefire-plugin.version}</version>
                 <configuration>
-                    <mainClass>vip.mate.MateBootServer</mainClass>
+                    <!-- 根据打包环境执行对应的@Tag测试方法 -->
+                    <groups>${profiles.active}</groups>
+                    <!-- 排除标签 -->
+                    <excludedGroups>exclude</excludedGroups>
+                </configuration>
+            </plugin>
+            <!-- 统一版本号管理 -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>flatten-maven-plugin</artifactId>
+                <version>${flatten-maven-plugin.version}</version>
+                <configuration>
+                    <updatePomFile>true</updatePomFile>
+                    <flattenMode>resolveCiFriendliesOnly</flattenMode>
                 </configuration>
                 <executions>
                     <execution>
+                        <id>flatten</id>
+                        <phase>process-resources</phase>
                         <goals>
-                            <goal>repackage</goal>
+                            <goal>flatten</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>flatten.clean</id>
+                        <phase>clean</phase>
+                        <goals>
+                            <goal>clean</goal>
                         </goals>
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
-                <groupId>com.spotify</groupId>
-                <artifactId>docker-maven-plugin</artifactId>
-                <version>${docker-maven-plugin.version}</version>
-            </plugin>
         </plugins>
+
         <resources>
             <resource>
-                <directory>src/main/webapp</directory>
+                <directory>src/main/resources</directory>
+                <!-- 关闭过滤 -->
+                <filtering>false</filtering>
             </resource>
             <resource>
                 <directory>src/main/resources</directory>
-                <filtering>true</filtering>
-            </resource>
-            <resource>
-                <directory>src/main/java</directory>
+                <!-- 引入所有 匹配文件进行过滤 -->
                 <includes>
-                    <include>**/*.xml</include>
+                    <include>application*</include>
+                    <include>bootstrap*</include>
+                    <include>banner*</include>
                 </includes>
+                <!-- 启用过滤 即该资源中的变量将会被过滤器中的值替换 -->
+                <filtering>true</filtering>
             </resource>
         </resources>
     </build>
@@ -136,29 +246,55 @@
         <profile>
             <id>local</id>
             <properties>
-                <spring.active>local</spring.active>
+                <!-- 环境标识，需要与配置文件的名称相对应 -->
+                <profiles.active>local</profiles.active>
+                <logging.level>debug</logging.level>
             </properties>
             <activation>
+                <!-- 默认环境 -->
                 <activeByDefault>true</activeByDefault>
             </activation>
         </profile>
         <profile>
             <id>dev</id>
             <properties>
-                <spring.active>dev</spring.active>
+                <!-- 环境标识，需要与配置文件的名称相对应 -->
+                <profiles.active>dev</profiles.active>
+                <logging.level>debug</logging.level>
             </properties>
         </profile>
         <profile>
-            <id>test</id>
+            <id>prod</id>
             <properties>
-                <spring.active>test</spring.active>
-            </properties>
-        </profile>
-        <profile>
-            <id>produce</id>
-            <properties>
-                <spring.active>produce</spring.active>
+                <profiles.active>prod</profiles.active>
+                <logging.level>warn</logging.level>
             </properties>
         </profile>
     </profiles>
+
+    <repositories>
+        <repository>
+            <id>public</id>
+            <name>huawei nexus</name>
+            <url>https://mirrors.huaweicloud.com/repository/maven/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+        </repository>
+    </repositories>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>public</id>
+            <name>huawei nexus</name>
+            <url>https://mirrors.huaweicloud.com/repository/maven/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
+
 </project>

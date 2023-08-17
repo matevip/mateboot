@@ -1,43 +1,47 @@
+HELP.md
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
 *.class
 
-# Package Files #
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
 *.jar
 *.war
 *.ear
-target/
 
-# eclipse
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### VS Code ###
+.vscode/
+
+### Eclipse ###
 .settings/
 .classpath
 .project
 logs/
 temp/
-
-# idea
-.idea/
-*.iml
-
-*velocity.log*
-
-!.mvn/wrapper/maven-wrapper.jar
-
-### STS ###
-.apt_generated
-.factorypath
-.springBeans
-
-### IntelliJ IDEA ###
-.idea
-*.iws
-*.ipr
-
-### NetBeans ###
-nbproject/private/
-build/
-nbbuild/
-dist/
-nbdist/
-.nb-gradle/
 
 *.log
 tmp/
