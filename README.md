@@ -9,7 +9,12 @@
 [![MateBoot](https://img.shields.io/badge/MateBoot-1.0.8-green.svg)](https://gitee.com/matevip/mateboot)
 [![Spring Boot](https://img.shields.io/maven-central/v/org.springframework.boot/spring-boot-dependencies.svg?label=Spring%20Boot&logo=Spring)](https://search.maven.org/artifact/org.springframework.boot/spring-boot-dependencies)
 [![Spring Cloud](https://img.shields.io/maven-central/v/cn.dev33/sa-token-spring-boot3-starter.svg?label=Sa%20Token&logo=springsecurity)](https://search.maven.org/artifact/cn.dev33/sa-token-spring-boot3-starter)
-[![Spring Cloud Alibaba](https://img.shields.io/maven-central/v/com.baomidou/mybatis-plus-boot-starter.svg?label=Mybatis%20Plus&logo=qlik)](https://search.maven.org/artifact/com.baomidou/mybatis-plus-boot-starter) 
+[![Spring Cloud Alibaba](https://img.shields.io/maven-central/v/com.baomidou/mybatis-plus-boot-starter.svg?label=Mybatis%20Plus&logo=qlik)](https://search.maven.org/artifact/com.baomidou/mybatis-plus-boot-starter)
+<br>
+![Vue](https://img.shields.io/badge/Vue-3.3.4-green.svg)
+![Element Plus](https://img.shields.io/badge/Element%20Plus-2.3.8-blue.svg)
+![Vite](https://img.shields.io/badge/Vite-4.4.7-red.svg)
+![Pinia](https://img.shields.io/badge/Pinia-2.1.6-green.svg)
 
 ## ❓ 郑重声明
 
