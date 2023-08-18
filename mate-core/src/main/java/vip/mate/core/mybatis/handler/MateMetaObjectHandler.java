@@ -3,6 +3,8 @@ package vip.mate.core.mybatis.handler;
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import org.apache.ibatis.reflection.MetaObject;
 
+import java.time.LocalDateTime;
+
 /**
  * Mybatis-Plus 自动填充字段
  *
@@ -11,20 +13,20 @@ import org.apache.ibatis.reflection.MetaObject;
  */
 public class MateMetaObjectHandler implements MetaObjectHandler {
     private final static String CREATE_TIME = "createTime";
-    private final static String CREATOR = "creator";
+    private final static String CREATE_BY = "createBy";
     private final static String UPDATE_TIME = "updateTime";
-    private final static String UPDATER = "updater";
+    private final static String UPDATE_BY = "updateBy";
     private final static String ORG_ID = "orgId";
     private final static String VERSION = "version";
     private final static String DELETED = "deleted";
 
     @Override
     public void insertFill(MetaObject metaObject) {
-
+        this.strictInsertFill(metaObject, "createTime", LocalDateTime.class, LocalDateTime.now());
     }
 
     @Override
     public void updateFill(MetaObject metaObject) {
-
+        this.strictUpdateFill(metaObject, "updateTime", LocalDateTime.class, LocalDateTime.now());
     }
 }
