@@ -1,0 +1,68 @@
+package ${package.Service};
+
+import ${package.Entity}.${entity};
+import ${superServiceClassPackage};
+import ${vo};
+import ${req};
+import ${codeConfig.serviceConfig.pageReturnClass};
+
+/**
+* <p>
+* $!{table.comment} 服务类
+* </p>
+*
+* @author ${author}
+* @since ${date}
+*/
+#if(${kotlin})
+interface ${table.serviceName} : ${superServiceClass}<${entity}>
+#else
+public interface ${table.serviceName} extends ${superServiceClass}<${entity}> {
+## 主键类型判断
+#foreach($field in ${table.fields})
+#if(${field.keyFlag})
+## 主键类型
+#set($idType=${field.propertyType})
+## 主键名称
+#set($idName=${field.propertyName})
+## 跳出
+#break
+#end
+#end
+
+    /**
+     * 列表查询
+     * @param req 参数
+     * @return 分页结果
+     */
+    ${codeConfig.serviceConfig.pageReturnClassName}<${entity}VO> queryPage(${entity}Req req);
+
+    /**
+     * 新增
+     * @param entity 实体类对象
+     * @return true：成功，false：失败
+     */
+    Boolean createData(${entity} entity);
+
+    /**
+    * 修改
+    * @param entity 实体类对象
+    * @return true：成功，false：失败
+    */
+    Boolean updateData(${entity} entity);
+
+    /**
+     * 删除
+     * @param ${idName} 主键
+     * @return true：成功，false：失败
+     */
+    Boolean removeData(${idType} ${idName});
+
+    /**
+     * 单条查询
+     * @param ${idName} 主键
+     * @return true：成功，false：失败
+     */
+    ${entity}VO getData(${idType} ${idName});
+}
+#end

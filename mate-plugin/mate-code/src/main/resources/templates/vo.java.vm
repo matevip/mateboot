@@ -1,0 +1,67 @@
+#if(${codeConfig.globalConfig.ifEnableModel})
+package ${package.Parent}.vo.${codeConfig.globalConfig.permissionModel};
+#else
+package ${package.Parent}.vo;
+#end
+
+#foreach($pkg in ${table.importPackages})
+#if($pkg == "java.time.LocalDateTime")
+import ${pkg};
+import com.fasterxml.jackson.annotation.JsonFormat;
+#if(${codeConfig.entityConfig.isEnableFastJson})
+import com.alibaba.fastjson.annotation.JSONField;
+#end
+#end
+#if($pkg == "java.math.BigDecimal")
+import ${pkg};
+#end
+#end
+#if(${swagger})
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+#end
+#if(${entityLombokModel})
+import lombok.*;
+#if(${chainModel})
+import lombok.experimental.Accessors;
+#end
+#end
+
+/**
+ * <p>
+ * $!{table.comment}VO
+ * </p>
+ *
+ * @author ${author}
+ * @since ${date}
+ */
+#if(${entityLombokModel})
+@Data
+#if(${chainModel})
+@Accessors(chain = true)
+#end
+#end
+#if(${swagger})
+@ApiModel(value = "${entity}VO对象", description = "$!{table.comment}")
+#end
+public class ${entity}VO {
+
+## ----------  BEGIN 字段循环遍历  ----------
+#foreach($field in ${table.fields})
+## 逻辑删除 / 乐观锁 不生成字段
+#if(${field.logicDeleteField}|| ${field.versionField})
+## 创建时间 / 修改时间 不生成字段
+#elseif(${codeConfig.entityConfig.exclusionField.contains($field.propertyName)})
+#else
+#if($field.type.indexOf('datetime') != -1)
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+#if(${codeConfig.entityConfig.isEnableFastJson})
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
+#end
+#end
+    @ApiModelProperty(value = "${field.comment}")
+    private ${field.propertyType} ${field.propertyName};
+
+#end
+#end
+}

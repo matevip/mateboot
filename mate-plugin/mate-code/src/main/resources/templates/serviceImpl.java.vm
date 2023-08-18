@@ -1,0 +1,84 @@
+package ${package.ServiceImpl};
+
+import ${package.Entity}.${entity};
+import ${package.Mapper}.${table.mapperName};
+import ${package.Service}.${table.serviceName};
+import ${superServiceImplClassPackage};
+import ${vo};
+import ${req};
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import org.springframework.stereotype.Service;
+import java.util.*;
+import cn.hutool.core.collection.CollectionUtil;
+#if(${codeConfig.globalConfig.ifEnableModel})
+import ${package.Parent}.convert.${codeConfig.globalConfig.permissionModel}.${entity}Convert;
+#else
+import ${package.Parent}.convert.${entity}Convert;
+#end
+import ${codeConfig.serviceConfig.pageReturnClass};
+
+
+/**
+ * <p>
+ * $!{table.comment} 服务实现类
+ * </p>
+ *
+ * @author ${author}
+ * @since ${date}
+ */
+@Service
+#if(${kotlin})
+open class ${table.serviceImplName} : ${superServiceImplClass}<${table.mapperName}, ${entity}>(), ${table.serviceName} {
+
+}
+#else
+public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.mapperName}, ${entity}> implements ${table.serviceName} {
+## 主键类型判断
+#foreach($field in ${table.fields})
+    #if(${field.keyFlag})
+## 主键类型
+        #set($idType=${field.propertyType})
+## 主键名称
+        #set($idName=${field.propertyName})
+## 跳出
+        #break
+    #end
+#end
+
+    @Override
+    public ${codeConfig.serviceConfig.pageReturnClassName}<${entity}VO> queryPage(${entity}Req req) {
+        ${entity} info = ${entity}Convert.INSTANCE.convert(req);
+        Page<${entity}> pageData = baseMapper.selectPage(new Page<>(req.getPageNo(), req.getPageSize()), Wrappers.query(info));
+        if(CollectionUtil.isEmpty(pageData.getRecords())){
+            return ${codeConfig.serviceConfig.pageReturnClassName}.${codeConfig.serviceConfig.emptyMethod}();
+        }
+        List<${entity}VO> vos = ${entity}Convert.INSTANCE.toVo(pageData.getRecords());
+        return new ${codeConfig.serviceConfig.pageReturnClassName}<>(vos, pageData.getTotal(),req);
+    }
+
+    @Override
+    public Boolean createData(${entity} entity) {
+        return baseMapper.insert(entity) > 0;
+    }
+
+    @Override
+    public Boolean updateData(${entity} entity) {
+        return baseMapper.updateById(entity) > 0;
+    }
+
+    @Override
+    public Boolean removeData(${idType} ${idName}) {
+        return baseMapper.deleteById(${idName}) > 0;
+    }
+
+
+    @Override
+    public ${entity}VO getData(${idType} ${idName}) {
+        final ${entity} info = baseMapper.selectById(${idName});
+        return ${entity}Convert.INSTANCE.convertVo(info);
+    }
+
+}
+#end
+

@@ -1,0 +1,83 @@
+#if(${codeConfig.globalConfig.ifEnableModel})
+package ${package.Parent}.convert.${codeConfig.globalConfig.permissionModel};
+#else
+package ${package.Parent}.convert;
+#end
+
+import ${package.Entity}.${entity};
+import ${vo};
+import ${req};
+import org.mapstruct.Mapper;
+import org.mapstruct.factory.Mappers;
+
+import java.util.List;
+
+/**
+ * <p>
+ * $!{entity}Converter
+ * </p>
+ *
+ * @author ${author}
+ * @since ${date}
+ */
+@Mapper
+public interface ${entity}Convert{
+
+    ${entity}Convert INSTANCE = Mappers.getMapper(${entity}Convert.class);
+    /**
+     * 实体类转VO
+     * @param bean entity
+     * @return ${entity}VO
+     */
+    ${entity}VO convertVo(${entity} bean);
+
+    /**
+     * 实体类转VO -集合
+     * @param entityList entityList
+     * @return list
+     */
+    List<${entity}VO> toVo(List<${entity}> entityList);
+
+    /**
+    * vo转实体类
+    * @param vo vo
+    * @return ${entity}
+    */
+    ${entity} convert(${entity}VO vo);
+
+    /**
+     * 实体类转req
+     * @param bean entity
+     * @return ${entity}Req
+     */
+    ${entity}Req convertReq(${entity} bean);
+
+    /**
+     * 实体类转req -集合
+     * @param entityList entityList
+     * @return list
+     */
+    List<${entity}Req> toReq(List<${entity}> entityList);
+
+    /**
+    * req转实体类
+    * @param req req
+    * @return ${entity}
+    */
+    ${entity} convert(${entity}Req req);
+
+    /**
+    * req转VO
+    * @param req req
+    * @return ${entity}Req
+    */
+    ${entity}VO toVo(${entity}Req req);
+
+    /**
+    * vo转req
+    * @param vo vo
+    * @return ${entity}Req
+    */
+    ${entity}Req toReq(${entity}VO vo);
+
+}

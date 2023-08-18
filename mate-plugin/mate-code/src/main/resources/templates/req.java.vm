@@ -1,0 +1,73 @@
+#if(${codeConfig.globalConfig.ifEnableModel})
+package ${package.Parent}.req.${codeConfig.globalConfig.permissionModel};
+#else
+package ${package.Parent}.req;
+#end
+
+#if(${codeConfig.reqConfig.ifExtendPageParam})
+import ${codeConfig.reqConfig.pageParamClass};
+#end
+#foreach($pkg in ${table.importPackages})
+#if($pkg == "java.time.LocalDateTime")
+import ${pkg};
+import com.fasterxml.jackson.annotation.JsonFormat;
+#if(${codeConfig.entityConfig.isEnableFastJson})
+import com.alibaba.fastjson.annotation.JSONField;
+#end
+#end
+#if($pkg == "java.math.BigDecimal")
+import ${pkg};
+#end
+#end
+#if(${swagger})
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+#end
+#if(${entityLombokModel})
+import lombok.*;
+#if(${chainModel})
+import lombok.experimental.Accessors;
+import lombok.EqualsAndHashCode;
+#end
+#end
+/**
+ * <p>
+ * $!{table.comment}Req
+ * </p>
+ *
+ * @author ${author}
+ * @since ${date}
+ */
+#if(${entityLombokModel})
+@Data
+#if(${codeConfig.reqConfig.ifExtendPageParam})
+@EqualsAndHashCode(callSuper = true)
+#end
+#if(${chainModel})
+@Accessors(chain = true)
+#end
+#end
+#if(${swagger})
+@ApiModel(value = "${entity}Req对象", description = "$!{table.comment}")
+#end
+public class ${entity}Req #if(${codeConfig.reqConfig.ifExtendPageParam})extends ${codeConfig.reqConfig.pageParamClassName}#end {
+
+## ----------  BEGIN 字段循环遍历  ----------
+#foreach($field in ${table.fields})
+## 逻辑删除 / 乐观锁 不生成字段
+#if(${field.logicDeleteField}|| ${field.versionField})
+## 创建时间 / 修改时间 不生成字段
+#elseif(${codeConfig.entityConfig.exclusionField.contains($field.propertyName)})
+#else
+#if($field.type.indexOf('datetime') != -1)
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+#if(${codeConfig.entityConfig.isEnableFastJson})
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
+#end
+#end
+    @ApiModelProperty(value = "${field.comment}")
+    private ${field.propertyType} ${field.propertyName};
+
+#end
+#end
+}

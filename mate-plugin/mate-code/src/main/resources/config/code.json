@@ -1,0 +1,102 @@
+// 全局统一配置
+{
+    //数据库连接,支持mysql,其他数据库，自行引入驱动类
+    "dbConfig":{
+        "jdbcUrl":"jdbc:mysql://localhost:3306/mate_boot?useSSL=false&allowPublicKeyRetrieval=true",
+        "username":"root",
+        "password":"123456"
+    },
+    //全局配置
+    "globalConfig":{
+        //是否读取文件包路径，开启的话，会自动获取项目包路径,并替换parentPath
+        "ifReadPackagePath": true,
+        //项目包目录，当ifReadPackagePath为false时生效
+        "parentPath": "/Users/matevip/Codes/mate/mateboot",
+        //父级包名
+        "parentPackage":"vip.mate",
+        //子包,生成项目包路径：vip.mate.system
+        "parentModule":"system",
+        //是否开启业务模块包分层，不开启,所有的类将统一放到一起，开启之后，会按照权限包将类分包
+        "ifEnableModel": true,
+        //业务模块包分层,会在controller等相关包分层下多一层，例如：controller.[system].sys_user  - 建议在调用时手动赋值
+        "permissionModel": "system",
+        //文件输出目录-项目实际路径
+        "outDir": "/mate-platform/mate-demo/src/main/java",
+        //mapper.xml文件输出路径
+        "mapperOutDir": "/mate-platform/mate-demo/src/main/resources/mapper",
+        //作者
+        "author": "matevip",
+        //表忽略前缀,生成的类会忽略对应前缀
+        "prefixStr": [
+            "P_","SYS_","T_","U_","PRO_"
+        ]
+    },
+    // 控制层配置
+    "controllerConfig":{
+        //是否包含统一请求前缀，关闭不生成前缀，请求url规则：/{请求前缀}/{模块-系统分层}/...
+        "ifHasRequestPrefix":true,
+        //是否读取固定请求前缀，true 读取 requestPrefix 的值，false，读取参数配置类 requestConstantClass中的值
+        "ifFixedRequestPrefix": false,
+        //固定请求前缀
+        "requestPrefix":"/mate",
+        //非固定请求前缀配置类 - 该类必须是静态可读取的
+        "requestConstantClass":"vip.mate.api.constant.CommonConstant",
+        //参数类中的静态值，会放到请求前缀，生成示例：CommonConstant.PREFIX_URL + "/api"
+        "requestConstantClassNameAndValue":"CommonConstant.PREFIX_URL",
+
+        //统一返回工具类,控制层所有方法的统一返回工具类
+        "commonReturnClass":"vip.mate.admin.utils.CommonR",
+        //统一返回工具类名
+        "commonReturnClassName":"CommonR",
+        //成功调用方法，例如：CommonR.ok("data");
+        "successMethod": "ok",
+        //失败调用方法，例如：CommonR.failed("error");
+        "failMethod": "failed",
+        //控制层是否继承某一个类，生成示例：public class aaa [extends AbstractController] {}
+        "ifExtend":true,
+        //继承类全路径
+        "extendClass":"com.nc.utils.AbstractController",
+        //继承类类名
+        "extendClassName": "AbstractController",
+        //权限调用对象前缀，例如：@PreAuthorize("@ss.hasPermission('XXX')") 中的 ss
+        "permissionPrefix": "ss",
+        //是否拆分管理端服务和移动端服务，如果开启的话，会在controller包下追加admin包，一般情况下不需要开启
+        "ifHasAppPackage": false
+    },
+    //服务层配置
+    "serviceConfig":{
+        //分页数据返回对象 - 包装分页数据的工具类
+        "pageReturnClass":"vip.mate.admin.utils.PageResult",
+        "pageReturnClassName":"PageResult",
+        //空方法返回.分页数据为空时调用方法 代码生成为： return PageResult.empty();
+        "emptyMethod": "empty",
+    },
+    //是否开启mapstruct - 必须开启，因为关闭的话，实体类转换其实是需要自己做的，没有必要关闭
+    "ifEnableMapstruct":true,
+    //实体类配置
+    "entityConfig":{
+        //是否继承基类 - 基类：用于存放表公共字段
+        "ifExtendBaseEntity":true,
+        //基类
+        "baseEntityClass":"vip.mate.admin.dao.entity.BaseEntity",
+        "baseEntityClassName":"BaseEntity",
+        //是否开启租户,如果开启的话，会继承租户基础类，优先级最高
+        "ifEnableTenant":true,
+        "tenantEntityClass":"vip.mate.admin.dao.entity.TenantBaseEntity",
+        "tenantEntityClassName":"TenantBaseEntity",
+        //排除类型字段，这里一般需要排除基类字段,以实际字段为准
+        "exclusionField":["tenantId","createTime","updateTime","creator","updater","isDelete"],
+        //逻辑删除字段
+        "logicDeleteColumnName": "isDelete",
+        //是否使用fastJson做数据序列化，开启后，生成日期格式会增加JSONField注解，关闭也没啥问题
+        "isEnableFastJson": true
+    },
+    //req文件相关配置
+    "reqConfig": {
+        //是否继承分页参数类,一般开启，关闭会导致分页方法参数丢失，生成方法报错
+        "ifExtendPageParam":true,
+        //分页参数继承类
+        "pageParamClass":"vip.mate.admin.utils.PageParam",
+        "pageParamClassName":"PageParam",
+    }
+}
