@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.generator.FastAutoGenerator;
 import com.baomidou.mybatisplus.generator.config.OutputFile;
 import com.baomidou.mybatisplus.generator.config.builder.ConfigBuilder;
+import com.baomidou.mybatisplus.generator.config.builder.CustomFile;
 import com.baomidou.mybatisplus.generator.config.po.TableInfo;
 import com.baomidou.mybatisplus.generator.engine.VelocityTemplateEngine;
 import lombok.extern.slf4j.Slf4j;
@@ -32,7 +33,7 @@ import java.util.Map;
 public class CodeGeneratorRunner {
     public static void main(String[] args) {
         CodeConfig config = parseConfigFile();
-        if(config.getGlobalConfig().getIfReadPackagePath()){
+        if (config.getGlobalConfig().getIfReadPackagePath()) {
             String path = System.getProperty("user.dir");
             //替换为项目所在包路径
             config.getGlobalConfig().setParentPath(path);
@@ -41,8 +42,8 @@ public class CodeGeneratorRunner {
         /* 下方参数是可以动态设置的 */
         //需要生成的表名称，多个用“,”分割
         String tableName = "mate_sys_user";
-        //设置是否开启包分层-建议开启
-        config.getGlobalConfig().setIfEnableModel(true);
+        //设置是否开启包分层-按需开启
+        config.getGlobalConfig().setIfEnableModel(false);
         //业务模块[包分层]/权限字符[第一段]，例如 controller/system/aaa.java
         config.getGlobalConfig().setPermissionModel("admin");
         config.getGlobalConfig().setAuthor("matevip");
@@ -65,14 +66,14 @@ public class CodeGeneratorRunner {
                             .moduleName(config.getGlobalConfig().getParentModule()); // 设置父包模块名
                     String mapperPath = config.getGlobalConfig().getParentPath() + config.getGlobalConfig().getMapperOutDir();
 
-                    if(config.getGlobalConfig().getIfEnableModel()){
+                    if (config.getGlobalConfig().getIfEnableModel()) {
                         builder.entity("dao.entity." + config.getGlobalConfig().getPermissionModel())
                                 .service("service." + config.getGlobalConfig().getPermissionModel())
                                 .controller("controller" + addAdminPackage(config.getControllerConfig().getIfHasAppPackage()) + "." + config.getGlobalConfig().getPermissionModel())
                                 .serviceImpl("service." + config.getGlobalConfig().getPermissionModel() + ".impl")
                                 .mapper("dao.mapper." + config.getGlobalConfig().getPermissionModel());
                         mapperPath += "/" + config.getGlobalConfig().getPermissionModel();
-                    }else{
+                    } else {
                         builder.entity("dao.entity")
                                 .service("service")
                                 .controller("controller" + addAdminPackage(config.getControllerConfig().getIfHasAppPackage()))
@@ -80,7 +81,7 @@ public class CodeGeneratorRunner {
                                 .mapper("dao.mapper");
                     }
                     // 设置mapperXml生成路径
-                    builder.xml("model").pathInfo(Collections.singletonMap(OutputFile.xml,mapperPath));
+                    builder.xml("model").pathInfo(Collections.singletonMap(OutputFile.xml, mapperPath));
                 })
                 .strategyConfig(builder -> builder.addInclude(tableName.trim().split(",")) // 设置需要生成的表名
                         .addTablePrefix(convert(config.getGlobalConfig().getPrefixStr())) // 设置过滤表前缀
@@ -105,14 +106,14 @@ public class CodeGeneratorRunner {
                 //自定义模板
                 .injectionConfig(builder -> {
                     //设置自定义参数
-                    Map<String,Object> map = new HashMap<>(8);
+                    Map<String, Object> map = new HashMap<>(8);
                     /*
                      * 设置自定义参数，自定义参数定义步骤：
                      * 1.再json文件里面添加对应配置
                      * 2.CodeConfig类中定义字段接收
                      * 3.模板中使用，示例：${codeConfig.XXX.XXX},注意属性大小写
                      */
-                    map.put("codeConfig",convertMap(config));
+                    map.put("codeConfig", convertMap(config));
                     builder.customMap(map);
                     //自定义其他模板
                     Map<String, String> customFile = new HashMap<>(8);
@@ -127,7 +128,7 @@ public class CodeGeneratorRunner {
     }
 
     private static String addAdminPackage(boolean ifHasAppPackage) {
-        if(ifHasAppPackage){
+        if (ifHasAppPackage) {
             return ".admin";
         }
         return "";
@@ -173,6 +174,48 @@ public class CodeGeneratorRunner {
             });
             return objectMap;
         }
+
+        @Override
+        protected void outputCustomFile(List<CustomFile> customFiles, TableInfo tableInfo, Map<String, Object> objectMap) {
+            // 获取实体类名字
+            String entityName = tableInfo.getEntityName();
+            // 获取other包盘符路径
+            String otherPath = this.getPathInfo(OutputFile.parent);
+            // 输出自定义java模板
+            customFiles.forEach((c) -> {
+                // 输出路径
+                String fileName = otherPath + File.separator + c.getFileName().toLowerCase() + File.separator + entityName + c.getFileName() + ".java";
+                if (codeConfig.getGlobalConfig().getIfEnableModel()) {
+                    fileName = otherPath + File.separator + c.getFileName().toLowerCase()  + File.separator + codeConfig.getGlobalConfig().getPermissionModel() + File.separator + entityName + c.getFileName() + ".java";
+                }
+                // 输出velocity的java模板
+                this.outputFile(new File(fileName), objectMap, c.getTemplatePath(), c.isFileOverride());
+            });
+        }
+/**
+ * 文件输出路径
+ *
+ * @param customFile 自定义文件map
+ * @param tableInfo  表信息
+ * @param objectMap  对象map
+ */
+//        @Override
+//        protected void outputCustomFile(Map<String, String> customFile, TableInfo tableInfo, Map<String, Object> objectMap) {
+//            // 获取实体类名字
+//            String entityName = tableInfo.getEntityName();
+//            // 获取other包盘符路径
+//            String otherPath = this.getPathInfo(OutputFile.other);
+//            // 输出自定义java模板
+//            customFile.forEach((key, value) -> {
+//                // 输出路径
+//                String fileName = otherPath + File.separator + key.toLowerCase() + File.separator + entityName + key + ".java";
+//                if (codeConfig.getGlobalConfig().getIfEnableModel()) {
+//                    fileName = otherPath + File.separator + key.toLowerCase() + File.separator + codeConfig.getGlobalConfig().getPermissionModel() + File.separator + entityName + key + ".java";
+//                }
+//                // 输出velocity的java模板
+//                this.outputFile(new File(fileName), objectMap, value, true);
+//            });
+//        }
     }
 
     private static Object convertMap(CodeConfig codeConfig) {
@@ -181,7 +224,7 @@ public class CodeGeneratorRunner {
             String json = objectMapper.writeValueAsString(codeConfig);
             // 将JSON字符串转换为Map
             return objectMapper.readValue(json, Map.class);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
