@@ -6,7 +6,7 @@
 [![项目交流群](https://img.shields.io/badge/chat-项目交流群-green.svg)](https://jq.qq.com/?_wv=1027&k=oYxVM3uV)
 ![JDK Version](https://img.shields.io/badge/JAVA-JDK17+-red.svg)
 <br>
-[![MateBoot](https://img.shields.io/badge/MateBoot-1.0.8-green.svg)](https://gitee.com/matevip/mateboot)
+[![MateBoot](https://img.shields.io/badge/MateBoot-1.0.8-green.svg?lable=mateboot&logo=mega)](https://gitee.com/matevip/mateboot)
 [![Spring Boot](https://img.shields.io/maven-central/v/org.springframework.boot/spring-boot-dependencies.svg?label=Spring%20Boot&logo=Spring)](https://search.maven.org/artifact/org.springframework.boot/spring-boot-dependencies)
 [![Spring Cloud](https://img.shields.io/maven-central/v/cn.dev33/sa-token-spring-boot3-starter.svg?label=Sa%20Token&logo=springsecurity)](https://search.maven.org/artifact/cn.dev33/sa-token-spring-boot3-starter)
 [![Spring Cloud Alibaba](https://img.shields.io/maven-central/v/com.baomidou/mybatis-plus-boot-starter.svg?label=Mybatis%20Plus&logo=qlik)](https://search.maven.org/artifact/com.baomidou/mybatis-plus-boot-starter)
