@@ -68,9 +68,9 @@ spring:
 mybatis-plus:
   mapper-locations: classpath*:/mapper/**/*.xml
   # 实体扫描，多个package用逗号或者分号分隔
-  typeAliasesPackage: vip.mate.*.entity
+#  typeAliasesPackage: vip.mate.*.entity
   # TODO
-  mapperPackage: vip.mate.*.entity
+  mapperPackage: vip.mate.*.mapper
   global-config:
     # 数据库相关配置
     db-config:

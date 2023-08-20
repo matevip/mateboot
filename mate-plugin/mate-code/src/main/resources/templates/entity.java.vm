@@ -2,12 +2,12 @@ package ${package.Entity};
 
 #foreach($pkg in ${table.importPackages})
 import ${pkg};
-#if($pkg == "java.time.LocalDateTime")
-import com.fasterxml.jackson.annotation.JsonFormat;
+###if($pkg == "java.time.LocalDateTime")
+##import com.fasterxml.jackson.annotation.JsonFormat;
 #if(${codeConfig.entityConfig.isEnableFastJson})
 import com.alibaba.fastjson.annotation.JSONField;
 #end
-#end
+###end
 #end
 #if(${swagger})
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -50,7 +50,7 @@ import lombok.experimental.Accessors;
 #if(${swagger})
 @Schema(name = "${entity}对象", description = "$!{table.comment}")
 #end
-public class ${entity} #if(${codeConfig.entityConfig.ifExtendBaseEntity})extends#if(${codeConfig.entityConfig.ifExtendBaseEntity}) ${codeConfig.entityConfig.tenantEntityClassName} #else ${codeConfig.entityConfig.baseEntityClassName}#end#end #if(${entitySerialVersionUID})implements Serializable #end{
+public class ${entity} #if(${codeConfig.entityConfig.ifExtendBaseEntity})extends#if(${codeConfig.entityConfig.ifEnableTenant}) ${codeConfig.entityConfig.tenantEntityClassName} #else ${codeConfig.entityConfig.baseEntityClassName}#end#end #if(${entitySerialVersionUID})implements Serializable #end{
 
 #if(${entitySerialVersionUID})
     private static final long serialVersionUID = 1L;
@@ -100,13 +100,14 @@ public class ${entity} #if(${codeConfig.entityConfig.ifExtendBaseEntity})extends
 #if(${field.logicDeleteField})
     @TableLogic
 #end
-#if($field.type.indexOf('datetime') != -1)
+#if($field.type.indexOf('datetime') == -1)
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
 #if(${codeConfig.entityConfig.isEnableFastJson})
     @JSONField(format = "yyyy-MM-dd HH:mm:ss")
 #end
 #end
     private ${field.propertyType} ${field.propertyName};
+
 #end
 #end
 ## ----------  END 字段循环遍历  ----------

@@ -41,14 +41,15 @@ public class CodeGeneratorRunner {
 
         /* 下方参数是可以动态设置的 */
         //需要生成的表名称，多个用“,”分割
-        String tableName = "mt_sys_user";
+        String tableName = "mate_sys_user";
         //设置是否开启包分层-按需开启
         config.getGlobalConfig().setIfEnableModel(false);
         //业务模块[包分层]/权限字符[第一段]，例如 controller/system/aaa.java
         config.getGlobalConfig().setPermissionModel("admin");
         config.getGlobalConfig().setAuthor("matevip");
         //是否开启租户，用于实体类是否继承TenantEntity
-        config.getEntityConfig().setIfEnableTenant(true);
+        config.getEntityConfig().setIfEnableTenant(false);
+        System.out.println("codeConfig" + JSONObject.toJSONString(config));
         genCode(config, tableName);
         System.out.println("代码生成成功，请到路径： " + config.getGlobalConfig().getParentPath() + " 查看");
     }
@@ -67,18 +68,18 @@ public class CodeGeneratorRunner {
                     String mapperPath = config.getGlobalConfig().getParentPath() + config.getGlobalConfig().getMapperOutDir();
 
                     if (config.getGlobalConfig().getIfEnableModel()) {
-                        builder.entity("dao.entity." + config.getGlobalConfig().getPermissionModel())
+                        builder.entity("entity." + config.getGlobalConfig().getPermissionModel())
                                 .service("service." + config.getGlobalConfig().getPermissionModel())
                                 .controller("controller" + addAdminPackage(config.getControllerConfig().getIfHasAppPackage()) + "." + config.getGlobalConfig().getPermissionModel())
                                 .serviceImpl("service." + config.getGlobalConfig().getPermissionModel() + ".impl")
-                                .mapper("dao.mapper." + config.getGlobalConfig().getPermissionModel());
+                                .mapper("mapper." + config.getGlobalConfig().getPermissionModel());
                         mapperPath += "/" + config.getGlobalConfig().getPermissionModel();
                     } else {
-                        builder.entity("dao.entity")
+                        builder.entity("entity")
                                 .service("service")
                                 .controller("controller" + addAdminPackage(config.getControllerConfig().getIfHasAppPackage()))
                                 .serviceImpl("service.impl")
-                                .mapper("dao.mapper");
+                                .mapper("mapper");
                     }
                     // 设置mapperXml生成路径
                     builder.xml("model").pathInfo(Collections.singletonMap(OutputFile.xml, mapperPath));

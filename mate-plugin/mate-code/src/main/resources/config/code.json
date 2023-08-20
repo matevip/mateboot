@@ -66,8 +66,8 @@
     //服务层配置
     "serviceConfig":{
         //分页数据返回对象 - 包装分页数据的工具类
-        "pageReturnClass":"com.baomidou.mybatisplus.extension.plugins.pagination.Page",
-        "pageReturnClassName":"Page",
+        "pageReturnClass":"vip.mate.core.mybatis.res.PageRes",
+        "pageReturnClassName":"PageRes",
         //空方法返回.分页数据为空时调用方法 代码生成为： return PageResult.empty();
         "emptyMethod": "empty",
     },
@@ -82,8 +82,8 @@
         "baseEntityClassName":"MateEntity",
         //是否开启租户,如果开启的话，会继承租户基础类，优先级最高
         "ifEnableTenant":false,
-        "tenantEntityClass":"vip.mate.admin.dao.entity.TenantBaseEntity",
-        "tenantEntityClassName":"TenantBaseEntity",
+        "tenantEntityClass":"vip.mate.core.mybatis.entity.TenantEntity",
+        "tenantEntityClassName":"TenantEntity",
         //排除类型字段，这里一般需要排除基类字段,以实际字段为准
         "exclusionField":["id","tenantId","createTime","updateTime","createBy","updateBy","deleted"],
         //逻辑删除字段
@@ -96,7 +96,7 @@
         //是否继承分页参数类,一般开启，关闭会导致分页方法参数丢失，生成方法报错
         "ifExtendPageParam":true,
         //分页参数继承类
-        "pageParamClass":"vip.mate.admin.utils.PageParam",
-        "pageParamClassName":"PageParam"
+        "pageParamClass":"vip.mate.core.mybatis.req.PageReq",
+        "pageParamClassName":"PageReq"
     }
 }

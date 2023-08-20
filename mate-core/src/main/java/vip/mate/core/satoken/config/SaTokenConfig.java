@@ -57,7 +57,7 @@ public class SaTokenConfig implements WebMvcConfigurer {
     /**
      * 注册跨域过滤器
      */
-    @Bean
+//    @Bean
     public SaServletFilter getSaServletFilter() {
         return new SaServletFilter()
                 // 指定 拦截路由 与 放行路由
