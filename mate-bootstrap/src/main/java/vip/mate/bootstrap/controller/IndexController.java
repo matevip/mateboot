@@ -2,6 +2,10 @@ package vip.mate.bootstrap.controller;
 
 import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.hutool.core.util.StrUtil;
+import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
+import com.github.xiaoymin.knife4j.annotations.ApiSupport;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,6 +20,8 @@ import vip.mate.core.common.response.Result;
  */
 @RestController
 @RequiredArgsConstructor
+@ApiSupport(author = "matevip", order = 2)
+@Tag(name = "首页", description = "系统首页")
 public class IndexController {
 
     /**
@@ -24,6 +30,8 @@ public class IndexController {
     private final MateConfig mateConfig;
 
     @GetMapping("/")
+    @ApiOperationSupport(order = 1)
+    @Operation(summary = "首页")
     public String index() {
         return StrUtil.format("欢迎使用{}后台管理框架，当前版本：v{}，请通过前端地址访问。", mateConfig.getName(), mateConfig.getVersion());
     }

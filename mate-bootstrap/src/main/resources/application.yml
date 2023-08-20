@@ -135,7 +135,7 @@ springdoc:
         name: ${sa-token.token-name}
   #这里定义了两个分组，可定义多个，也可以不定义
   group-configs:
-    - group: 2.人工智能模块
+    - group: 3.人工智能模块
       packages-to-scan: vip.mate.ai
-    - group: 3.代码生成模块
+    - group: 4.代码生成模块
       packages-to-scan: vip.mate.generator
