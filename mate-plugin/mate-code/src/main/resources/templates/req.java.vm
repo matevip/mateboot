@@ -20,8 +20,7 @@ import ${pkg};
 #end
 #end
 #if(${swagger})
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 #end
 #if(${entityLombokModel})
 import lombok.*;
@@ -48,7 +47,7 @@ import lombok.EqualsAndHashCode;
 #end
 #end
 #if(${swagger})
-@ApiModel(value = "${entity}Req对象", description = "$!{table.comment}")
+@Schema(name = "${entity}Req对象", description = "$!{table.comment}")
 #end
 public class ${entity}Req #if(${codeConfig.reqConfig.ifExtendPageParam})extends ${codeConfig.reqConfig.pageParamClassName}#end {
 
@@ -65,7 +64,7 @@ public class ${entity}Req #if(${codeConfig.reqConfig.ifExtendPageParam})extends 
     @JSONField(format = "yyyy-MM-dd HH:mm:ss")
 #end
 #end
-    @ApiModelProperty(value = "${field.comment}")
+    @Schema(description = "${field.comment}")
     private ${field.propertyType} ${field.propertyName};
 
 #end

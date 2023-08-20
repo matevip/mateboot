@@ -10,8 +10,7 @@ import com.alibaba.fastjson.annotation.JSONField;
 #end
 #end
 #if(${swagger})
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 #end
 #if(${codeConfig.entityConfig.ifExtendBaseEntity})
 #if(${codeConfig.entityConfig.ifEnableTenant})
@@ -49,7 +48,7 @@ import lombok.experimental.Accessors;
 @TableName("${schemaName}${table.name}")
 #end
 #if(${swagger})
-@ApiModel(value = "${entity}对象", description = "$!{table.comment}")
+@Schema(name = "${entity}对象", description = "$!{table.comment}")
 #end
 public class ${entity} #if(${codeConfig.entityConfig.ifExtendBaseEntity})extends#if(${codeConfig.entityConfig.ifExtendBaseEntity}) ${codeConfig.entityConfig.tenantEntityClassName} #else ${codeConfig.entityConfig.baseEntityClassName}#end#end #if(${entitySerialVersionUID})implements Serializable #end{
 
@@ -66,7 +65,7 @@ public class ${entity} #if(${codeConfig.entityConfig.ifExtendBaseEntity})extends
 #end
 #if("$!field.comment" != "")
 #if(${swagger})
-    @ApiModelProperty("${field.comment}")
+    @Schema(description = "${field.comment}")
 #else
 /**
 * ${field.comment}

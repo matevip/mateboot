@@ -21,14 +21,14 @@
         //业务模块包分层,会在controller等相关包分层下多一层，例如：controller.[system].sys_user  - 建议在调用时手动赋值
         "permissionModel": "system",
         //文件输出目录-项目实际路径
-        "outDir": "/mate-platform/mate-demo/src/main/java",
+        "outDir": "/mate-platform/mate-system/src/main/java",
         //mapper.xml文件输出路径
-        "mapperOutDir": "/mate-platform/mate-demo/src/main/resources/mapper",
+        "mapperOutDir": "/mate-platform/mate-system/src/main/resources/mapper",
         //作者
         "author": "matevip",
         //表忽略前缀,生成的类会忽略对应前缀
         "prefixStr": [
-            "P_","SYS_","T_","U_","PRO_"
+            "P_","SYS_","T_","U_","PRO_","mt_"
         ]
     },
     // 控制层配置
@@ -38,22 +38,22 @@
         //是否读取固定请求前缀，true 读取 requestPrefix 的值，false，读取参数配置类 requestConstantClass中的值
         "ifFixedRequestPrefix": false,
         //固定请求前缀
-        "requestPrefix":"/mate",
+        "requestPrefix":"/system",
         //非固定请求前缀配置类 - 该类必须是静态可读取的
-        "requestConstantClass":"vip.mate.api.constant.CommonConstant",
+        "requestConstantClass":"vip.mate.core.common.constant.MateConstant",
         //参数类中的静态值，会放到请求前缀，生成示例：CommonConstant.PREFIX_URL + "/api"
-        "requestConstantClassNameAndValue":"CommonConstant.PREFIX_URL",
+        "requestConstantClassNameAndValue":"MateConstant.MATE_PREFIX_URL",
 
         //统一返回工具类,控制层所有方法的统一返回工具类
-        "commonReturnClass":"vip.mate.admin.utils.CommonR",
+        "commonReturnClass":"vip.mate.core.common.response.Result",
         //统一返回工具类名
-        "commonReturnClassName":"CommonR",
-        //成功调用方法，例如：CommonR.ok("data");
+        "commonReturnClassName":"Result",
+        //成功调用方法，例如：Result.ok("data");
         "successMethod": "ok",
-        //失败调用方法，例如：CommonR.failed("error");
-        "failMethod": "failed",
+        //失败调用方法，例如：Result.error("error");
+        "failMethod": "error",
         //控制层是否继承某一个类，生成示例：public class aaa [extends AbstractController] {}
-        "ifExtend":true,
+        "ifExtend":false,
         //继承类全路径
         "extendClass":"com.nc.utils.AbstractController",
         //继承类类名
@@ -66,8 +66,8 @@
     //服务层配置
     "serviceConfig":{
         //分页数据返回对象 - 包装分页数据的工具类
-        "pageReturnClass":"vip.mate.admin.utils.PageResult",
-        "pageReturnClassName":"PageResult",
+        "pageReturnClass":"com.baomidou.mybatisplus.extension.plugins.pagination.Page",
+        "pageReturnClassName":"Page",
         //空方法返回.分页数据为空时调用方法 代码生成为： return PageResult.empty();
         "emptyMethod": "empty",
     },
@@ -78,18 +78,18 @@
         //是否继承基类 - 基类：用于存放表公共字段
         "ifExtendBaseEntity":true,
         //基类
-        "baseEntityClass":"vip.mate.admin.dao.entity.BaseEntity",
-        "baseEntityClassName":"BaseEntity",
+        "baseEntityClass":"vip.mate.core.mybatis.entity.MateEntity",
+        "baseEntityClassName":"MateEntity",
         //是否开启租户,如果开启的话，会继承租户基础类，优先级最高
-        "ifEnableTenant":true,
+        "ifEnableTenant":false,
         "tenantEntityClass":"vip.mate.admin.dao.entity.TenantBaseEntity",
         "tenantEntityClassName":"TenantBaseEntity",
         //排除类型字段，这里一般需要排除基类字段,以实际字段为准
-        "exclusionField":["tenantId","createTime","updateTime","creator","updater","isDelete"],
+        "exclusionField":["id","tenantId","createTime","updateTime","createBy","updateBy","deleted"],
         //逻辑删除字段
-        "logicDeleteColumnName": "isDelete",
+        "logicDeleteColumnName": "deleted",
         //是否使用fastJson做数据序列化，开启后，生成日期格式会增加JSONField注解，关闭也没啥问题
-        "isEnableFastJson": true
+        "isEnableFastJson": false
     },
     //req文件相关配置
     "reqConfig": {
@@ -97,6 +97,6 @@
         "ifExtendPageParam":true,
         //分页参数继承类
         "pageParamClass":"vip.mate.admin.utils.PageParam",
-        "pageParamClassName":"PageParam",
+        "pageParamClassName":"PageParam"
     }
 }

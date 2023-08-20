@@ -1,10 +1,11 @@
 package ${package.Controller};
 
+import cn.dev33.satoken.annotation.SaCheckPermission;
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiImplicitParam;
+import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
+import com.github.xiaoymin.knife4j.annotations.ApiSupport;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.*;
 #if(${codeConfig.controllerConfig.ifExtend})
 import ${codeConfig.controllerConfig.extendClass};
@@ -16,8 +17,7 @@ import ${vo};
 import ${package.Service}.${table.serviceName};
 import ${package.Entity}.${entity};
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import org.springframework.security.access.prepost.PreAuthorize;
+import jakarta.validation.Valid;
 #if(${codeConfig.controllerConfig.ifHasRequestPrefix})
 #if(${codeConfig.controllerConfig.ifFixedRequestPrefix})
 #else
@@ -34,51 +34,54 @@ import ${codeConfig.controllerConfig.requestConstantClass};
  * @since ${date}
  */
 @RestController
-@Slf4j
 @RequestMapping(#if(${codeConfig.controllerConfig.ifHasRequestPrefix})#if(${codeConfig.controllerConfig.ifFixedRequestPrefix})"${codeConfig.controllerConfig.requestPrefix}#else${codeConfig.controllerConfig.requestConstantClassNameAndValue} + "#end/#else"/#end#if(${controllerMappingHyphenStyle})${controllerMappingHyphen}#else${table.entityPath}#end")
 @AllArgsConstructor
-@Api(value = "${table.entityPath}", tags = "${table.comment}管理")
+@ApiSupport(author = "matevip", order = 1)
+@Tag(description = "${table.entityPath}", name = "${table.comment}管理")
 @Validated
 public class ${table.controllerName} #if(${codeConfig.controllerConfig.ifExtend})extends ${codeConfig.controllerConfig.extendClassName} #end{
 
     private final ${entity}Service ${table.entityPath}Service;
 
-    @ApiOperation(value = "列表查询",notes = "权限字符串：${codeConfig.globalConfig.permissionModel}:${table.entityPath}:page")
     @GetMapping("/page")
-    @PreAuthorize("@${codeConfig.controllerConfig.permissionPrefix}.hasPermission('${codeConfig.globalConfig.permissionModel}:${table.entityPath}:page')")
+    @ApiOperationSupport(order = 1)
+    @Operation(summary = "列表查询",description = "权限字符串：${table.entityPath}:page")
+    @SaCheckPermission("${table.entityPath}:page")
     public ${codeConfig.controllerConfig.commonReturnClassName}<${codeConfig.serviceConfig.pageReturnClassName}<${entity}VO>> queryPage(${entity}Req req) {
         return ${codeConfig.controllerConfig.commonReturnClassName}.${codeConfig.controllerConfig.successMethod}(${table.entityPath}Service.queryPage(req));
     }
 
     @PostMapping("/add")
-    @ApiOperation(value = "新增",notes = "权限字符串：${codeConfig.globalConfig.permissionModel}:${table.entityPath}:add")
-    @PreAuthorize("@${codeConfig.controllerConfig.permissionPrefix}.hasPermission('${codeConfig.globalConfig.permissionModel}:${table.entityPath}:add')")
+    @ApiOperationSupport(order = 2)
+    @Operation(summary = "新增",description = "权限字符串：${table.entityPath}:add")
+    @SaCheckPermission("${table.entityPath}:add")
     public ${codeConfig.controllerConfig.commonReturnClassName}<String> create(@Valid @RequestBody ${entity} entity){
         boolean flag = ${table.entityPath}Service.createData(entity);
         return flag ? ${codeConfig.controllerConfig.commonReturnClassName}.${codeConfig.controllerConfig.successMethod}("创建成功") : ${codeConfig.controllerConfig.commonReturnClassName}.${codeConfig.controllerConfig.failMethod}("创建失败");
     }
 
     @PutMapping("/update")
-    @ApiOperation(value = "修改",notes = "权限字符串：${codeConfig.globalConfig.permissionModel}:${table.entityPath}:update")
-    @PreAuthorize("@${codeConfig.controllerConfig.permissionPrefix}.hasPermission('${codeConfig.globalConfig.permissionModel}:${table.entityPath}:update')")
+    @ApiOperationSupport(order = 3)
+    @Operation(summary = "修改",description = "权限字符串：${table.entityPath}:update")
+    @SaCheckPermission("${table.entityPath}:update")
     public ${codeConfig.controllerConfig.commonReturnClassName}<String> update(@Valid @RequestBody ${entity} entity){
         boolean flag = ${table.entityPath}Service.updateData(entity);
         return flag ? ${codeConfig.controllerConfig.commonReturnClassName}.${codeConfig.controllerConfig.successMethod}("修改成功") : ${codeConfig.controllerConfig.commonReturnClassName}.${codeConfig.controllerConfig.failMethod}("修改失败");
     }
 
     @DeleteMapping("/delete")
-    @ApiOperation(value = "删除",notes = "权限字符串：${codeConfig.globalConfig.permissionModel}:${table.entityPath}:del")
-    @ApiImplicitParam(name = "${idName}", value = "主键", dataType = "${idType}")
-    @PreAuthorize("@${codeConfig.controllerConfig.permissionPrefix}.hasPermission('${codeConfig.globalConfig.permissionModel}:${table.entityPath}:del')")
+    @ApiOperationSupport(order = 4)
+    @Operation(summary = "删除",description = "权限字符串：${table.entityPath}:del")
+    @SaCheckPermission("${${table.entityPath}:del")
     public ${codeConfig.controllerConfig.commonReturnClassName}<String> delete(@RequestParam("${idName}") ${idType} ${idName}){
         boolean flag = ${table.entityPath}Service.removeData(id);
         return flag ? ${codeConfig.controllerConfig.commonReturnClassName}.${codeConfig.controllerConfig.successMethod}("删除成功") : ${codeConfig.controllerConfig.commonReturnClassName}.${codeConfig.controllerConfig.failMethod}("删除失败");
     }
 
     @GetMapping("/get")
-    @ApiOperation(value = "单条查询",notes = "权限字符串：${codeConfig.globalConfig.permissionModel}:${table.entityPath}:index")
-    @ApiImplicitParam(name = "${idName}", value = "主键", dataType = "${idType}")
-    @PreAuthorize("@${codeConfig.controllerConfig.permissionPrefix}.hasPermission('${codeConfig.globalConfig.permissionModel}:${table.entityPath}:index')")
+    @ApiOperationSupport(order = 5)
+    @Operation(summary = "单条查询",description = "权限字符串：${table.entityPath}:index")
+    @SaCheckPermission("${table.entityPath}:index")
     public ${codeConfig.controllerConfig.commonReturnClassName}<${entity}VO> getOne(@RequestParam("${idName}") ${idType} ${idName}){
         return ${codeConfig.controllerConfig.commonReturnClassName}.${codeConfig.controllerConfig.successMethod}(${table.entityPath}Service.getData(id));
     }

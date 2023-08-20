@@ -31,10 +31,9 @@
         <HikariCP.version>5.0.1</HikariCP.version>
         <mapstruct.version>1.5.5.Final</mapstruct.version>
         <fastjson.version>2.0.34</fastjson.version>
-
         <hutool.version>5.8.21</hutool.version>
-
         <knife4j.version>4.3.0</knife4j.version>
+        <easy-trans.version>2.2.5</easy-trans.version>
 
         <maven-surefire-plugin.version>3.1.2</maven-surefire-plugin.version>
         <flatten-maven-plugin.version>1.5.0</flatten-maven-plugin.version>
@@ -127,6 +126,18 @@
                 <groupId>org.mapstruct</groupId>
                 <artifactId>mapstruct-processor</artifactId>
                 <version>${mapstruct.version}</version>
+            </dependency>
+
+            <!-- 数据翻译工具 -->
+            <dependency>
+                <groupId>com.fhs-opensource</groupId>
+                <artifactId>easy-trans-mybatis-plus-extend</artifactId>
+                <version>${easy-trans.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fhs-opensource</groupId>
+                <artifactId>easy-trans-mybatis-plus-extend</artifactId>
+                <version>${easy-trans.version}</version>
             </dependency>
 
             <!-- Knife4j OpenApi3 -->

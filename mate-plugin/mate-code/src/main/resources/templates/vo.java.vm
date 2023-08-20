@@ -17,8 +17,7 @@ import ${pkg};
 #end
 #end
 #if(${swagger})
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 #end
 #if(${entityLombokModel})
 import lombok.*;
@@ -42,7 +41,7 @@ import lombok.experimental.Accessors;
 #end
 #end
 #if(${swagger})
-@ApiModel(value = "${entity}VO对象", description = "$!{table.comment}")
+@Schema(name = "${entity}VO对象", description = "$!{table.comment}")
 #end
 public class ${entity}VO {
 
@@ -59,7 +58,7 @@ public class ${entity}VO {
     @JSONField(format = "yyyy-MM-dd HH:mm:ss")
 #end
 #end
-    @ApiModelProperty(value = "${field.comment}")
+    @Schema(description = "${field.comment}")
     private ${field.propertyType} ${field.propertyName};
 
 #end

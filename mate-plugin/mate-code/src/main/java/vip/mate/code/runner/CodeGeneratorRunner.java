@@ -41,7 +41,7 @@ public class CodeGeneratorRunner {
 
         /* 下方参数是可以动态设置的 */
         //需要生成的表名称，多个用“,”分割
-        String tableName = "mate_sys_user";
+        String tableName = "mt_sys_user";
         //设置是否开启包分层-按需开启
         config.getGlobalConfig().setIfEnableModel(false);
         //业务模块[包分层]/权限字符[第一段]，例如 controller/system/aaa.java
@@ -175,6 +175,13 @@ public class CodeGeneratorRunner {
             return objectMap;
         }
 
+        /**
+         * 文件输出路径
+         *
+         * @param customFiles 自定义文件List
+         * @param tableInfo  表信息
+         * @param objectMap  对象map
+         */
         @Override
         protected void outputCustomFile(List<CustomFile> customFiles, TableInfo tableInfo, Map<String, Object> objectMap) {
             // 获取实体类名字
@@ -192,30 +199,6 @@ public class CodeGeneratorRunner {
                 this.outputFile(new File(fileName), objectMap, c.getTemplatePath(), c.isFileOverride());
             });
         }
-/**
- * 文件输出路径
- *
- * @param customFile 自定义文件map
- * @param tableInfo  表信息
- * @param objectMap  对象map
- */
-//        @Override
-//        protected void outputCustomFile(Map<String, String> customFile, TableInfo tableInfo, Map<String, Object> objectMap) {
-//            // 获取实体类名字
-//            String entityName = tableInfo.getEntityName();
-//            // 获取other包盘符路径
-//            String otherPath = this.getPathInfo(OutputFile.other);
-//            // 输出自定义java模板
-//            customFile.forEach((key, value) -> {
-//                // 输出路径
-//                String fileName = otherPath + File.separator + key.toLowerCase() + File.separator + entityName + key + ".java";
-//                if (codeConfig.getGlobalConfig().getIfEnableModel()) {
-//                    fileName = otherPath + File.separator + key.toLowerCase() + File.separator + codeConfig.getGlobalConfig().getPermissionModel() + File.separator + entityName + key + ".java";
-//                }
-//                // 输出velocity的java模板
-//                this.outputFile(new File(fileName), objectMap, value, true);
-//            });
-//        }
     }
 
     private static Object convertMap(CodeConfig codeConfig) {
