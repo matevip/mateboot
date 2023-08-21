@@ -16,7 +16,10 @@ import vip.mate.core.common.response.Result;
  * 默认首页
  *
  * @author matevip
- * @since 2023/8/16
+ * @date 2023/8/21
+ * @webchat MateCloud
+ * @email 7333791@qq.com
+ * @copyright <a href="https://mate.vip">MateBoot</a>
  */
 @RestController
 @RequiredArgsConstructor

@@ -6,9 +6,10 @@ import com.github.xiaoymin.knife4j.annotations.ApiSupport;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+import vip.mate.bootstrap.req.SysUsernameLoginReq;
+import vip.mate.bootstrap.service.SysAuthService;
 import vip.mate.bootstrap.service.SysCaptchaService;
 import vip.mate.bootstrap.vo.SysCaptchaVO;
 import vip.mate.core.common.constant.MateConstant;
@@ -32,12 +33,13 @@ import vip.mate.core.common.response.Result;
 public class AuthController {
 
     private final SysCaptchaService sysCaptchaService;
+    private final SysAuthService sysAuthService;
 
-    @GetMapping("/login")
+    @PostMapping("/login")
     @ApiOperationSupport(order = 1)
     @Operation(summary = "登录")
-    public Result login(){
-        return Result.ok();
+    public Result login(@Validated @RequestBody SysUsernameLoginReq login){
+        return Result.ok(sysAuthService.loginByUsername(login));
     }
 
     @GetMapping("/captcha")

@@ -28,7 +28,7 @@
         "author": "matevip",
         //表忽略前缀,生成的类会忽略对应前缀
         "prefixStr": [
-            "P_","SYS_","T_","U_","PRO_","mt_"
+            "P_","SYS_","T_","U_","PRO_","mt_","mate_"
         ]
     },
     // 控制层配置
