@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import vip.mate.bootstrap.service.SysCaptchaService;
 import vip.mate.bootstrap.vo.SysCaptchaVO;
+import vip.mate.core.common.constant.MateConstant;
 import vip.mate.core.common.response.Result;
 
 /**
@@ -25,8 +26,8 @@ import vip.mate.core.common.response.Result;
 @SaIgnore
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/auth")
-@ApiSupport(author = "matevip", order = 1)
+@RequestMapping(MateConstant.MATE_PREFIX_URL + "/auth")
+@ApiSupport(author = "MateVip", order = 2)
 @Tag(name = "认证管理", description = "采用sa-token实现的多认证登录")
 public class AuthController {
 

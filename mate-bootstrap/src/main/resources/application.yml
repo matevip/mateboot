@@ -107,35 +107,35 @@ knife4j:
     custom-code: 500
     enable-footer-custom: false
 
-springdoc:
-  api-docs:
-    # 是否开启接口文档
-    enabled: ${mate.docEnable}
-  #  swagger-ui:
-  #    # 持久化认证数据
-  #    persistAuthorization: true
-  info:
-    # 标题
-    title: '标题：${mate.name}多租户管理系统_接口文档'
-    # 描述
-    description: '描述：用于管理集团旗下公司的人员信息,具体包括XXX,XXX模块...'
-    # 版本
-    version: '版本号: ${mate.version}'
-    # 作者信息
-    contact:
-      name: Lion Li
-      email: crazylionli@163.com
-      url: https://gitee.com/dromara/RuoYi-Vue-Plus
-  components:
-    # 鉴权方式配置
-    security-schemes:
-      apiKey:
-        type: APIKEY
-        in: HEADER
-        name: ${sa-token.token-name}
-  #这里定义了两个分组，可定义多个，也可以不定义
-  group-configs:
-    - group: 3.人工智能模块
-      packages-to-scan: vip.mate.ai
-    - group: 4.代码生成模块
-      packages-to-scan: vip.mate.generator
+#springdoc:
+#  api-docs:
+#    # 是否开启接口文档
+#    enabled: ${mate.docEnable}
+#  #  swagger-ui:
+#  #    # 持久化认证数据
+#  #    persistAuthorization: true
+#  info:
+#    # 标题
+#    title: '标题：${mate.name}多租户管理系统_接口文档'
+#    # 描述
+#    description: '描述：用于管理集团旗下公司的人员信息,具体包括XXX,XXX模块...'
+#    # 版本
+#    version: '版本号: ${mate.version}'
+#    # 作者信息
+#    contact:
+#      name: Lion Li
+#      email: crazylionli@163.com
+#      url: https://gitee.com/dromara/RuoYi-Vue-Plus
+#  components:
+#    # 鉴权方式配置
+#    security-schemes:
+#      apiKey:
+#        type: APIKEY
+#        in: HEADER
+#        name: ${sa-token.token-name}
+#  #这里定义了两个分组，可定义多个，也可以不定义
+#  group-configs:
+#    - group: 3.人工智能模块
+#      packages-to-scan: vip.mate.ai
+#    - group: 4.代码生成模块
+#      packages-to-scan: vip.mate.generator

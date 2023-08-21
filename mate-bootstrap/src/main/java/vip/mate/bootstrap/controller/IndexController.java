@@ -20,7 +20,7 @@ import vip.mate.core.common.response.Result;
  */
 @RestController
 @RequiredArgsConstructor
-@ApiSupport(author = "matevip", order = 2)
+@ApiSupport(author = "MateVip", order = 1)
 @Tag(name = "首页", description = "系统首页")
 public class IndexController {
 
@@ -38,6 +38,8 @@ public class IndexController {
 
     @SaCheckLogin
     @GetMapping("/admin/get-version")
+    @ApiOperationSupport(order = 2)
+    @Operation(summary = "测试版本号")
     public Result getVersion() {
         return Result.ok(mateConfig.getVersion());
     }
