@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import vip.mate.bootstrap.service.SysCaptchaService;
+import vip.mate.bootstrap.vo.SysCaptchaVO;
 import vip.mate.core.common.response.Result;
 
 /**
@@ -25,14 +27,23 @@ import vip.mate.core.common.response.Result;
 @RequiredArgsConstructor
 @RequestMapping("/auth")
 @ApiSupport(author = "matevip", order = 1)
-@Tag(name = "认证登录", description = "采用sa-token实现的多认证登录")
+@Tag(name = "认证管理", description = "采用sa-token实现的多认证登录")
 public class AuthController {
+
+    private final SysCaptchaService sysCaptchaService;
 
     @GetMapping("/login")
     @ApiOperationSupport(order = 1)
     @Operation(summary = "登录")
     public Result login(){
         return Result.ok();
+    }
+
+    @GetMapping("/captcha")
+    @Operation(summary = "获取验证码")
+    public Result<SysCaptchaVO> captcha() {
+        SysCaptchaVO captchaVO = sysCaptchaService.generate();
+        return Result.ok(captchaVO);
     }
 
 }
