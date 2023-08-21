@@ -1,0 +1,53 @@
+{
+  "name": "mate-admin-ui",
+  "version": "1.0.8-SNAPSHOT",
+  "scripts": {
+    "serve": "cross-env VITE_SERVICE_ENV=dev vite",
+    "build": "cross-env VITE_SERVICE_ENV=prod vite build",
+    "preview": "vite preview",
+    "lint": "eslint --fix --ext .vue,.jsx,.ts,.tsx ."
+  },
+  "dependencies": {
+    "@element-plus/icons-vue": "^2.1.0",
+    "@vueuse/core": "^10.3.0",
+    "axios": "^1.4.0",
+    "cropperjs": "^1.5.13",
+    "echarts": "^5.4.3",
+    "element-plus": "^2.3.8",
+    "inter-ui": "^3.19.3",
+    "mitt": "^3.0.0",
+    "nprogress": "^0.2.0",
+    "pinia": "^2.1.6",
+    "qs": "^6.11.2",
+    "sortablejs": "^1.15.0",
+    "vue": "^3.3.4",
+    "vue-i18n": "^9.2.2",
+    "vue-router": "^4.2.4",
+    "vuedraggable": "^4.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.4.5",
+    "@types/nprogress": "^0.2.0",
+    "@types/qs": "^6.9.7",
+    "@types/sortablejs": "^1.15.1",
+    "@vitejs/plugin-vue": "^4.2.3",
+    "@vue/tsconfig": "0.4.0",
+    "cross-env": "^7.0.3",
+    "sass": "^1.64.2",
+    "typescript": "^5.1.6",
+    "vite": "^4.4.7",
+    "vite-plugin-windicss": "^1.9.0"
+  },
+  "lint-staged": {
+    "*.{js,jsx,mjs,json,ts,tsx,vue}": "eslint . --fix"
+  },
+  "keywords": [
+    "vue",
+    "vue3",
+    "vuejs",
+    "vite",
+    "element-plus",
+    "artemis"
+  ],
+  "license": "MIT"
+}
