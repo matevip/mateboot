@@ -72,7 +72,7 @@ public class ${table.controllerName} #if(${codeConfig.controllerConfig.ifExtend}
     @DeleteMapping("/delete")
     @ApiOperationSupport(order = 4)
     @Operation(summary = "删除",description = "权限字符串：${table.entityPath}:del")
-    @SaCheckPermission("${${table.entityPath}:del")
+    @SaCheckPermission("${table.entityPath}:del")
     public ${codeConfig.controllerConfig.commonReturnClassName}<String> delete(@RequestParam("${idName}") ${idType} ${idName}){
         boolean flag = ${table.entityPath}Service.removeData(id);
         return flag ? ${codeConfig.controllerConfig.commonReturnClassName}.${codeConfig.controllerConfig.successMethod}("删除成功") : ${codeConfig.controllerConfig.commonReturnClassName}.${codeConfig.controllerConfig.failMethod}("删除失败");

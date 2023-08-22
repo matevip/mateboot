@@ -1,0 +1,63 @@
+package vip.mate.system.service;
+
+import vip.mate.system.entity.SysMenu;
+import com.baomidou.mybatisplus.extension.service.IService;
+import vip.mate.system.vo.SysMenuVO;
+import vip.mate.system.req.SysMenuReq;
+import vip.mate.core.mybatis.res.PageRes;
+
+import java.util.List;
+
+/**
+* <p>
+* 菜单数据 服务类
+* </p>
+*
+* @author matevip
+* @since 2023-08-22
+*/
+public interface SysMenuService extends IService<SysMenu> {
+
+    /**
+     * 列表查询
+     * @param req 参数
+     * @return 分页结果
+     */
+    PageRes<SysMenuVO> queryPage(SysMenuReq req);
+
+    /**
+     * 新增
+     * @param entity 实体类对象
+     * @return true：成功，false：失败
+     */
+    Boolean createData(SysMenu entity);
+
+    /**
+    * 修改
+    * @param entity 实体类对象
+    * @return true：成功，false：失败
+    */
+    Boolean updateData(SysMenu entity);
+
+    /**
+     * 删除
+     * @param id 主键
+     * @return true：成功，false：失败
+     */
+    Boolean removeData(Long id);
+
+    /**
+     * 单条查询
+     * @param id 主键
+     * @return
+     */
+    SysMenuVO getData(Long id);
+
+    /**
+     * 根据用户ID查询路由
+     * @param  loginId 用户ID
+     * @return
+     */
+    List<SysMenuVO> route(String loginId);
+
+}

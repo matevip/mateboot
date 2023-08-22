@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="vip.mate.system.mapper.SysMenuMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="vip.mate.system.entity.SysMenu">
+        <id column="id" property="id" />
+        <result column="pid" property="pid" />
+        <result column="name" property="name" />
+        <result column="title" property="title" />
+        <result column="path" property="path" />
+        <result column="component" property="component" />
+        <result column="authority" property="authority" />
+        <result column="type" property="type" />
+        <result column="open_style" property="openStyle" />
+        <result column="icon" property="icon" />
+        <result column="sort" property="sort" />
+        <result column="affix" property="affix" />
+        <result column="tag" property="tag" />
+        <result column="hidden" property="hidden" />
+        <result column="hidden_breadcrumb" property="hiddenBreadcrumb" />
+        <result column="version" property="version" />
+        <result column="deleted" property="deleted" />
+        <result column="create_by" property="createBy" />
+        <result column="create_time" property="createTime" />
+        <result column="update_by" property="updateBy" />
+        <result column="update_time" property="updateTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+
+        t.id,
+        t.pid,
+        t.name,
+        t.title,
+        t.path,
+        t.component,
+        t.authority,
+        t.type,
+        t.open_style,
+        t.icon,
+        t.sort,
+        t.affix,
+        t.tag,
+        t.hidden,
+        t.hidden_breadcrumb,
+        t.version,
+        t.deleted,
+        t.create_by,
+        t.create_time,
+        t.update_by,
+        t.update_time,
+    </sql>
+
+    <select id="getMenuList" resultType="vip.mate.system.entity.SysMenu">
+        select * from mate_sys_menu where deleted = 0
+        <if test="type != null and type != 4 and type != -1">
+            and type = #{type}
+        </if>
+        <if test="type == 4">
+            and type != 1
+        </if>
+        order by sort asc
+    </select>
+
+    <select id="getUserMenuList" resultType="vip.mate.system.entity.SysMenu">
+        select t3.* from mate_sys_user_role t1
+        left join mate_sys_role_menu t2 on t1.role_id = t2.role_id
+        left join mate_sys_menu t3 on t2.menu_id = t3.id
+        where t1.user_id = #{userId} and t1.deleted = 0 and t2.deleted = 0 and t3.deleted = 0
+        <if test="type != null and type != 4 and type != -1">
+            and t3.type = #{type}
+        </if>
+        <if test="type == 4">
+            and t3.type != 1
+        </if>
+        order by t3.sort asc
+    </select>
+
+    <select id="getUserAuthorityList" resultType="string">
+        select t3.authority from mate_sys_user_role t1
+        left join mate_sys_role_menu t2 on t1.role_id = t2.role_id
+        left join mate_sys_menu t3 on t2.menu_id = t3.id
+        where t1.user_id = #{userId} and t1.deleted = 0 and t2.deleted = 0 and t3.deleted = 0 order by t3.sort asc
+    </select>
+
+    <select id="getAuthorityList" resultType="string">
+        select authority from mate_sys_menu where deleted = 0
+    </select>
+
+</mapper>

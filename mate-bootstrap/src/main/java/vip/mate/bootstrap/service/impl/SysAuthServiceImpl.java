@@ -35,11 +35,11 @@ public class SysAuthServiceImpl implements SysAuthService {
     @Override
     public SysTokenVO loginByUsername(SysUsernameLoginReq login) {
         // 验证码效验
-        boolean flag = sysCaptchaService.validate(login.getKey(), login.getCaptcha());
-        if (!flag) {
-            // 保存登录日志
-            throw new ServerException("验证码错误");
-        }
+//        boolean flag = sysCaptchaService.validate(login.getKey(), login.getCaptcha());
+//        if (!flag) {
+//            // 保存登录日志
+//            throw new ServerException("验证码错误");
+//        }
 
         String clientId = login.getClientId();
         String grantType = login.getGrantType();

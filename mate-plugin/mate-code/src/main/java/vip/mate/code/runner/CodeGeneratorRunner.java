@@ -41,7 +41,7 @@ public class CodeGeneratorRunner {
 
         /* 下方参数是可以动态设置的 */
         //需要生成的表名称，多个用“,”分割
-        String tableName = "mate_sys_user,mate_sys_client";
+        String tableName = "mate_sys_role,mate_sys_menu,mate_sys_user_role,mate_sys_role_menu";
         //设置是否开启包分层-按需开启
         config.getGlobalConfig().setIfEnableModel(false);
         //业务模块[包分层]/权限字符[第一段]，例如 controller/system/aaa.java
@@ -159,7 +159,6 @@ public class CodeGeneratorRunner {
             Map<String, Object> objectMap = super.getObjectMap(config, tableInfo);
             // 获取Other的盘符路径
             String otherPath = (String) ((Map<String, Object>) objectMap.get("package")).get("Parent");
-            System.out.println("print package.Parent:" + objectMap);
             // 自定义枚举
             List<String> modelList = CodeEnum.getModel();
             // 循环
