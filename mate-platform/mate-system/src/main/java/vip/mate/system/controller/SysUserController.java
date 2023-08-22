@@ -1,6 +1,7 @@
 package vip.mate.system.controller;
 
 import cn.dev33.satoken.annotation.SaCheckPermission;
+import cn.dev33.satoken.stp.StpUtil;
 import lombok.AllArgsConstructor;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.github.xiaoymin.knife4j.annotations.ApiSupport;
@@ -76,6 +77,13 @@ public class SysUserController {
     @SaCheckPermission("sysUser:index")
     public Result<SysUserVO> getOne(@RequestParam("id") Long id){
         return Result.ok(sysUserService.getData(id));
+    }
+
+    @GetMapping("/info")
+    @ApiOperationSupport(order = 5)
+    @Operation(summary = "用户信息")
+    public Result<SysUserVO> info(){
+        return Result.ok(sysUserService.getData(Long.parseLong(StpUtil.getLoginId().toString())));
     }
 }
 

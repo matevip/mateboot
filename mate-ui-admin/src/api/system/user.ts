@@ -1,7 +1,7 @@
 import http from "@/utils/request";
 
 export const useUserInfo = () => {
-  return http.get("/sys/user/info");
+  return http.get("/v1/sysUser/info");
 };
 
 export const updatePassword = (data: any) => {

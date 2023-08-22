@@ -11,7 +11,7 @@ export const useCaptcha = () => {
 
 // 账户密码登录
 export const useAccountLogin = (data: any) => {
-	return http.post('/sys/auth/login', data)
+	return http.post('/v1/auth/login', data)
 }
 
 // 获取验证码

@@ -7,6 +7,7 @@ import vip.mate.system.req.SysMenuReq;
 import vip.mate.core.mybatis.res.PageRes;
 
 import java.util.List;
+import java.util.Set;
 
 /**
 * <p>
@@ -60,4 +61,10 @@ public interface SysMenuService extends IService<SysMenu> {
      */
     List<SysMenuVO> route(String loginId);
 
+    /**
+     * 根据用户ID查询权限
+     * @param loginId
+     * @return
+     */
+    Set<String> authority(String loginId);
 }

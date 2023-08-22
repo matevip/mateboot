@@ -20,6 +20,7 @@ import jakarta.validation.Valid;
 import vip.mate.core.common.constant.MateConstant;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * <p>
@@ -90,6 +91,14 @@ public class SysMenuController {
         System.out.println("loginId=" + loginId);
         List<SysMenuVO> routes = sysMenuService.route(loginId);
         return Result.ok(routes);
+    }
+
+    @GetMapping("/authority")
+    @Operation(summary = "用户权限集合")
+    public Result<Set<String>> authority() {
+        String loginId = StpUtil.getLoginId().toString();
+        Set<String> permissions = sysMenuService.authority(loginId);
+        return Result.ok(permissions);
     }
 }
 

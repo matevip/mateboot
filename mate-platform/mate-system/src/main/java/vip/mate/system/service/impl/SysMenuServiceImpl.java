@@ -1,6 +1,7 @@
 package vip.mate.system.service.impl;
 
 import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.util.StrUtil;
 import lombok.RequiredArgsConstructor;
 import vip.mate.core.common.exception.ServerException;
 import vip.mate.core.common.utils.TreeUtils;
@@ -105,6 +106,27 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         }).collect(Collectors.toList());
 
         return TreeUtils.build(collect);
+    }
+
+    @Override
+    public Set<String> authority(String loginId) {
+        // 系统管理员，拥有最高权限
+        List<String> authorityList;
+//        if (user.getSuperAdmin().equals(SuperAdminEnum.YES.getValue())) {
+            authorityList = baseMapper.getAuthorityList();
+//        } else {
+//            authorityList = baseMapper.getUserAuthorityList(loginId);
+//        }
+        // 用户权限列表
+        Set<String> authSet = new HashSet<>();
+        for (String authority : authorityList) {
+            if (StrUtil.isBlank(authority)) {
+                continue;
+            }
+            authSet.addAll(Arrays.asList(authority.trim().split(",")));
+        }
+
+        return authSet;
     }
 
 }

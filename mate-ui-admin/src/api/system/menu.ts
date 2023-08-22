@@ -1,11 +1,11 @@
 import http from '@/utils/request'
 
 export const useAuthorityList = () => {
-	return http.get('/sys/menu/authority')
+	return http.get('/v1/sysMenu/authority')
 }
 
 export const useMenuNav = () => {
-	return http.get('/sys/menu/nav')
+	return http.get('/v1/sysMenu/route')
 }
 
 export const useMenuList = (type: Number) => {
