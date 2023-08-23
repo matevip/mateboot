@@ -35,7 +35,6 @@ public interface SysAuthService {
     /**
      * 退出登录
      *
-     * @param accessToken accessToken
      */
-    void logout(String accessToken);
+    void logout();
 }

@@ -49,4 +49,10 @@ public class AuthController {
         return Result.ok(captchaVO);
     }
 
+    @PostMapping("/logout")
+    public Result<String> logout() {
+        sysAuthService.logout();
+        return Result.ok("退出成功");
+    }
+
 }

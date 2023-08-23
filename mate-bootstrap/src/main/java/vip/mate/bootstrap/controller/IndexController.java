@@ -1,6 +1,5 @@
 package vip.mate.bootstrap.controller;
 
-import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.hutool.core.util.StrUtil;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.github.xiaoymin.knife4j.annotations.ApiSupport;
@@ -23,7 +22,7 @@ import vip.mate.core.common.response.Result;
  */
 @RestController
 @RequiredArgsConstructor
-@ApiSupport(author = "MateVip", order = 1)
+@ApiSupport(order = 1)
 @Tag(name = "首页", description = "系统首页")
 public class IndexController {
 
@@ -39,11 +38,10 @@ public class IndexController {
         return StrUtil.format("欢迎使用{}后台管理框架，当前版本：v{}，请通过前端地址访问。", mateConfig.getName(), mateConfig.getVersion());
     }
 
-    @SaCheckLogin
-    @GetMapping("/admin/get-version")
+    @GetMapping("/version")
     @ApiOperationSupport(order = 2)
-    @Operation(summary = "测试版本号")
-    public Result getVersion() {
+    @Operation(summary = "系统版本")
+    public Result<String> getVersion() {
         return Result.ok(mateConfig.getVersion());
     }
 }

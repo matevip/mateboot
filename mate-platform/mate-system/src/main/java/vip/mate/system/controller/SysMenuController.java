@@ -88,7 +88,6 @@ public class SysMenuController {
     @Operation(summary = "菜单路由")
     public Result<List<SysMenuVO>> route() {
         String loginId = StpUtil.getLoginId().toString();
-        System.out.println("loginId=" + loginId);
         List<SysMenuVO> routes = sysMenuService.route(loginId);
         return Result.ok(routes);
     }

@@ -28,7 +28,7 @@ import vip.mate.core.common.constant.MateConstant;
 @RestController
 @RequestMapping(MateConstant.MATE_PREFIX_URL + "/sysRole")
 @AllArgsConstructor
-@ApiSupport(author = "matevip", order = 1)
+@ApiSupport(order = 1)
 @Tag(description = "sysRole", name = "角色管理管理")
 @Validated
 public class SysRoleController {

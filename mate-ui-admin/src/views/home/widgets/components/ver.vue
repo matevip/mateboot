@@ -7,7 +7,8 @@
 		</div>
 		<div style="margin-top: 20px;">
 			<el-button type="primary" plain round @click="golog">更新日志</el-button>
-			<el-button type="primary" plain round @click="gogit">gitee</el-button>
+			<el-button type="primary" plain round @click="gogitee">gitee</el-button>
+			<el-button type="primary" plain round @click="gogithub">github</el-button>
 		</div>
 	</el-card>
 </template>
@@ -39,7 +40,10 @@ const getVer = async () => {
 const golog = () => {
 	window.open("https://gitee.com/matevip/mateboot/releases")
 }
-const gogit = () => {
+const gogitee = () => {
 	window.open("https://gitee.com/matevip/mateboot")
+}
+const gogithub = () => {
+	window.open("https://github.com/matevip/mateboot")
 }
 </script>

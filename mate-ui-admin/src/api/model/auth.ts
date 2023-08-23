@@ -26,10 +26,10 @@ export const useMobileLogin = (data: any) => {
 
 // 登出
 export const useLogout = () => {
-	return http.post('/sys/auth/logout')
+	return http.post('/v1/auth/logout')
 }
 
 // 查看版本
 export const useVersion = () => {
-	return http.get('/sys/version')
+	return http.get('/version')
 }
