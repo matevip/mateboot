@@ -20,6 +20,9 @@ import lombok.experimental.Accessors;
 @Schema(name = "SysUserVO对象", description = "用户管理")
 public class SysUserVO {
 
+    @Schema(description = "id")
+    private Long id;
+
     @Schema(description = "用户名")
     private String username;
 
