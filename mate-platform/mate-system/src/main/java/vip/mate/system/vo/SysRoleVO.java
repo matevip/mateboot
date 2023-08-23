@@ -1,6 +1,8 @@
 package vip.mate.system.vo;
 
 import java.time.LocalDateTime;
+import java.util.Date;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
@@ -39,5 +41,8 @@ public class SysRoleVO {
 
     @Schema(description = "状态")
     private Byte status;
+
+    @Schema(description = "创建时间")
+    private Date createTime;
 
 }

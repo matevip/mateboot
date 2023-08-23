@@ -30,7 +30,6 @@ import java.util.Set;
  * @author matevip
  * @since 2023-08-22
  */
-@SaIgnore
 @RestController
 @RequestMapping(MateConstant.MATE_PREFIX_URL + "/sysMenu")
 @AllArgsConstructor

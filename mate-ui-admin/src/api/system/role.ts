@@ -1,7 +1,7 @@
 import http from "@/utils/request";
 
 export const useRolePage = (params: any) => {
-  return http.get("/sys/role/page", { params });
+  return http.get("/v1/sysRole/page", { params });
 };
 
 export const useRoleList = () => {

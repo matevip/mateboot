@@ -30,5 +30,5 @@ export const userSaveApi = (ids: any) => {
 
 
 export const userPageApi = (params: any) => {
-  return http.get("/sys/user/page", { params });
+  return http.get("/v1/sysUser/page", { params });
 };
