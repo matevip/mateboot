@@ -78,6 +78,6 @@ public class SysAuthServiceImpl implements SysAuthService {
 
     @Override
     public void logout() {
-        StpUtil.logout(StpUtil.getLoginId());
+        StpUtil.logout();
     }
 }

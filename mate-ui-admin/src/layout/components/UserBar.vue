@@ -95,7 +95,7 @@ const msgList = ref([
 		avatar: "img/avatar.jpg",
 		title: "Skuya",
 		describe: "如果喜欢就点个星星支持一下哦",
-		link: "https://gitee.com/lolicode/scui",
+		link: "https://gitee.com/matevip/mateboot",
 		time: "5分钟前"
 	},
 	{
@@ -104,17 +104,17 @@ const msgList = ref([
 		avatar: "img/avatar2.gif",
 		title: "Lolowan",
 		describe: "点进去Gitee获取最新开源版本",
-		link: "https://gitee.com/lolicode/scui",
+		link: "https://gitee.com/matevip/mateboot",
 		time: "14分钟前"
 	},
 	{
 		id: 3,
 		type: 'system',
 		avatar: "img/logo.png",
-		title: "感谢登录SCUI Admin",
+		title: "感谢登录MateBoot Admin",
 		describe: "Vue 3.0 + Vue-Router 4.0 + ElementPlus + Axios 后台管理系统。",
-		link: "https://gitee.com/lolicode/scui",
-		time: "2020年7月24日"
+		link: "https://gitee.com/matevip/mateboot",
+		time: "2023年7月24日"
 	}
 ])
 
@@ -138,6 +138,7 @@ const handleUser = (command: any) => {
 		}).then(() => {
 			Storage.clear()
 			// router.replace({ path: '/login' })
+			store.userStore.logoutAction()
 			setTimeout(() => {
 				location.reload()
 			}, 1000)
@@ -152,11 +153,11 @@ const handleUser = (command: any) => {
 			confirmButtonText: '退出',
 			confirmButtonClass: 'el-button--danger'
 		}).then(() => {
-			store.userStore.setToken('')
+			store.userStore.logoutAction()
 			setTimeout(() => {
 				location.reload()
 			}, 1000)
-			ElMessage.success("退出登录成功！")
+			ElMessage.success("退出成功！")
 			// router.replace({ path: '/login' });
 		}).catch(() => {
 			//取消退出
