@@ -3,14 +3,11 @@ package vip.mate.core.satoken.config;
 import cn.dev33.satoken.context.SaHolder;
 import cn.dev33.satoken.filter.SaServletFilter;
 import cn.dev33.satoken.interceptor.SaInterceptor;
-import cn.dev33.satoken.jwt.StpLogicJwtForSimple;
 import cn.dev33.satoken.router.SaHttpMethod;
 import cn.dev33.satoken.router.SaRouter;
-import cn.dev33.satoken.stp.StpLogic;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.dev33.satoken.util.SaResult;
 import cn.hutool.core.collection.CollectionUtil;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -124,9 +121,9 @@ public class SaTokenConfig implements WebMvcConfigurer {
                 ;
     }
 
-    @Bean
-    public StpLogic getStpLogicJwt() {
-        // Sa-Token 整合 jwt (简单模式)
-        return new StpLogicJwtForSimple();
-    }
+//    @Bean
+//    public StpLogic getStpLogicJwt() {
+//        // Sa-Token 整合 jwt (简单模式)
+//        return new StpLogicJwtForSimple();
+//    }
 }

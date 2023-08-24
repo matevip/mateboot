@@ -55,9 +55,18 @@
             <groupId>cn.dev33</groupId>
             <artifactId>sa-token-spring-boot3-starter</artifactId>
         </dependency>
+<!--        <dependency>-->
+<!--            <groupId>cn.dev33</groupId>-->
+<!--            <artifactId>sa-token-jwt</artifactId>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>cn.dev33</groupId>
-            <artifactId>sa-token-jwt</artifactId>
+            <artifactId>sa-token-redis-jackson</artifactId>
+        </dependency>
+        <!-- 提供Redis连接池 -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-pool2</artifactId>
         </dependency>
 
         <dependency>
@@ -71,6 +80,10 @@
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-http</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-json</artifactId>
         </dependency>
         <dependency>
             <groupId>com.fhs-opensource</groupId>

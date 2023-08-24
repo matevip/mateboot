@@ -109,6 +109,12 @@
                 <artifactId>sa-token-core</artifactId>
                 <version>${satoken.version}</version>
             </dependency>
+            <!-- Sa-Token 整合 Redis （使用 jackson 序列化方式） -->
+            <dependency>
+                <groupId>cn.dev33</groupId>
+                <artifactId>sa-token-redis-jackson</artifactId>
+                <version>${satoken.version}</version>
+            </dependency>
 
             <!-- 阿里JSON解析器 -->
             <dependency>

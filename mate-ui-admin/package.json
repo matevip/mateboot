@@ -13,7 +13,7 @@
     "axios": "^1.4.0",
     "cropperjs": "^1.5.13",
     "echarts": "^5.4.3",
-    "element-plus": "^2.3.8",
+    "element-plus": "^2.3.9",
     "inter-ui": "^3.19.3",
     "mitt": "^3.0.0",
     "nprogress": "^0.2.0",
@@ -35,7 +35,7 @@
     "cross-env": "^7.0.3",
     "sass": "^1.64.2",
     "typescript": "^5.1.6",
-    "vite": "^4.4.7",
+    "vite": "^4.4.9",
     "vite-plugin-windicss": "^1.9.0"
   },
   "lint-staged": {
