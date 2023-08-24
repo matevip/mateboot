@@ -20,13 +20,17 @@ import lombok.experimental.Accessors;
 * @since 2023-08-22
 */
 @Data
-@EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
 @TableName("mate_sys_role_menu")
 @Schema(name = "SysRoleMenu对象", description = "角色菜单")
-public class SysRoleMenu extends MateEntity implements Serializable {
+public class SysRoleMenu implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    @TableId
+    @Schema(description = "ID")
+    private Long id;
+
     @Schema(description = "角色ID")
     @TableField("role_id")
     private Long roleId;
@@ -34,7 +38,5 @@ public class SysRoleMenu extends MateEntity implements Serializable {
     @Schema(description = "菜单ID")
     @TableField("menu_id")
     private Long menuId;
-
-
 
 }

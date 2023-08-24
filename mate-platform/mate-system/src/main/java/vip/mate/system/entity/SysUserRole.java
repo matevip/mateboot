@@ -20,13 +20,17 @@ import lombok.experimental.Accessors;
 * @since 2023-08-22
 */
 @Data
-@EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
 @TableName("mate_sys_user_role")
 @Schema(name = "SysUserRole对象", description = "用户角色")
-public class SysUserRole extends MateEntity implements Serializable {
+public class SysUserRole implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    @TableId
+    @Schema(description = "ID")
+    private Long id;
+
     @Schema(description = "角色ID")
     @TableField("role_id")
     private Long roleId;
