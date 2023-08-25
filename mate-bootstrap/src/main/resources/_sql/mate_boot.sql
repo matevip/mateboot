@@ -11,7 +11,7 @@
  Target Server Version : 50719
  File Encoding         : 65001
 
- Date: 22/08/2023 22:56:30
+ Date: 25/08/2023 21:28:01
 */
 
 SET NAMES utf8mb4;
@@ -45,6 +45,33 @@ CREATE TABLE `mate_sys_client` (
 BEGIN;
 INSERT INTO `mate_sys_client` VALUES (1, 'e5cd7e4891bf95d1d19206ce24a7b32e', 'pc', 'pc123', 'password,social', 'pc', 1800, 604800, '0', 0, 1, '2023-08-21 16:32:53', 1, '2023-08-21 16:32:53');
 INSERT INTO `mate_sys_client` VALUES (2, '428a8310cd442757ae699df5d894f051', 'app', 'app123', 'password,sms,social', 'android', 1800, 604800, '0', 0, 1, '2023-08-21 16:32:53', 1, '2023-08-21 16:32:53');
+COMMIT;
+
+-- ----------------------------
+-- Table structure for mate_sys_dept
+-- ----------------------------
+DROP TABLE IF EXISTS `mate_sys_dept`;
+CREATE TABLE `mate_sys_dept` (
+  `id` bigint(20) NOT NULL,
+  `pid` bigint(20) DEFAULT NULL COMMENT '上级ID',
+  `name` varchar(50) DEFAULT NULL COMMENT '部门名称',
+  `remark` varchar(50) DEFAULT NULL COMMENT '部门备注',
+  `owner_user_id` bigint(20) DEFAULT NULL COMMENT '部门负责人',
+  `sort` int(11) DEFAULT NULL COMMENT '排序',
+  `version` int(11) DEFAULT NULL COMMENT '版本号',
+  `deleted` tinyint(4) DEFAULT NULL COMMENT '删除标识  0：正常   1：已删除',
+  `create_by` bigint(20) DEFAULT NULL COMMENT '创建者',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_by` bigint(20) DEFAULT NULL COMMENT '更新者',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`),
+  KEY `idx_pid` (`pid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='部门';
+
+-- ----------------------------
+-- Records of mate_sys_dept
+-- ----------------------------
+BEGIN;
 COMMIT;
 
 -- ----------------------------
@@ -107,7 +134,7 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `mate_sys_role`;
 CREATE TABLE `mate_sys_role` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `id` bigint(20) NOT NULL COMMENT 'id',
   `name` varchar(50) DEFAULT NULL COMMENT '角色名称',
   `code` varchar(50) DEFAULT NULL COMMENT '编码',
   `remark` varchar(100) DEFAULT NULL COMMENT '备注',
@@ -122,7 +149,7 @@ CREATE TABLE `mate_sys_role` (
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`),
   KEY `idx_org_id` (`org_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COMMENT='角色管理';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='角色管理';
 
 -- ----------------------------
 -- Records of mate_sys_role
@@ -130,6 +157,8 @@ CREATE TABLE `mate_sys_role` (
 BEGIN;
 INSERT INTO `mate_sys_role` VALUES (1, '超级管理员', 'super_admin', '平台管理员，拥有所有数据可视权限', NULL, NULL, 0, 1, 0, 10000, '2022-10-17 15:56:05', 10000, '2023-04-06 10:39:18');
 INSERT INTO `mate_sys_role` VALUES (2, '马上管理员1', 'mashang', '马上管理员', NULL, NULL, 0, 1, 0, 10000, '2022-10-17 18:05:02', 10000, '2023-04-06 13:11:17');
+INSERT INTO `mate_sys_role` VALUES (1695062677862240258, '11', '11', '11', NULL, NULL, NULL, 1, NULL, 10000, '2023-08-25 21:16:50', NULL, NULL);
+INSERT INTO `mate_sys_role` VALUES (1695064808287662081, '22', '22', '22', NULL, NULL, NULL, 1, 0, 10000, '2023-08-25 21:25:18', NULL, NULL);
 COMMIT;
 
 -- ----------------------------
