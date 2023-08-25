@@ -23,7 +23,7 @@ public abstract class MateEntity implements TransPojo {
     /**
      * id
      */
-    @TableId
+    @TableId(value = "id",type = IdType.ASSIGN_ID)
     @Schema(description = "ID")
     private Long id;
 

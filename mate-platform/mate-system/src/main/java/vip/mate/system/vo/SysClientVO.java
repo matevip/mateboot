@@ -19,6 +19,9 @@ import lombok.experimental.Accessors;
 @Schema(name = "SysClientVO对象", description = "系统授权表")
 public class SysClientVO {
 
+    @Schema(description = "id")
+    private Long id;
+
     @Schema(description = "客户端id")
     private String clientId;
 

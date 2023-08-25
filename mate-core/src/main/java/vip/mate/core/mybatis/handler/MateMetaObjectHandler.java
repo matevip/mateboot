@@ -1,9 +1,11 @@
 package vip.mate.core.mybatis.handler;
 
+import cn.dev33.satoken.stp.StpUtil;
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import org.apache.ibatis.reflection.MetaObject;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 /**
  * Mybatis-Plus 自动填充字段
@@ -22,11 +24,13 @@ public class MateMetaObjectHandler implements MetaObjectHandler {
 
     @Override
     public void insertFill(MetaObject metaObject) {
-        this.strictInsertFill(metaObject, CREATE_TIME, LocalDateTime.class, LocalDateTime.now());
+        this.strictInsertFill(metaObject, CREATE_TIME, Date.class, new Date());
+        strictInsertFill(metaObject, CREATE_BY, Long.class, StpUtil.getLoginIdAsLong());
     }
 
     @Override
     public void updateFill(MetaObject metaObject) {
-        this.strictUpdateFill(metaObject, UPDATE_TIME, LocalDateTime.class, LocalDateTime.now());
+        this.strictUpdateFill(metaObject, UPDATE_TIME, Date.class, new Date());
+        strictInsertFill(metaObject, UPDATE_BY, Long.class, StpUtil.getLoginIdAsLong());
     }
 }

@@ -9,5 +9,5 @@ export const useRoleList = () => {
 };
 
 export const useRoleSave = (dataForm: any) => {
-  return http.post("/sys/role/save", dataForm);
+  return http.post("/v1/sysRole/add", dataForm);
 };

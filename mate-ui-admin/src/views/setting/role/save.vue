@@ -73,7 +73,7 @@ const submit = () => {
 			isSaveing.value = true;
 			var res: any = await useRoleSave(form);
 			isSaveing.value = false;
-			if (res.code == 200) {
+			if (res.code == 0) {
 				emit('success', form, mode.value)
 				visible.value = false;
 				ElMessage.success("操作成功")

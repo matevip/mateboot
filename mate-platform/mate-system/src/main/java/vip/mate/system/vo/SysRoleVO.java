@@ -21,6 +21,9 @@ import lombok.experimental.Accessors;
 @Schema(name = "SysRoleVO对象", description = "角色管理")
 public class SysRoleVO {
 
+    @Schema(description = "id")
+    private Long id;
+
     @Schema(description = "角色名称")
     private String name;
 
