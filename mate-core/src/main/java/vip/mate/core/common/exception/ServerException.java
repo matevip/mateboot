@@ -3,6 +3,7 @@ package vip.mate.core.common.exception;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import vip.mate.core.common.enums.ErrorCode;
+import vip.mate.core.common.enums.ResultCode;
 
 /**
  * 自定义异常
@@ -15,11 +16,17 @@ import vip.mate.core.common.enums.ErrorCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class ServerException extends RuntimeException {
+public class ServerException extends RuntimeException implements ResultCode {
     private static final long serialVersionUID = 1L;
 
     private int code;
     private String msg;
+
+    public ServerException(int code, String msg) {
+        super(code + ":" + msg, null, true, true);
+        this.code = code;
+        this.msg = msg;
+    }
 
     public ServerException(String msg) {
         super(msg);
@@ -27,10 +34,18 @@ public class ServerException extends RuntimeException {
         this.msg = msg;
     }
 
-    public ServerException(ErrorCode errorCode) {
-        super(errorCode.getMsg());
-        this.code = errorCode.getCode();
-        this.msg = errorCode.getMsg();
+    public ServerException(ResultCode resultCode) {
+        super(resultCode.getMsg());
+        this.code = resultCode.getCode();
+        this.msg = resultCode.getMsg();
+    }
+
+    public ServerException(ResultCode resultCode, Object... args) {
+        this(resultCode.getCode(), String.format(resultCode.getMsg(), args));
+    }
+
+    public ServerException(ResultCode resultCode, String str, Boolean flag) {
+        this(resultCode.getCode(), resultCode.getMsg() + ":" + str);
     }
 
     public ServerException(String msg, Throwable e) {

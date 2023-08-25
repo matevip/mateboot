@@ -180,7 +180,7 @@ CREATE TABLE `mate_sys_user` (
 -- Records of mate_sys_user
 -- ----------------------------
 BEGIN;
-INSERT INTO `mate_sys_user` VALUES (10000, 'admin', '{bcrypt}$2a$10$mW/yJPHjyueQ1g26WNBz0uxVPa0GQdJO1fFZmqdkqgMTGnyszlXxu', 'admin', 'https://cdn.maku.net/images/avatar.png', 0, 'babamu@126.com', '13612345678', NULL, 1, 1, 0, 0, 10000, '2022-12-24 22:30:00', 10000, '2022-12-24 22:30:00');
+INSERT INTO `mate_sys_user` VALUES (10000, 'admin', '03c404e0317940b5bad7801b33aefb30e6bc3a1f6fddc2799ab7b05d75fbf316', 'admin', 'https://cdn.maku.net/images/avatar.png', 0, 'babamu@126.com', '13612345678', NULL, 1, 1, 0, 0, 10000, '2022-12-24 22:30:00', 10000, '2022-12-24 22:30:00');
 COMMIT;
 
 -- ----------------------------

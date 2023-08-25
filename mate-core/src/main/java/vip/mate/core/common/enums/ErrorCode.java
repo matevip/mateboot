@@ -14,7 +14,7 @@ import lombok.Getter;
  */
 @Getter
 @AllArgsConstructor
-public enum ErrorCode {
+public enum ErrorCode implements ResultCode {
     UNAUTHORIZED(401, "还未授权，不能访问"),
     FORBIDDEN(403, "没有权限，禁止访问"),
     REFRESH_TOKEN_INVALID(400, "refresh_token 已失效"),

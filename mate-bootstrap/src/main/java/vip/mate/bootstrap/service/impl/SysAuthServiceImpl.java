@@ -9,12 +9,14 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
+import vip.mate.bootstrap.enums.AuthCodeEnum;
 import vip.mate.bootstrap.req.SysUsernameLoginReq;
 import vip.mate.bootstrap.req.SysMobileLoginReq;
 import vip.mate.bootstrap.service.SysAuthService;
 import vip.mate.bootstrap.service.SysCaptchaService;
 import vip.mate.bootstrap.utils.CryptoUtil;
 import vip.mate.bootstrap.vo.SysTokenVO;
+import vip.mate.core.common.enums.ErrorCode;
 import vip.mate.core.common.exception.ServerException;
 import vip.mate.system.entity.SysUser;
 import vip.mate.system.service.SysClientService;
@@ -35,32 +37,32 @@ public class SysAuthServiceImpl implements SysAuthService {
     private final SysUserService sysUserService;
 
     @Override
-    public SysTokenVO   loginByUsername(SysUsernameLoginReq login) {
+    public SysTokenVO loginByUsername(SysUsernameLoginReq login) {
         // 验证码效验
         boolean flag = sysCaptchaService.validate(login.getKey(), login.getCaptcha());
         if (!flag) {
             // 保存登录日志
-            throw new ServerException("验证码错误");
+            throw new ServerException(AuthCodeEnum.CAPTCHA_ERROR);
         }
 
         String clientId = login.getClientId();
         String grantType = login.getGrantType();
         SysClientVO sysClient = sysClientService.queryByClientId(clientId);
+        // 客户端认证失败
         if (ObjectUtil.isNull(sysClient) || !StringUtils.contains(sysClient.getGrantType(), grantType)) {
-            log.info("客户端id: {} 认证类型：{} 异常!.", clientId, grantType);
-            throw new ServerException("授权类型错误");
+            throw new ServerException(AuthCodeEnum.CLIENT_ERROR, clientId, grantType);
         }
         SysUser sysUser = sysUserService.queryByUsername(login.getUsername());
+        // 用户不存在
         if (ObjectUtil.isNull(sysUser)) {
-            log.info("用户不存在: {}.", sysUser.getUsername());
-            throw new ServerException(login.getUsername() + "用户不存在");
+            throw new ServerException(AuthCodeEnum.USER_ERROR, login.getUsername(), Boolean.TRUE);
         }
-        if (!CryptoUtil.doHashValue(CryptoUtil.doSm2Encrypt(login.getPassword()))
+        // 用户名密码不正确
+        if (!CryptoUtil.doHashValue(CryptoUtil.doSm4CbcEncrypt(login.getPassword()))
                 .equals(sysUser.getPassword())) {
-
-            System.out.println(CryptoUtil.doHashValue(CryptoUtil.doSm2Encrypt(login.getPassword())));
-            throw new ServerException("用户名密码不正确");
+            throw new ServerException(AuthCodeEnum.PWD_ERROR, login.getUsername(), Boolean.TRUE);
         }
+        // Sa-Token 认证
         SaLoginModel model = new SaLoginModel();
         model.setDevice(sysClient.getDeviceType());
         model.setTimeout(sysClient.getTimeout());
