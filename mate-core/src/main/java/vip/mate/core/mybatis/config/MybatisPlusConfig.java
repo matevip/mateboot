@@ -32,10 +32,13 @@ import java.io.IOException;
 import java.util.Date;
 
 /**
- * todo
+ * Mybatis Plus 初始配置
  *
  * @author matevip
- * @since 2023/8/13
+ * @date 2023/8/13
+ * @webchat MateCloud
+ * @email 7333791@qq.com
+ * @copyright <a href="https://mate.vip">MateBoot</a>
  */
 @EnableTransactionManagement(proxyTargetClass = true)
 @Configuration
@@ -95,37 +98,6 @@ public class MybatisPlusConfig {
     @Bean
     public IdentifierGenerator idGenerator() {
         return new DefaultIdentifierGenerator(NetUtil.getLocalhost());
-    }
-
-    /**
-     * long类型数据统一处理转换为string
-     */
-    @Bean
-    public Jackson2ObjectMapperBuilderCustomizer jackson2ObjectMapperBuilderCustomizer() {
-        return jacksonObjectMapperBuilder -> {
-            jacksonObjectMapperBuilder.serializerByType(Long.TYPE, ToStringSerializer.instance);
-            jacksonObjectMapperBuilder.serializerByType(Long.class, ToStringSerializer.instance);
-            jacksonObjectMapperBuilder.deserializerByType(Date.class, new DateDeSerializer());
-            //localDate类型的序列化
-            jacksonObjectMapperBuilder.serializers(new LocalDateTimeSerializer(DatePattern.NORM_DATETIME_FORMATTER), new LocalDateSerializer(DatePattern.NORM_DATE_FORMATTER));
-            //localDate类型的反序列化
-            jacksonObjectMapperBuilder.deserializers(new LocalDateTimeDeserializer(DatePattern.NORM_DATETIME_FORMATTER), new LocalDateDeserializer(DatePattern.NORM_DATE_FORMATTER));
-        };
-    }
-
-    /**
-     * date反序列化
-     */
-    public static class DateDeSerializer extends JsonDeserializer<Date> {
-
-        @Override
-        public Date deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
-            String text = p.getText();
-            if (StrUtil.isNotEmpty(text)) {
-                return DateUtil.parse(text);
-            }
-            return null;
-        }
     }
 
 }

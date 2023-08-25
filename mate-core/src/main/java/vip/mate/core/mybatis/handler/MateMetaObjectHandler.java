@@ -24,13 +24,21 @@ public class MateMetaObjectHandler implements MetaObjectHandler {
 
     @Override
     public void insertFill(MetaObject metaObject) {
-        this.strictInsertFill(metaObject, CREATE_TIME, Date.class, new Date());
+        // 创建时间
+        strictInsertFill(metaObject, CREATE_TIME, Date.class, new Date());
+        // 创建者
         strictInsertFill(metaObject, CREATE_BY, Long.class, StpUtil.getLoginIdAsLong());
+        // 版本号
+        strictInsertFill(metaObject, VERSION, Integer.class, 0);
+        // 删除标识
+        strictInsertFill(metaObject, DELETED, Integer.class, 0);
     }
 
     @Override
     public void updateFill(MetaObject metaObject) {
-        this.strictUpdateFill(metaObject, UPDATE_TIME, Date.class, new Date());
+        // 更新时间
+        strictUpdateFill(metaObject, UPDATE_TIME, Date.class, new Date());
+        // 更新者
         strictInsertFill(metaObject, UPDATE_BY, Long.class, StpUtil.getLoginIdAsLong());
     }
 }
