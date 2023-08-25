@@ -35,6 +35,7 @@
         <knife4j.version>4.3.0</knife4j.version>
         <easy-trans.version>2.2.5</easy-trans.version>
         <captcha.version>1.6.2</captcha.version>
+        <sm-crypto.version>0.3.2</sm-crypto.version>
 
         <maven-surefire-plugin.version>3.1.2</maven-surefire-plugin.version>
         <flatten-maven-plugin.version>1.5.0</flatten-maven-plugin.version>
@@ -159,6 +160,13 @@
                 <groupId>com.github.whvcse</groupId>
                 <artifactId>easy-captcha</artifactId>
                 <version>${captcha.version}</version>
+            </dependency>
+
+            <!-- SM2/SM3/SM4加解密 -->
+            <dependency>
+                <groupId>com.antherd</groupId>
+                <artifactId>sm-crypto</artifactId>
+                <version>${sm-crypto.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

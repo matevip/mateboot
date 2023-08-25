@@ -13,6 +13,7 @@ import vip.mate.bootstrap.req.SysUsernameLoginReq;
 import vip.mate.bootstrap.req.SysMobileLoginReq;
 import vip.mate.bootstrap.service.SysAuthService;
 import vip.mate.bootstrap.service.SysCaptchaService;
+import vip.mate.bootstrap.utils.CryptoUtil;
 import vip.mate.bootstrap.vo.SysTokenVO;
 import vip.mate.core.common.exception.ServerException;
 import vip.mate.system.entity.SysUser;
@@ -32,8 +33,9 @@ public class SysAuthServiceImpl implements SysAuthService {
     private final SysCaptchaService sysCaptchaService;
     private final SysClientService sysClientService;
     private final SysUserService sysUserService;
+
     @Override
-    public SysTokenVO loginByUsername(SysUsernameLoginReq login) {
+    public SysTokenVO   loginByUsername(SysUsernameLoginReq login) {
         // 验证码效验
         boolean flag = sysCaptchaService.validate(login.getKey(), login.getCaptcha());
         if (!flag) {
@@ -53,7 +55,10 @@ public class SysAuthServiceImpl implements SysAuthService {
             log.info("用户不存在: {}.", sysUser.getUsername());
             throw new ServerException(login.getUsername() + "用户不存在");
         }
-        if (!login.getPassword().equals(sysUser.getPassword())) {
+        if (!CryptoUtil.doHashValue(CryptoUtil.doSm2Encrypt(login.getPassword()))
+                .equals(sysUser.getPassword())) {
+
+            System.out.println(CryptoUtil.doHashValue(CryptoUtil.doSm2Encrypt(login.getPassword())));
             throw new ServerException("用户名密码不正确");
         }
         SaLoginModel model = new SaLoginModel();
