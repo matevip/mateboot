@@ -3,8 +3,9 @@
 		<el-header>
 			<div class="left-panel">
 				<el-button type="primary" icon="el-icon-plus" @click="add"></el-button>
-				<el-button type="danger" plain icon="el-icon-delete" :disabled="selection.length==0" @click="batchDel"></el-button>
-				<el-button type="primary" plain :disabled="selection.length!=1" @click="permission">权限设置</el-button>
+				<el-button type="danger" plain icon="el-icon-delete" :disabled="selection.length == 0"
+					@click="batchDel"></el-button>
+				<el-button type="primary" plain :disabled="selection.length != 1" @click="permission">权限设置</el-button>
 			</div>
 			<div class="right-panel">
 				<div class="right-panel-search">
@@ -22,7 +23,8 @@
 				<!-- <el-table-column label="排序" prop="sort" width="80"></el-table-column> -->
 				<el-table-column label="状态" prop="status" width="80">
 					<template #default="scope">
-						<el-switch v-model="scope.row.status" @change="changeSwitch($event, scope.row)" :loading="scope.row.$switch_status" active-value="1" inactive-value="0"></el-switch>
+						<el-switch v-model="scope.row.status" @change="changeSwitch(scope.row)" inline-prompt
+							:loading="scope.row.$switch_status" active-value="0" inactive-value="1"></el-switch>
 					</template>
 				</el-table-column>
 				<el-table-column label="创建时间" prop="createTime" width="180"></el-table-column>
@@ -30,11 +32,13 @@
 				<el-table-column label="操作" fixed="right" align="center" width="170">
 					<template #default="scope">
 						<el-button-group>
-							<el-button text type="primary" size="small" icon="el-icon-view" @click="tableShow(scope.row, scope.$index)"/>
-							<el-button text type="primary" size="small" icon="el-icon-edit" @click="tableEdit(scope.row, scope.$index)"/>
+							<el-button text type="primary" size="small" icon="el-icon-view"
+								@click="tableShow(scope.row, scope.$index)" />
+							<el-button text type="primary" size="small" icon="el-icon-edit"
+								@click="tableEdit(scope.row, scope.$index)" />
 							<el-popconfirm title="确定删除吗？" @confirm="tableDel(scope.row, scope.$index)">
 								<template #reference>
-									<el-button text type="danger" icon="el-icon-delete" size="small"/>
+									<el-button text type="danger" icon="el-icon-delete" size="small" />
 								</template>
 							</el-popconfirm>
 						</el-button-group>
@@ -44,10 +48,11 @@
 		</el-main>
 	</el-container>
 
-	<save-dialog v-if="dialog.save" ref="saveDialogRef" @success="handleSaveSuccess" @closed="dialog.save=false"></save-dialog>
+	<save-dialog v-if="dialog.save" ref="saveDialogRef" @success="handleSaveSuccess"
+		@closed="dialog.save = false"></save-dialog>
 
-	<permission-dialog v-if="dialog.permission" ref="permissionDialogRef" @closed="dialog.permission=false"></permission-dialog>
-
+	<permission-dialog v-if="dialog.permission" ref="permissionDialogRef"
+		@closed="dialog.permission = false"></permission-dialog>
 </template>
 
 <script lang="ts" setup>
@@ -105,7 +110,7 @@ const permission = () => {
 //删除
 const tableDel = async (row: any) => {
 	var reqData = { id: row.id }
-	var res:any = await useRolePage(reqData);
+	var res: any = await useRolePage(reqData);
 	if (res.code == 200) {
 		tableRef.value.refresh()
 		ElMessage.success("删除成功")
@@ -133,14 +138,16 @@ const selectionChange = (data: any) => {
 	selection.value = data;
 }
 //表格内开关
-const changeSwitch = (val: any, row: any) => {
-	row.status = row.status == '1' ? '0' : '1'
-	row.$switch_status = true;
-	setTimeout(() => {
-		delete row.$switch_status;
-		row.status = val;
-		ElMessage.success("操作成功")
-	}, 500)
+const changeSwitch = (row: any) => {
+	let text = row.status === "0" ? "启用" : "停用";
+	ElMessageBox.confirm('确认要"' + text + '""' + row.name + '"角色吗?', '提示', {
+		type: 'info',
+	}).then(() => {
+		row.$switch_status = true;
+	}).catch(() => {
+		row.status = row.status === "0" ? "1" : "0";
+	})
+	delete row.$switch_status;
 }
 //搜索
 const upsearch = () => {
@@ -172,5 +179,4 @@ const handleSaveSuccess = (data: any, mode: any) => {
 }
 </script>
 
-<style>
-</style>
+<style></style>

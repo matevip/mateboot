@@ -20,17 +20,17 @@ import lombok.Setter;
 @Setter
 public class PageReq {
 
-    private static final Integer PAGE_NO = 1;
-    private static final Integer PAGE_SIZE = 10;
+    private static final Long PAGE_NO = 1L;
+    private static final Long PAGE_SIZE = 10L;
 
     @NotNull(message = "页码不能为空")
     @Min(value = 1, message = "页码最小值为 1")
     @Schema(description = "页码")
-    private Integer pageNo = PAGE_NO;
+    private Long pageNo = PAGE_NO;
 
     @NotNull(message = "每页条数不能为空")
     @Min(value = 1, message = "每页条数最小值为 1")
     @Max(value = 100, message = "每页条数最大值为 999")
     @Schema(description = "每页条数")
-    private Integer pageSize = PAGE_SIZE;
+    private Long pageSize = PAGE_SIZE;
 }

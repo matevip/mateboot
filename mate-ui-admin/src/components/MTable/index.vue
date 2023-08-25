@@ -27,7 +27,7 @@
 		<div class="scTable-page" v-if="!hidePagination || !hideDo">
 			<div class="scTable-pagination">
 				<el-pagination v-if="!hidePagination" background :small="true" :layout="paginationLayout" :total="total"
-					:page-size="scPageSize" :page-sizes="pageSizes" v-model:currentPage="currentPage"
+					:page-size="scPageSize" :page-sizes="pageSizes" v-model:current-page="currentPage"
 					@current-change="paginationChange" @update:page-size="pageSizeChange"></el-pagination>
 			</div>
 			<div class="scTable-do" v-if="!hideDo">
@@ -73,7 +73,7 @@ import columnSetting from './columnSetting.vue'
 
 const props = defineProps({
 	tableName: { type: String, default: "" },
-	apiObj: { type: Function as PropType<(...args) => any>, default: null },
+	apiObj: { type: Function as PropType<(...args:any) => any>, default: null },
 	params: { type: Object as PropType<any>, default: () => ({}) },
 	data: { type: Object as PropType<any>, default: () => { } },
 	height: { type: [String, Number], default: "100%" },
@@ -106,7 +106,7 @@ const prop = ref(null)
 const order = ref(null)
 const loading = ref(false)
 const tableHeight = ref("100%")
-const tableParams = reactive(props.params)
+const tableParams: any = reactive(props.params)
 const userColumn: any = reactive({})
 const customColumnShow = ref(false)
 const summary: any = ref([])
@@ -127,6 +127,7 @@ watch(() => props.apiObj, (val) => {
 	Object.assign(tableParams, val);
 	refresh()
 })
+
 
 const _height = computed(() => Number(props.height) ? Number(props.height) + 'px' : props.height)
 
@@ -204,7 +205,7 @@ const getData = async () => {
 		} else {
 			Object.assign(tableData, response.rows || [])
 		}
-		total.value = response.total || 0;
+		total.value = Number(response.total) || 0;
 		Object.assign(summary, response.summary || {})
 		loading.value = false;
 	}

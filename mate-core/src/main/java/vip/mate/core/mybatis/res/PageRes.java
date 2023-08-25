@@ -35,12 +35,12 @@ public final class PageRes<T> extends PageReq implements Serializable {
      * 页码
      */
     @Schema(description = "页码")
-    private Integer pageNo;
+    private Long pageNo;
     /**
      * 每页条数
      */
     @Schema(description = "每页条数")
-    private Integer pageSize;
+    private Long pageSize;
 
 
     public PageRes() {
@@ -58,7 +58,7 @@ public final class PageRes<T> extends PageReq implements Serializable {
         this.pageSize = req.getPageSize();
     }
 
-    public PageRes(List<T> list, Long total, Integer pageNo, Integer pageSize) {
+    public PageRes(List<T> list, Long total, Long pageNo, Long pageSize) {
         this.list = list;
         this.total = total;
         this.pageNo = pageNo;

@@ -38,6 +38,7 @@ public class JacksonConfig {
         return builder -> {
             builder.serializerByType(Long.TYPE, ToStringSerializer.instance);
             builder.serializerByType(Long.class, ToStringSerializer.instance);
+            builder.serializerByType(Byte.class, ToStringSerializer.instance);
             builder.serializerByType(LocalDateTime.class,
                     new LocalDateTimeSerializer(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
             builder.serializerByType(LocalDate.class,
