@@ -24,7 +24,7 @@
 				<el-table-column label="状态" prop="status" width="80">
 					<template #default="scope">
 						<el-switch v-model="scope.row.status" @change="changeSwitch(scope.row)" inline-prompt
-							:loading="scope.row.$switch_status" active-value="0" inactive-value="1"></el-switch>
+							:loading="scope.row.$switch_status" active-value="1" inactive-value="0"></el-switch>
 					</template>
 				</el-table-column>
 				<el-table-column label="创建时间" prop="createTime" width="180"></el-table-column>
@@ -33,10 +33,10 @@
 					<template #default="scope">
 						<el-button-group>
 							<el-button text type="primary" size="small" icon="el-icon-view"
-								@click="tableShow(scope.row, scope.$index)" />
+								@click="tableShow(scope.row)" />
 							<el-button text type="primary" size="small" icon="el-icon-edit"
-								@click="tableEdit(scope.row, scope.$index)" />
-							<el-popconfirm title="确定删除吗？" @confirm="tableDel(scope.row, scope.$index)">
+								@click="tableEdit(scope.row)" />
+							<el-popconfirm title="确定删除吗？" @confirm="tableDel(scope.row)">
 								<template #reference>
 									<el-button text type="danger" icon="el-icon-delete" size="small" />
 								</template>
@@ -60,7 +60,7 @@ import { ref, reactive, nextTick, getCurrentInstance } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import saveDialog from './save.vue'
 import permissionDialog from './permission.vue'
-import { useRolePage } from '@/api/system/role'
+import { useRolePage, useRoleDel } from '@/api/system/role'
 import MTable from '@/components/MTable/index.vue'
 
 const dialog = reactive({
@@ -110,8 +110,8 @@ const permission = () => {
 //删除
 const tableDel = async (row: any) => {
 	var reqData = { id: row.id }
-	var res: any = await useRolePage(reqData);
-	if (res.code == 200) {
+	var res: any = await useRoleDel(row.id);
+	if (res.code == 0) {
 		tableRef.value.refresh()
 		ElMessage.success("删除成功")
 	} else {

@@ -9,5 +9,14 @@ export const useRoleList = () => {
 };
 
 export const useRoleSave = (dataForm: any) => {
-  return http.post("/v1/sysRole/add", dataForm);
+  let url: string = "/v1/sysRole/update";
+  if (dataForm.id) {
+    return http.put(url, dataForm);
+  }
+  url = "/v1/sysRole/add";
+  return http.post(url, dataForm);
 };
+
+export const useRoleDel = (id: any) => {
+	return http.delete('/v1/sysRole/delete?id=' + id)
+}

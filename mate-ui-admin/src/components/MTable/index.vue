@@ -41,8 +41,7 @@
 					<columnSetting v-if="customColumnShow" ref="columnSettingRef" @userChange="columnSettingChange"
 						@save="columnSettingSave" @back="columnSettingBack" :column="userColumn"></columnSetting>
 				</el-popover>
-				<el-popover v-if="!hideSetting" placement="top" title="表格设置" :width="400" trigger="click"
-					:hide-after="0">
+				<el-popover v-if="!hideSetting" placement="top" title="表格设置" :width="400" trigger="click" :hide-after="0">
 					<template #reference>
 						<el-button icon="el-icon-setting" circle style="margin-left:15px"></el-button>
 					</template>
@@ -73,7 +72,7 @@ import columnSetting from './columnSetting.vue'
 
 const props = defineProps({
 	tableName: { type: String, default: "" },
-	apiObj: { type: Function as PropType<(...args:any) => any>, default: null },
+	apiObj: { type: Function as PropType<(...args: any) => any>, default: null },
 	params: { type: Object as PropType<any>, default: () => ({}) },
 	data: { type: Object as PropType<any>, default: () => { } },
 	height: { type: [String, Number], default: "100%" },
@@ -99,7 +98,8 @@ const scPageSize = ref(props.pageSize)
 const isActivat = ref(true)
 const emptyText = ref("暂无数据")
 const toggleIndex = ref(0)
-const tableData: any = reactive([])
+
+const tableData: any = ref([])
 const total = ref(0)
 const currentPage = ref(1)
 const prop = ref(null)
@@ -145,7 +145,7 @@ onMounted(() => {
 		getData();
 	} else if (props.data) {
 		Object.assign(tableData, props.data)
-		total.value = tableData.length
+		total.value = tableData.value.length
 	}
 })
 
@@ -201,9 +201,9 @@ const getData = async () => {
 	} else {
 		emptyText.value = "暂无数据";
 		if (props.hidePagination) {
-			Object.assign(tableData, response.data || [])
+			tableData.value = response.data || []
 		} else {
-			Object.assign(tableData, response.rows || [])
+			tableData.value = response.rows || []
 		}
 		total.value = Number(response.total) || 0;
 		Object.assign(summary, response.summary || {})
