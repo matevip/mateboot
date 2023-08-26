@@ -2,6 +2,8 @@ package vip.mate.system.req;
 
 import vip.mate.core.mybatis.req.PageReq;
 import java.time.LocalDateTime;
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
@@ -20,6 +22,9 @@ import lombok.EqualsAndHashCode;
 @Accessors(chain = true)
 @Schema(name = "SysMenuReq对象", description = "菜单数据")
 public class SysMenuReq extends PageReq {
+
+    @Schema(description = "id")
+    private Long id;
 
     @Schema(description = "上级ID，一级菜单为0")
     private Long pid;
@@ -65,5 +70,8 @@ public class SysMenuReq extends PageReq {
 
     @Schema(description = "版本号")
     private Integer version;
+
+    @Schema(description = "按钮列表")
+    private List<ButtonMenuReq> buttonList;
 
 }

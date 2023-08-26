@@ -1,7 +1,7 @@
 import http from "@/utils/request";
 
 export const useUserInfo = () => {
-  return http.get("/v1/sysUser/info");
+  return http.get("/sys/user/info");
 };
 
 export const updatePassword = (data: any) => {
@@ -30,5 +30,5 @@ export const userSaveApi = (ids: any) => {
 
 
 export const userPageApi = (params: any) => {
-  return http.get("/v1/sysUser/page", { params });
+  return http.get("/sys/user/page", { params });
 };

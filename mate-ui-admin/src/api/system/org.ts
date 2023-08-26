@@ -1,7 +1,7 @@
 import http from "@/utils/request";
 
 export const useOrgList = () => {
-  return http.get("/sys/org/list");
+  return http.get("/sys/dept/list");
 };
 
 export const useOrgSave = (dataForm: any) => {

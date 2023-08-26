@@ -6,7 +6,7 @@
 		<template v-else>
 			<el-col :lg="12">
 				<h2>{{form.title || "新增菜单"}}</h2>
-				<el-form :model="form" :rules="rules" ref="dialogForm" label-width="80px" label-position="left">
+				<el-form :model="form" :rules="rules" ref="dialogFormRef" label-width="80px" label-position="left">
 					<el-form-item label="显示名称" prop="title">
 						<el-input v-model="form.title" clearable placeholder="菜单显示名字"></el-input>
 					</el-form-item>
@@ -114,9 +114,9 @@ const form = reactive({
 	active: "",
 	color: "",
 	type: "menu",
-	fullpage: false,
-	hidden: false,
-	hiddenBreadcrumb: false,
+	fullpage: 0,
+	hidden: 0,
+	hiddenBreadcrumb: 0,
 	tag: "",
 	sort: 0,
 	buttonList: []
@@ -146,6 +146,8 @@ const predefineColors = ref([
 ])
 const rules = ref([])
 const loading = ref(false)
+const dialogFormRef = ref()
+const emit = defineEmits(['getMenu'])
 
 watch(()=> props.menu, (val)=>{
 	menuOptions.value = treeToMap(val)
@@ -171,7 +173,8 @@ const save = async () => {
 	loading.value = true
 	var res = await useMenuSave(form) as any
 	loading.value = false
-	if (res.code == 200) {
+	if (res.code == 0) {
+		emit('getMenu');
 		ElMessage.success("保存成功")
 	} else {
 		ElMessage.warning(res.message)

@@ -9,8 +9,10 @@ import com.github.xiaoymin.knife4j.annotations.ApiSupport;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.*;
+import vip.mate.core.common.response.R;
 import vip.mate.core.common.response.Result;
 import vip.mate.core.mybatis.res.PageRes;
+import vip.mate.system.enums.MenuTypeEnum;
 import vip.mate.system.req.SysMenuReq;
 import vip.mate.system.vo.SysMenuVO;
 import vip.mate.system.service.SysMenuService;
@@ -30,8 +32,9 @@ import java.util.Set;
  * @author matevip
  * @since 2023-08-22
  */
+@SaIgnore
 @RestController
-@RequestMapping(MateConstant.MATE_PREFIX_URL + "/sysMenu")
+@RequestMapping(MateConstant.MATE_SYSTEM_PREFIX_URL + "/menu")
 @AllArgsConstructor
 @ApiSupport(order = 1)
 @Tag(description = "sysMenu", name = "菜单数据管理")
@@ -97,6 +100,33 @@ public class SysMenuController {
         String loginId = StpUtil.getLoginId().toString();
         Set<String> permissions = sysMenuService.authority(loginId);
         return Result.ok(permissions);
+    }
+
+    @GetMapping("/list")
+    @Operation(summary = "菜单列表")
+    public Result<List<SysMenuVO>> list(Integer type){
+        List<SysMenuVO> list = sysMenuService.getMenuList(type);
+        return R.ok(list);
+    }
+
+    @GetMapping("/buttons")
+    @Operation(summary = "按钮列表")
+    public Result<List<SysMenuVO>> buttons(Long id){
+        List<SysMenuVO> list = sysMenuService.getButtonList(id, MenuTypeEnum.BUTTON.getValue());
+        return R.ok(list);
+    }
+
+    @PostMapping("/saveAll")
+    @Operation(summary = "保存菜单按钮")
+    public Result<String> saveAll(@Valid @RequestBody SysMenuReq req) {
+        return R.ok(sysMenuService.saveAll(req));
+    }
+
+    @PostMapping("/deleteAll")
+    @Operation(summary = "批量删除菜单")
+    public Result<String> deleteAll(@RequestBody Long[] ids) {
+        sysMenuService.deleteAll(ids);
+        return R.ok();
     }
 }
 

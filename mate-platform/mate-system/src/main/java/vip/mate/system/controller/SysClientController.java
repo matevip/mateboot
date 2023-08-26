@@ -26,7 +26,7 @@ import vip.mate.core.common.constant.MateConstant;
  * @since 2023-08-21
  */
 @RestController
-@RequestMapping(MateConstant.MATE_PREFIX_URL + "/sysClient")
+@RequestMapping(MateConstant.MATE_SYSTEM_PREFIX_URL + "/client")
 @AllArgsConstructor
 @ApiSupport(order = 1)
 @Tag(description = "sysClient", name = "客户端授权")

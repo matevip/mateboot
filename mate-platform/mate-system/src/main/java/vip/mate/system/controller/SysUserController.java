@@ -27,7 +27,7 @@ import vip.mate.core.common.constant.MateConstant;
  * @since 2023-08-21
  */
 @RestController
-@RequestMapping(MateConstant.MATE_PREFIX_URL + "/sysUser")
+@RequestMapping(MateConstant.MATE_SYSTEM_PREFIX_URL + "/user")
 @AllArgsConstructor
 @ApiSupport(order = 1)
 @Tag(description = "sysUser", name = "用户管理")
@@ -39,7 +39,7 @@ public class SysUserController {
     @GetMapping("/page")
     @ApiOperationSupport(order = 1)
     @Operation(summary = "列表查询",description = "权限字符串：sysUser:page")
-    @SaCheckPermission("sysUser:page")
+//    @SaCheckPermission("sysUser:page")
     public Result<PageRes<SysUserVO>> queryPage(SysUserReq req) {
         return Result.ok(sysUserService.queryPage(req));
     }
@@ -47,7 +47,7 @@ public class SysUserController {
     @PostMapping("/add")
     @ApiOperationSupport(order = 2)
     @Operation(summary = "新增",description = "权限字符串：sysUser:add")
-    @SaCheckPermission("sysUser:add")
+//    @SaCheckPermission("sysUser:add")
     public Result<String> create(@Valid @RequestBody SysUser entity){
         boolean flag = sysUserService.createData(entity);
         return flag ? Result.ok("创建成功") : Result.error("创建失败");
@@ -56,7 +56,7 @@ public class SysUserController {
     @PutMapping("/update")
     @ApiOperationSupport(order = 3)
     @Operation(summary = "修改",description = "权限字符串：sysUser:update")
-    @SaCheckPermission("sysUser:update")
+//    @SaCheckPermission("sysUser:update")
     public Result<String> update(@Valid @RequestBody SysUser entity){
         boolean flag = sysUserService.updateData(entity);
         return flag ? Result.ok("修改成功") : Result.error("修改失败");
@@ -65,7 +65,7 @@ public class SysUserController {
     @DeleteMapping("/delete")
     @ApiOperationSupport(order = 4)
     @Operation(summary = "删除",description = "权限字符串：sysUser:del")
-    @SaCheckPermission("${sysUser:del")
+//    @SaCheckPermission("${sysUser:del")
     public Result<String> delete(@RequestParam("id") Long id){
         boolean flag = sysUserService.removeData(id);
         return flag ? Result.ok("删除成功") : Result.error("删除失败");
@@ -74,7 +74,7 @@ public class SysUserController {
     @GetMapping("/get")
     @ApiOperationSupport(order = 5)
     @Operation(summary = "单条查询",description = "权限字符串：sysUser:index")
-    @SaCheckPermission("sysUser:index")
+//    @SaCheckPermission("sysUser:index")
     public Result<SysUserVO> getOne(@RequestParam("id") Long id){
         return Result.ok(sysUserService.getData(id));
     }

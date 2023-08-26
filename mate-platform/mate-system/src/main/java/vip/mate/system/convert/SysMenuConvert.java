@@ -1,6 +1,7 @@
 package vip.mate.system.convert;
 
 import vip.mate.system.entity.SysMenu;
+import vip.mate.system.req.ButtonMenuReq;
 import vip.mate.system.vo.SysMenuVO;
 import vip.mate.system.req.SysMenuReq;
 import org.mapstruct.Mapper;
@@ -82,5 +83,13 @@ public interface SysMenuConvert{
      * @return
      */
     List<SysMenuVO> convertList(List<SysMenu> list);
+
+
+    /**
+     * 按钮菜单转换为菜单
+     * @param req 按钮菜单
+     * @return
+     */
+    SysMenu convert(ButtonMenuReq req);
 
 }

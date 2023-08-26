@@ -3,6 +3,8 @@ package vip.mate.system.service.impl;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
+import vip.mate.core.common.constant.MateConstant;
 import vip.mate.core.common.exception.ServerException;
 import vip.mate.core.common.utils.TreeUtils;
 import vip.mate.system.entity.SysMenu;
@@ -82,7 +84,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         }
         long userId = Long.parseLong(loginId);
         SysUserVO userData = sysUserService.getData(userId);
-        List<SysMenu> userMenuList= null;
+        List<SysMenu> userMenuList = null;
         if (userData.getSuperAdmin() == 1) {
             userMenuList = baseMapper.getMenuList(QueryMenuTypeEnum.EXCEPT_BUTTON.getValue());
         } else {
@@ -113,7 +115,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         // 系统管理员，拥有最高权限
         List<String> authorityList;
 //        if (user.getSuperAdmin().equals(SuperAdminEnum.YES.getValue())) {
-            authorityList = baseMapper.getAuthorityList();
+        authorityList = baseMapper.getAuthorityList();
 //        } else {
 //            authorityList = baseMapper.getUserAuthorityList(loginId);
 //        }
@@ -125,9 +127,74 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
             }
             authSet.addAll(Arrays.asList(authority.trim().split(",")));
         }
-
         return authSet;
     }
 
+    @Override
+    public List<SysMenuVO> getMenuList(Integer type) {
+        List<SysMenu> menuList = baseMapper.getMenuList(type);
+        return TreeUtils.build(SysMenuConvert.INSTANCE.convertList(menuList), MateConstant.ROOT);
+    }
+
+    @Override
+    public List<SysMenuVO> getButtonList(Long id, Integer type) {
+        List<SysMenu> menuList = this.baseMapper.selectList(
+                Wrappers.<SysMenu>lambdaQuery().eq(SysMenu::getPid, id)
+                        .eq(SysMenu::getType, type));
+        return SysMenuConvert.INSTANCE.convertList(menuList);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public String saveAll(SysMenuReq req) {
+        SysMenu sysMenu = SysMenuConvert.INSTANCE.convert(req);
+        // 给pid设置默认值
+        if (ObjectUtil.isEmpty(sysMenu.getPid())) {
+            sysMenu.setPid(0L);
+        }
+        this.saveOrUpdate(sysMenu);
+        // 判断是否需要对按钮操作
+        if (ObjectUtil.isNotEmpty(req.getButtonList())) {
+            // 删除所有按钮
+            this.baseMapper.delete(Wrappers.<SysMenu>lambdaUpdate()
+                    .eq(SysMenu::getPid, sysMenu.getId())
+                    .eq(SysMenu::getType, MenuTypeEnum.BUTTON.getValue()));
+
+            // 设置按钮
+            req.getButtonList().forEach(buttons -> {
+                SysMenu buttonMenu = SysMenuConvert.INSTANCE.convert(buttons);
+                if (buttonMenu.getId() == 0L) {
+                    buttonMenu.setType(Byte.parseByte(String.valueOf(MenuTypeEnum.BUTTON.getValue())));
+                    buttonMenu.setPid(sysMenu.getId());
+                }
+                this.saveOrUpdate(buttonMenu);
+            });
+        }
+        return sysMenu.getId().toString();
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void deleteAll(Long[] ids) {
+        for (Long id : ids) {
+
+            // 先删除菜单下面的所有按钮
+            this.baseMapper.delete(Wrappers.<SysMenu>lambdaUpdate()
+                    .eq(SysMenu::getPid, id)
+                    .eq(SysMenu::getType, MenuTypeEnum.BUTTON.getValue()));
+
+            // 检查该ID下是否有子菜单
+            List<SysMenu> subMenuList = this.baseMapper.selectList(Wrappers.<SysMenu>lambdaQuery()
+                    .eq(SysMenu::getPid, id));
+
+            // 如果存在子菜单，则不删除
+            if (subMenuList.size() > 0) {
+                throw new ServerException("该菜单存在子菜单不能删除");
+            }
+        }
+
+        // 删除所有菜单
+        this.removeBatchByIds(Arrays.asList(ids));
+    }
 }
 

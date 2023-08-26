@@ -1,11 +1,11 @@
 import http from '@/utils/request'
 
 export const useAuthorityList = () => {
-	return http.get('/v1/sysMenu/authority')
+	return http.get('/sys/menu/authority')
 }
 
 export const useMenuNav = () => {
-	return http.get('/v1/sysMenu/route')
+	return http.get('/sys/menu/route')
 }
 
 export const useMenuList = (type: Number) => {
@@ -16,13 +16,13 @@ export const useMenuList = (type: Number) => {
 }
 
 export const useButtonList = (id: Number) => {
-	return http.get('/sys/menu/button-list?id=' + id)
+	return http.get('/sys/menu/buttons?id=' + id)
 }
 
 export const useMenuSave = (dataForm: any) => {
-	return http.post('/sys/menu/save', dataForm)
+	return http.post('/sys/menu/saveAll', dataForm)
 }
 
 export const useMenuDel = (ids: any) => {
-	return http.post('/sys/menu/del', ids)
+	return http.post('/sys/menu/deleteAll', ids)
 }

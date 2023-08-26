@@ -3,6 +3,11 @@ package vip.mate.core.common.constant;
 public interface MateConstant {
 
     /**
+     * 根节点标识
+     */
+    Long ROOT = 0L;
+
+    /**
      * 系统前缀标识
      */
     String MATE_PREFIX = "mate_";
@@ -16,4 +21,9 @@ public interface MateConstant {
      * 系统api前缀标识
      */
     String MATE_PREFIX_URL = "/v1";
+
+    /**
+     * 系统api前缀标识
+     */
+    String MATE_SYSTEM_PREFIX_URL = "/sys";
 }

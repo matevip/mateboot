@@ -67,4 +67,28 @@ public interface SysMenuService extends IService<SysMenu> {
      * @return
      */
     Set<String> authority(String loginId);
+
+
+    /**
+     * 菜单列表
+     *
+     * @param type 菜单类型
+     */
+    List<SysMenuVO> getMenuList(Integer type);
+
+    /**
+     * 用户按钮列表
+     *
+     * @param id   菜单ID
+     */
+    List<SysMenuVO> getButtonList(Long id, Integer type);
+
+    /**
+     * 保存菜单和按钮
+     *
+     * @param req  菜单列表
+     */
+    String saveAll(SysMenuReq req);
+
+    void deleteAll(Long[] ids);
 }

@@ -10,10 +10,12 @@
 						highlight-current :expand-on-click-node="false" check-strictly show-checkbox
 						:filter-node-method="menuFilterNode" @node-click="menuClick" @node-drop="nodeDrop">
 
-						<template #default="{node, data}">
+						<template #default="{ node, data }">
 							<span class="custom-tree-node el-tree-node__label">
 								<span class="label">
-									<el-icon><component :is="data.icon" /></el-icon> {{ node.label }}
+									<el-icon>
+										<component :is="data.icon" />
+									</el-icon> {{ node.label }}
 								</span>
 								<span class="do">
 									<el-icon @click.stop="add(node, data)">
@@ -34,7 +36,7 @@
 		</el-aside>
 		<el-container>
 			<el-main class="nopadding" style="padding:20px;" ref="mainRef">
-				<save ref="saveRef" :menu="menuList"></save>
+				<save ref="saveRef" :menu="menuList" @getMenu="getMenu"></save>
 			</el-main>
 		</el-container>
 	</el-container>
@@ -114,7 +116,6 @@ const add = async (node?: any, data?: any) => {
 	var res = await useMenuSave(newMenuData)
 	menuloading.value = false
 	newMenuData.id = res.data
-	console.log(newMenuData.id)
 
 	menuRef.value.append(newMenuData, node)
 	menuRef.value.setCurrentKey(newMenuData.id)
@@ -138,15 +139,10 @@ const delMenu = async () => {
 	if (confirm != 'confirm') {
 		return false
 	}
-
-	menuloading.value = true
-	var reqData = {
-		ids: CheckedNodes.map((item: any) => item.id)
-	}
+	var reqData = CheckedNodes.map((item: any) => item.id);
 	var res = await useMenuDel(reqData) as any
-	menuloading.value = false
 
-	if (res.code == 200) {
+	if (res.code == 0) {
 		CheckedNodes.forEach((item: any) => {
 			var node = menuRef.value.getNode(item)
 			if (node.isCurrent) {
@@ -154,20 +150,53 @@ const delMenu = async () => {
 			}
 			menuRef.value.remove(item)
 		})
+		ElMessage.success(res.msg)
 	} else {
-		ElMessage.warning(res.message)
+		ElMessage.warning(res.msg)
 	}
 }
 
 </script>
 
 <style scoped>
-	.custom-tree-node {display: flex;flex: 1;align-items: center;justify-content: space-between;font-size: 14px;padding-right: 24px;height:100%;}
-	.custom-tree-node .label {display: flex;align-items: center;;height: 100%;}
-	.custom-tree-node .label .el-tag {margin-left: 5px;}
-	.custom-tree-node .do {display: none;}
-	.custom-tree-node .do i {margin-left:5px;color: #999;}
-	.custom-tree-node .do i:hover {color: #333;}
-	.custom-tree-node:hover .do {display: inline-block;}
-	.el-icon {margin-right: 8px;}
-</style>
+.custom-tree-node {
+	display: flex;
+	flex: 1;
+	align-items: center;
+	justify-content: space-between;
+	font-size: 14px;
+	padding-right: 24px;
+	height: 100%;
+}
+
+.custom-tree-node .label {
+	display: flex;
+	align-items: center;
+	;
+	height: 100%;
+}
+
+.custom-tree-node .label .el-tag {
+	margin-left: 5px;
+}
+
+.custom-tree-node .do {
+	display: none;
+}
+
+.custom-tree-node .do i {
+	margin-left: 5px;
+	color: #999;
+}
+
+.custom-tree-node .do i:hover {
+	color: #333;
+}
+
+.custom-tree-node:hover .do {
+	display: inline-block;
+}
+
+.el-icon {
+	margin-right: 8px;
+}</style>
