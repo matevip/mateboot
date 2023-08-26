@@ -9,7 +9,7 @@
 			</div>
 			<div class="right-panel">
 				<div class="right-panel-search">
-					<el-input v-model="search.keyword" placeholder="角色名称" clearable></el-input>
+					<el-input v-model="search.name" placeholder="角色名称" clearable></el-input>
 					<el-button type="primary" icon="el-icon-search" @click="upsearch"></el-button>
 				</div>
 			</div>
@@ -60,7 +60,7 @@ import { ref, reactive, nextTick, getCurrentInstance } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import saveDialog from './save.vue'
 import permissionDialog from './permission.vue'
-import { useRolePage, useRoleDel } from '@/api/system/role'
+import { useRolePage, useRoleDel, useRoleStatus } from '@/api/system/role'
 import MTable from '@/components/MTable/index.vue'
 
 const dialog = reactive({
@@ -68,7 +68,7 @@ const dialog = reactive({
 	permission: false
 })
 const search = reactive({
-	keyword: null
+	name: null
 })
 const apiObj = ref(useRolePage)
 const selection = ref([])
@@ -124,11 +124,11 @@ const batchDel = async () => {
 		type: 'warning'
 	}).then(() => {
 		//@ts-ignore
-		const { proxy } = getCurrentInstance();
-		const loading = proxy.$loading;
+		// const { proxy } = getCurrentInstance();
+		// const loading = proxy.$loading;
 		tableRef.value.refresh()
-		loading.close();
-		ElMessage.success("操作成功")
+		// loading.close();
+		ElMessage.warning("待开发")
 	}).catch(() => {
 
 	})
@@ -139,15 +139,15 @@ const selectionChange = (data: any) => {
 }
 //表格内开关
 const changeSwitch = (row: any) => {
-	let text = row.status === "0" ? "启用" : "停用";
+	let text = row.status === "1" ? "启用" : "停用";
 	ElMessageBox.confirm('确认要"' + text + '""' + row.name + '"角色吗?', '提示', {
 		type: 'info',
 	}).then(() => {
-		row.$switch_status = true;
+		useRoleStatus(row);
+		ElMessage.success("操作成功")
 	}).catch(() => {
 		row.status = row.status === "0" ? "1" : "0";
 	})
-	delete row.$switch_status;
 }
 //搜索
 const upsearch = () => {

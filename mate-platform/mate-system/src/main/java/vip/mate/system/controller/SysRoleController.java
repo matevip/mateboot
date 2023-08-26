@@ -1,12 +1,15 @@
 package vip.mate.system.controller;
 
 import cn.dev33.satoken.annotation.SaCheckPermission;
+import cn.dev33.satoken.annotation.SaIgnore;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import lombok.AllArgsConstructor;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.github.xiaoymin.knife4j.annotations.ApiSupport;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.*;
+import vip.mate.core.common.response.R;
 import vip.mate.core.common.response.Result;
 import vip.mate.core.mybatis.res.PageRes;
 import vip.mate.system.req.SysRoleReq;
@@ -25,6 +28,7 @@ import vip.mate.core.common.constant.MateConstant;
  * @author matevip
  * @since 2023-08-22
  */
+@SaIgnore
 @RestController
 @RequestMapping(MateConstant.MATE_PREFIX_URL + "/sysRole")
 @AllArgsConstructor
@@ -76,6 +80,16 @@ public class SysRoleController {
 //    @SaCheckPermission("sysRole:index")
     public Result<SysRoleVO> getOne(@RequestParam("id") Long id){
         return Result.ok(sysRoleService.getData(id));
+    }
+
+
+    @PutMapping("/updateStatus")
+    @ApiOperationSupport(order = 6)
+    @Operation(summary = "状态更新")
+//    @SaCheckPermission("sysRole:status")
+    public Result<String> updateStatus(@Valid @RequestBody SysRole entity) {
+        sysRoleService.update(Wrappers.<SysRole>update().lambda().eq(SysRole::getId, entity.getId()).set(SysRole::getStatus, entity.getStatus()));
+        return R.ok();
     }
 }
 

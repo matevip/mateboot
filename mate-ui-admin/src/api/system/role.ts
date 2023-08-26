@@ -18,5 +18,9 @@ export const useRoleSave = (dataForm: any) => {
 };
 
 export const useRoleDel = (id: any) => {
-	return http.delete('/v1/sysRole/delete?id=' + id)
-}
+  return http.delete("/v1/sysRole/delete?id=" + id);
+};
+
+export const useRoleStatus = (dataForm: any) => {
+  return http.put("/v1/sysRole/updateStatus", dataForm);
+};

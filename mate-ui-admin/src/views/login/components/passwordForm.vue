@@ -51,6 +51,8 @@ interface LoginInfo {
 	key?: string;
 	captcha?: string;
 	autologin: boolean;
+	clientId: string;
+	grantType: string;	
 }
 
 const router = useRouter()
@@ -62,7 +64,7 @@ const islogin = ref(false)
 
 const form = reactive<LoginInfo>({
 	username: 'admin',
-	password: 'admin',
+	password: 'matecloud',
 	autologin: false,
 	clientId: 'e5cd7e4891bf95d1d19206ce24a7b32e',
 	grantType: 'password'
