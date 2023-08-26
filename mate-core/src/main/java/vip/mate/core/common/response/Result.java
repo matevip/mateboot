@@ -20,7 +20,7 @@ public class Result<T> {
     private int code = 0;
 
     @Schema(description = "消息内容")
-    private String msg = "success";
+    private String msg = "操作成功";
 
     @Schema(description = "响应数据")
     private T data;

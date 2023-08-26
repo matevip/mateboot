@@ -1,10 +1,9 @@
 package vip.mate.system.vo;
 
-import java.time.LocalDateTime;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import lombok.experimental.Accessors;
+import vip.mate.core.common.entity.TreeNode;
 
 /**
  * <p>
@@ -17,13 +16,7 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 @Schema(name = "SysDeptVO对象", description = "部门")
-public class SysDeptVO {
-
-    @Schema(description = "id")
-    private Long id;
-
-    @Schema(description = "上级ID")
-    private Long pid;
+public class SysDeptVO extends TreeNode<SysDeptVO> {
 
     @Schema(description = "部门名称")
     private String name;

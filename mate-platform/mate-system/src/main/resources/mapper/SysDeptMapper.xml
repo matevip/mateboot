@@ -35,4 +35,13 @@
         t.update_time,
     </sql>
 
+    <select id="getList" resultType="vip.mate.system.entity.SysDept">
+        select t1.*, (select t2.name from mate_sys_dept t2 where t2.id = t1.pid) parentName from mate_sys_dept t1 where t1.deleted = 0
+        order by t1.sort asc
+    </select>
+
+    <select id="getIdAndPidList" resultType="vip.mate.system.entity.SysDept">
+        select t1.id, t1.pid from mate_sys_dept t1 where t1.deleted = 0
+    </select>
+
 </mapper>

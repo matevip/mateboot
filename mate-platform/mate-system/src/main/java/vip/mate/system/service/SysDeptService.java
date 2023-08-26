@@ -6,6 +6,8 @@ import vip.mate.system.vo.SysDeptVO;
 import vip.mate.system.req.SysDeptReq;
 import vip.mate.core.mybatis.res.PageRes;
 
+import java.util.List;
+
 /**
 * <p>
 * 部门 服务类
@@ -50,4 +52,10 @@ public interface SysDeptService extends IService<SysDept> {
      * @return true：成功，false：失败
      */
     SysDeptVO getData(Long id);
+
+    /**
+     * 部门列表
+     * @return
+     */
+    List<SysDeptVO> getList();
 }

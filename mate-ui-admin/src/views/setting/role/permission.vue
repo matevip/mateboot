@@ -53,7 +53,7 @@
 import { ref, reactive, onMounted, nextTick } from 'vue'
 import { ElMessage } from 'element-plus'
 import { useMenuList } from '@/api/system/menu'
-import { useOrgList } from '@/api/system/org'
+import { useDeptList } from '@/api/system/dept'
 
 const emit = defineEmits(['success', 'closed'])
 
@@ -134,7 +134,7 @@ const getMenu = async () => {
 	})
 }
 const getDept = async () => {
-	var res = await useOrgList();
+	var res = await useDeptList();
 	data.list = res.data
 	data.checked = ["12", "2", "21", "22", "1"]
 	nextTick(() => {

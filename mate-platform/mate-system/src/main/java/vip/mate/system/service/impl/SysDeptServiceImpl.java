@@ -1,5 +1,7 @@
 package vip.mate.system.service.impl;
 
+import vip.mate.core.common.constant.MateConstant;
+import vip.mate.core.common.utils.TreeUtils;
 import vip.mate.system.entity.SysDept;
 import vip.mate.system.mapper.SysDeptMapper;
 import vip.mate.system.service.SysDeptService;
@@ -57,6 +59,16 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
     public SysDeptVO getData(Long id) {
         final SysDept info = baseMapper.selectById(id);
         return SysDeptConvert.INSTANCE.convertVo(info);
+    }
+
+    @Override
+    public List<SysDeptVO> getList() {
+        Map<String, Object> params = new HashMap<>();
+
+        // 机构列表
+        List<SysDept> entityList = baseMapper.getList(params);
+
+        return TreeUtils.build(SysDeptConvert.INSTANCE.toVo(entityList));
     }
 
 }

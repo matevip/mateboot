@@ -76,7 +76,7 @@ import saveDialog from './save.vue'
 import MTable from '@/components/MTable/index.vue'
 import MTableColumn from '@/components/MTable/column.js'
 import { userPageApi, userDelApi } from '@/api/system/user'
-import { useOrgList } from '@/api/system/org'
+import { useDeptList } from '@/api/system/dept'
 
 const dialog = reactive({
 	save: false
@@ -172,7 +172,7 @@ const selectionChange = (data: any) => {
 //加载树数据
 const getGroup = async () => {
 	showGrouploading.value = true;
-	var res = await useOrgList();
+	var res = await useDeptList();
 	showGrouploading.value = false;
 	var allNode = { id: '', name: '所有' }
 	res.data.unshift(allNode);

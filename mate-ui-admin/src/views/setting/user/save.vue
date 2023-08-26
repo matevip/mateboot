@@ -46,7 +46,7 @@
 import { ref, reactive, onBeforeMount } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { useUserSubmit } from '@/api/system/user'
-import { useOrgList } from '@/api/system/org'
+import { useDeptList } from '@/api/system/dept'
 import { useRoleList } from '@/api/system/role'
 import MUpload from '@/components/MUpload/index.vue'
 
@@ -143,7 +143,7 @@ const getGroup = async () => {
 	groups.value = res.data
 }
 const getDept = async () => {
-	var res = await useOrgList();
+	var res = await useDeptList();
 	depts.value = convertData(res.data);
 }
 
