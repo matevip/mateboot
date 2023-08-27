@@ -2,6 +2,7 @@ package vip.mate.system.service.impl;
 
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 import vip.mate.core.common.constant.MateConstant;
@@ -151,6 +152,18 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         // 给pid设置默认值
         if (ObjectUtil.isEmpty(sysMenu.getPid())) {
             sysMenu.setPid(0L);
+        }
+        // 判断别名是否重复
+        if (ObjectUtil.isNotEmpty(sysMenu.getName())) {
+            QueryWrapper<SysMenu> queryWrapper = new QueryWrapper<>();
+            queryWrapper.lambda().eq(SysMenu::getName, sysMenu.getName());
+            if (ObjectUtil.isNotEmpty(sysMenu.getId())) {
+                queryWrapper.lambda().ne(SysMenu::getId, sysMenu.getId());
+            }
+            SysMenu entity = baseMapper.selectOne(queryWrapper);
+            if (ObjectUtil.isNotEmpty(entity)) {
+                throw new ServerException("菜单别名已存在");
+            }
         }
         this.saveOrUpdate(sysMenu);
         // 判断是否需要对按钮操作
