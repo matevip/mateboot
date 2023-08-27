@@ -177,7 +177,7 @@ const save = async () => {
 		emit('getMenu');
 		ElMessage.success("保存成功")
 	} else {
-		ElMessage.warning(res.message)
+		ElMessage.error(res.msg)
 	}
 }
 

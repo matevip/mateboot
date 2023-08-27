@@ -47,7 +47,7 @@ http.interceptors.response.use(
 
 		const res = response.data
 		// 响应成功
-		if (res.code === 0 || res.code === 200) {
+		if (res.code === 0 || res.code === 500) {
 			return res
 		}
 
