@@ -7,7 +7,7 @@
 				</el-header>
 				<el-main class="nopadding">
 					<el-tree ref="groupRef" class="menu" node-key="id" :data="group.list" :props="group.props" :current-node-key="''"
-						:highlight-current="true" :expand-on-click-node="false" :filter-node-method="groupFilterNode"
+						:highlight-current="true" :expand-on-click-node="false" :filter-node-method="groupFilterNode" default-expand-all
 						@node-click="groupClick"></el-tree>
 				</el-main>
 			</el-container>

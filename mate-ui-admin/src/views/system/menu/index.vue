@@ -48,6 +48,7 @@ import { ref, reactive, watch, onMounted } from 'vue'
 import save from './save.vue'
 import { useMenuList, useMenuSave, useMenuDel } from '@/api/system/menu'
 import { ElMessage, ElMessageBox } from 'element-plus'
+import { randomString } from '@/utils/tool'
 
 const newMenuIndex = ref(1)
 const menuloading = ref(false)
@@ -100,8 +101,9 @@ const nodeDrop = (draggingNode: any, dropNode: any, dropType: any) => {
 
 //增加
 const add = async (node?: any, data?: any) => {
-	var newTitle = "未命名" + newMenuIndex.value;
-	var newName = "undefined" + newMenuIndex.value;
+	var str = randomString(4);
+	var newTitle = "未命名_" + str;
+	var newName = "undefined_" + str;
 	newMenuIndex.value++;
 	const newMenuData = {
 		id: "",
@@ -110,7 +112,8 @@ const add = async (node?: any, data?: any) => {
 		path: "",
 		component: "",
 		title: newTitle,
-		type: 0
+		type: 0,
+		sort: 100
 	}
 	menuloading.value = true
 	var res = await useMenuSave(newMenuData)

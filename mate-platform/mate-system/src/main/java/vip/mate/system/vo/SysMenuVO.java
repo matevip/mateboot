@@ -43,7 +43,7 @@ public class SysMenuVO extends TreeNode<SysMenuVO> {
     private String icon;
 
     @Schema(description = "排序")
-    private String sort;
+    private Integer sort;
 
     @Schema(description = "是否固定")
     private int affix;

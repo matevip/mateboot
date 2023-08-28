@@ -5,13 +5,14 @@
 		</el-col>
 		<template v-else>
 			<el-col :lg="12">
-				<h2>{{form.title || "新增菜单"}}</h2>
-				<el-form :model="form" :rules="rules" ref="dialogFormRef" label-width="80px" label-position="left">
+				<h2>{{ form.title || "新增菜单" }}</h2>
+				<el-form :model="form" :rules="rules" ref="menuFormRef" label-width="80px" label-position="left">
 					<el-form-item label="显示名称" prop="title">
 						<el-input v-model="form.title" clearable placeholder="菜单显示名字"></el-input>
 					</el-form-item>
 					<el-form-item label="上级菜单" prop="pid">
-						<el-cascader v-model="form.pid" :options="menuOptions" :props="menuProps" :show-all-levels="false" placeholder="顶级菜单" clearable disabled></el-cascader>
+						<el-cascader v-model="form.pid" :options="menuOptions" :props="menuProps" :show-all-levels="false"
+							placeholder="顶级菜单" clearable disabled></el-cascader>
 					</el-form-item>
 					<el-form-item label="类型" prop="meta.type">
 						<el-radio-group v-model="form.type">
@@ -60,7 +61,8 @@
 						<el-input v-model="form.tag" clearable placeholder=""></el-input>
 					</el-form-item>
 					<el-form-item label="排序" prop="sort">
-						<el-input-number v-model="form.sort" controls-position="right" :min="0" style="width: 100%;"></el-input-number>
+						<el-input-number v-model="form.sort" controls-position="right" :min=1
+							style="width: 100%;"></el-input-number>
 					</el-form-item>
 					<el-form-item>
 						<el-button type="primary" @click="save" :loading="loading">保 存</el-button>
@@ -85,7 +87,6 @@
 			</el-col>
 		</template>
 	</el-row>
-
 </template>
 
 <script lang="ts" setup>
@@ -98,7 +99,7 @@ import { useMenuSave, useButtonList } from '@/api/system/menu'
 const props = defineProps({
 	menu: {
 		type: Object,
-		default: () => {}
+		default: () => { }
 	}
 })
 
@@ -144,12 +145,23 @@ const predefineColors = ref([
 	'#0058DC',
 	'#c71585'
 ])
-const rules = ref([])
-const loading = ref(false)
-const dialogFormRef = ref()
-const emit = defineEmits(['getMenu'])
 
-watch(()=> props.menu, (val)=>{
+const loading = ref(false)
+const menuFormRef = ref()
+const emit = defineEmits(['getMenu'])
+//验证规则
+const rules = ref({
+	sort: [
+		{ required: true, message: '请输入排序', trigger: 'change' }
+	],
+	name: [
+		{ required: true, message: '请输入菜单别名' }
+	],
+	title: [
+		{ required: true, message: '请输入菜单名称' }
+	]
+})
+watch(() => props.menu, (val) => {
 	menuOptions.value = treeToMap(val)
 })
 
@@ -169,16 +181,20 @@ const treeToMap = (tree: any) => {
 }
 
 //保存
-const save = async () => {
-	loading.value = true
-	var res = await useMenuSave(form) as any
-	loading.value = false
-	if (res.code == 0) {
-		emit('getMenu');
-		ElMessage.success("保存成功")
-	} else {
-		ElMessage.error(res.msg)
-	}
+const save = () => {
+	menuFormRef.value.validate(async (valid: any) => {
+		if (valid) {
+			loading.value = true
+			var res = await useMenuSave(form) as any
+			loading.value = false
+			if (res.code == 0) {
+				emit('getMenu');
+				ElMessage.success(res.msg)
+			} else {
+				ElMessage.error(res.msg)
+			}
+		}
+	})
 }
 
 //表单注入数据
@@ -189,7 +205,7 @@ const setData = async (data: any, pid: string) => {
 		const res = await useButtonList(data.id)
 		// 从接口获取
 		Object.assign(form.buttonList, res.data)
-	} 
+	}
 	form.pid = pid
 }
 
@@ -199,9 +215,21 @@ defineExpose({
 </script>
 
 <style scoped>
-	h2 {font-size: 17px;color: #3c4a54;padding:0 0 30px 0;}
-	.buttonList {border-left: 1px solid #eee;}
+h2 {
+	font-size: 17px;
+	color: #3c4a54;
+	padding: 0 0 30px 0;
+}
 
-	[data-theme="dark"] h2 {color: #fff;}
-	[data-theme="dark"] .apilist {border-color: #434343;}
+.buttonList {
+	border-left: 1px solid #eee;
+}
+
+[data-theme="dark"] h2 {
+	color: #fff;
+}
+
+[data-theme="dark"] .apilist {
+	border-color: #434343;
+}
 </style>
