@@ -14,9 +14,9 @@ export const useUser = (id: number) => {
 
 export const useUserSubmit = (dataForm: any) => {
   if (dataForm.id) {
-    return http.put("/sys/user", dataForm);
+    return http.put("/sys/user/update", dataForm);
   } else {
-    return http.post("/sys/user", dataForm);
+    return http.post("/sys/user/add", dataForm);
   }
 };
 

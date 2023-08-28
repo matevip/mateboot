@@ -2,9 +2,9 @@
 	<el-dialog :title="titleMap[mode]" v-model="visible" :width="500" destroy-on-close @closed="$emit('closed')">
 		<el-form :model="form" :rules="rules" :disabled="mode == 'show'" ref="dialogFormRef" label-width="100px"
 			label-position="left">
-			<el-form-item label="头像" prop="avatar">
+			<!-- <el-form-item label="头像" prop="avatar">
 				<m-upload v-model="form.avatar" title="上传头像"></m-upload>
-			</el-form-item>
+			</el-form-item> -->
 			<el-form-item label="登录账号" prop="username">
 				<el-input v-model="form.username" placeholder="用于登录系统" clearable></el-input>
 			</el-form-item>
@@ -26,14 +26,14 @@
 				<el-input v-model="form.email" placeholder="请输入邮箱" clearable></el-input>
 			</el-form-item>
 			<el-form-item label="所属部门" prop="orgId">
-				<el-cascader v-model="form.orgId" :options="depts" :props="deptsProps" clearable
+				<el-cascader v-model="form.orgId" :options="depts" :props="deptsProps" clearable show-all-levels="false"
 					style="width: 100%;"></el-cascader>
 			</el-form-item>
-			<el-form-item label="所属角色" prop="roleIdList">
+			<!-- <el-form-item label="所属角色" prop="roleIdList">
 				<el-select v-model="form.roleList" multiple filterable style="width: 100%">
 					<el-option v-for="item in groups" :key="item.id" :label="item.name" :value="item.id" />
 				</el-select>
-			</el-form-item>
+			</el-form-item> -->
 		</el-form>
 		<template #footer>
 			<el-button @click="visible = false">取 消</el-button>
@@ -47,7 +47,7 @@ import { ref, reactive, onBeforeMount } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { useUserSubmit } from '@/api/system/user'
 import { useDeptList } from '@/api/system/dept'
-import { useRoleList } from '@/api/system/role'
+// import { useRoleList } from '@/api/system/role'
 import MUpload from '@/components/MUpload/index.vue'
 
 const emit = defineEmits(['success', 'closed'])
@@ -139,8 +139,8 @@ const open = (data = 'add') => {
 
 //加载树数据
 const getGroup = async () => {
-	var res = await useRoleList();
-	groups.value = res.data
+	// var res = await useRoleList();
+	// groups.value = res.data
 }
 const getDept = async () => {
 	var res = await useDeptList();
@@ -169,7 +169,7 @@ const submit = () => {
 			isSaveing.value = true;
 			var res: any = await useUserSubmit(form);
 			isSaveing.value = false;
-			if (res.code == 200) {
+			if (res.code == 0) {
 				emit('success', form, mode.value)
 				visible.value = false;
 				ElMessage.success("操作成功")
