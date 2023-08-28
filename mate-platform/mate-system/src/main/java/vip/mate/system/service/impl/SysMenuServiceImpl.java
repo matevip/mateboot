@@ -11,6 +11,7 @@ import vip.mate.core.common.utils.TreeUtils;
 import vip.mate.system.entity.SysMenu;
 import vip.mate.system.enums.MenuTypeEnum;
 import vip.mate.system.enums.QueryMenuTypeEnum;
+import vip.mate.system.enums.SystemCodeEnum;
 import vip.mate.system.mapper.SysMenuMapper;
 import vip.mate.system.service.SysMenuService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -81,7 +82,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     @Override
     public List<SysMenuVO> route(String loginId) {
         if (ObjectUtil.isEmpty(loginId)) {
-            throw new ServerException("用户ID不能为空");
+            throw new ServerException(SystemCodeEnum.USER_ID_NULL_ERROR);
         }
         long userId = Long.parseLong(loginId);
         SysUserVO userData = sysUserService.getData(userId);
@@ -162,7 +163,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
             }
             SysMenu entity = baseMapper.selectOne(queryWrapper);
             if (ObjectUtil.isNotEmpty(entity)) {
-                throw new ServerException("菜单别名已存在");
+                throw new ServerException(SystemCodeEnum.MENU_NAME_EXIST);
             }
         }
         this.saveOrUpdate(sysMenu);
@@ -202,7 +203,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 
             // 如果存在子菜单，则不删除
             if (subMenuList.size() > 0) {
-                throw new ServerException("该菜单存在子菜单不能删除");
+                throw new ServerException(SystemCodeEnum.SUB_MENU_DEL_ERROR);
             }
         }
 
