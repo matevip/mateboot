@@ -20,8 +20,8 @@ export const useUserSubmit = (dataForm: any) => {
   }
 };
 
-export const userDelApi = (ids: any) => {
-  return http.post("/sys/user/del", ids);
+export const userDelApi = (id: any) => {
+  return http.delete("/sys/user/delete?id=" + id);
 };
 
 export const userSaveApi = (ids: any) => {

@@ -136,13 +136,14 @@ const tableShow = (row: any) => {
 //删除
 const tableDel = async (row: any, index: any) => {
 	var reqData = { id: row.id }
-	var res: any = await userDelApi(reqData);
-	if (res.code == 200) {
+	var res: any = await userDelApi(row.id);
+	if (res.code == 0) {
 		//这里选择刷新整个表格 OR 插入/编辑现有表格数据
-		tableRef.value.tableData.splice(index, 1);
-		ElMessage.success("删除成功")
+		// tableRef.value.tableData.splice(index, 1);
+		ElMessage.success(res.msg)
+		tableRef.value.refresh()
 	} else {
-		ElMessageBox.alert(res.message, "提示", { type: 'error' })
+		ElMessageBox.alert(res.msg, "提示", { type: 'error' })
 	}
 }
 //批量删除
