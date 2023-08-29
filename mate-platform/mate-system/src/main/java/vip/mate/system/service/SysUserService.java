@@ -1,5 +1,6 @@
 package vip.mate.system.service;
 
+import vip.mate.core.mybatis.service.BaseService;
 import vip.mate.system.entity.SysUser;
 import com.baomidou.mybatisplus.extension.service.IService;
 import vip.mate.system.vo.SysUserVO;
@@ -14,7 +15,7 @@ import vip.mate.core.mybatis.res.PageRes;
 * @author matevip
 * @since 2023-08-21
 */
-public interface SysUserService extends IService<SysUser> {
+public interface SysUserService extends BaseService<SysUser> {
 
     /**
      * 列表查询

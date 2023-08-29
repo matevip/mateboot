@@ -23,7 +23,7 @@
 				</div>
 				<div class="right-panel">
 					<div class="right-panel-search">
-						<el-input v-model="search.name" placeholder="登录账号 / 姓名" clearable></el-input>
+						<el-input v-model="search.keyword" placeholder="登录账号 / 姓名" clearable></el-input>
 						<el-button type="primary" icon="el-icon-search" @click="upsearch"></el-button>
 					</div>
 				</div>
@@ -44,16 +44,16 @@
 					</m-table-column>
 					<m-table-column label="姓名" prop="realName" width="150" sortable='custom'></m-table-column>
 					<m-table-column label="手机号码" prop="mobile" width="200" sortable='custom'></m-table-column>
-					<m-table-column label="所属部门" prop="deptName" width="200" sortable='custom'></m-table-column>
+					<m-table-column label="所属部门" prop="deptName" width="200"></m-table-column>
 					<m-table-column label="加入时间" prop="createTime" width="170" sortable='custom'></m-table-column>
 					<m-table-column label="操作" fixed="right" align="right" width="160">
 						<template #default="scope">
 							<el-button-group>
 								<el-button text type="primary" size="small" @click="tableShow(scope.row)">查看</el-button>
-								<el-button text type="primary" size="small" @click="tableEdit(scope.row)">编辑</el-button>
+								<el-button text type="primary" size="small" @click="tableEdit(scope.row)" :disabled="scope.row.superAdmin==1">编辑</el-button>
 								<el-popconfirm title="确定删除吗？" @confirm="tableDel(scope.row, scope.$index)">
 									<template #reference>
-										<el-button text type="primary" size="small">删除</el-button>
+										<el-button text type="primary" size="small" :disabled="scope.row.superAdmin==1">删除</el-button>
 									</template>
 								</el-popconfirm>
 							</el-button-group>
@@ -94,7 +94,7 @@ const group = reactive({
 const apiObj = userPageApi
 const selection = ref([])
 const search = reactive({
-	name: null
+	keyword: null
 })
 const saveDialogRef = ref()
 const tableRef = ref()

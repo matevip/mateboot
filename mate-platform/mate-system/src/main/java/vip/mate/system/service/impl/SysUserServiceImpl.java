@@ -1,11 +1,14 @@
 package vip.mate.system.service.impl;
 
 import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.dynamic.datasource.toolkit.CryptoUtils;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import vip.mate.core.common.exception.ServerException;
 import vip.mate.core.common.utils.CryptoUtil;
+import vip.mate.core.mybatis.service.impl.BaseServiceImpl;
 import vip.mate.system.entity.SysUser;
 import vip.mate.system.enums.SystemCodeEnum;
 import vip.mate.system.mapper.SysUserMapper;
@@ -33,17 +36,32 @@ import vip.mate.core.mybatis.res.PageRes;
  * @since 2023-08-21
  */
 @Service
-public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> implements SysUserService {
+public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> implements SysUserService {
 
     @Override
     public PageRes<SysUserVO> queryPage(SysUserReq req) {
-        SysUser info = SysUserConvert.INSTANCE.convert(req);
-        Page<SysUser> pageData = baseMapper.selectPage(new Page<>(req.getPageNo(), req.getPageSize()), Wrappers.query(info));
+        IPage<SysUser> pageData = baseMapper.selectPage(getPage(req), getWrapper(req));
         if (CollectionUtil.isEmpty(pageData.getRecords())) {
             return PageRes.empty();
         }
         List<SysUserVO> vos = SysUserConvert.INSTANCE.toVo(pageData.getRecords());
         return new PageRes<>(vos, pageData.getTotal(), req);
+    }
+
+    /**
+     * 自定义查询功能
+     * @param req 请求对象
+     * @return
+     */
+    private LambdaQueryWrapper<SysUser> getWrapper(SysUserReq req) {
+        LambdaQueryWrapper<SysUser> wrapper = Wrappers.lambdaQuery();
+        // 右上角模糊查询
+        wrapper.like(StrUtil.isNotBlank(req.getKeyword()), SysUser::getUsername, req.getKeyword())
+                .or()
+                .like(StrUtil.isNotBlank(req.getKeyword()), SysUser::getRealName, req.getKeyword());
+        // 左侧根据部门筛选
+        wrapper.eq(ObjectUtil.isNotEmpty(req.getDeptId()), SysUser::getDeptId, req.getDeptId());
+        return wrapper;
     }
 
     @Override

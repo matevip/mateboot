@@ -33,4 +33,13 @@ public class PageReq {
     @Max(value = 100, message = "每页条数最大值为 999")
     @Schema(description = "每页条数")
     private Long pageSize = PAGE_SIZE;
+
+    @Schema(description = "排序字段")
+    private String prop;
+
+    @Schema(description = "排序方式")
+    private String order;
+
+    @Schema(description = "模糊查询关键词")
+    private String keyword;
 }
