@@ -32,7 +32,7 @@
 				<m-table ref="tableRef" :apiObj="apiObj" @selection-change="selectionChange" stripe remoteSort
 					remoteFilter>
 					<m-table-column type="selection" width="50"></m-table-column>
-					<m-table-column label="ID" prop="id" width="80" sortable='custom'></m-table-column>
+					<m-table-column label="ID" prop="id" width="100" sortable='custom'></m-table-column>
 					<m-table-column label="头像" width="80" column-key="filterAvatar"
 						:filters="[{ text: '已上传', value: '1' }, { text: '未上传', value: '0' }]">
 						<template #default="scope">
@@ -44,7 +44,7 @@
 					</m-table-column>
 					<m-table-column label="姓名" prop="realName" width="150" sortable='custom'></m-table-column>
 					<m-table-column label="手机号码" prop="mobile" width="200" sortable='custom'></m-table-column>
-					<m-table-column label="所属机构" prop="orgName" width="200" sortable='custom'></m-table-column>
+					<m-table-column label="所属部门" prop="orgName" width="200" sortable='custom'></m-table-column>
 					<m-table-column label="加入时间" prop="createTime" width="170" sortable='custom'></m-table-column>
 					<m-table-column label="操作" fixed="right" align="right" width="160">
 						<template #default="scope">
@@ -186,10 +186,11 @@ const groupFilterNode = (value: any, data: any) => {
 //树点击事件
 const groupClick = (data: any) => {
 	var params = {
-		groupId: data.id
+		deptId: data.id
 	}
 	tableRef.value.reload(params)
 }
+
 //搜索
 const upsearch = () => {
 	tableRef.value.upData(search)

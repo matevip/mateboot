@@ -25,8 +25,8 @@
 			<el-form-item label="邮箱" prop="email">
 				<el-input v-model="form.email" placeholder="请输入邮箱" clearable></el-input>
 			</el-form-item>
-			<el-form-item label="所属部门" prop="orgId">
-				<el-cascader v-model="form.orgId" :options="depts" :props="deptsProps" clearable show-all-levels="false"
+			<el-form-item label="所属部门" prop="deptId">
+				<el-cascader v-model="form.deptId" :options="depts" :props="deptsProps" clearable show-all-levels="false"
 					style="width: 100%;"></el-cascader>
 			</el-form-item>
 			<!-- <el-form-item label="所属角色" prop="roleIdList">
@@ -49,6 +49,7 @@ import { useUserSubmit } from '@/api/system/user'
 import { useDeptList } from '@/api/system/dept'
 // import { useRoleList } from '@/api/system/role'
 import MUpload from '@/components/MUpload/index.vue'
+import { isArray } from '@/utils/is'
 
 const emit = defineEmits(['success', 'closed'])
 const mode = ref("add")
@@ -65,7 +66,7 @@ const form = reactive({
 	username: "",
 	avatar: "",
 	realName: "",
-	orgId: "",
+	deptId: "",
 	password: "",
 	password2: "",
 	mobile: "",
@@ -101,12 +102,9 @@ const rules = reactive({
 			}
 		}
 	],
-	orgId: [
+	deptId: [
 		{ required: true, message: '请选择所属部门' }
 	],
-	groups: [
-		{ required: true, message: '请选择所属角色', trigger: 'change' }
-	]
 })
 
 onBeforeMount(() => {
@@ -147,7 +145,7 @@ const getDept = async () => {
 	depts.value = convertData(res.data);
 }
 
-// 临时方法做转换org数据格式
+// 临时方法做转换dept数据格式
 function convertData(data: TreeNode[]): TreeNode[] {
 	return data.map((node: any) => {
 		const newNode: TreeNode = {
@@ -166,15 +164,18 @@ function convertData(data: TreeNode[]): TreeNode[] {
 const submit = () => {
 	dialogFormRef.value.validate(async (valid: any) => {
 		if (valid) {
+			if (isArray(form.deptId)) {
+				form.deptId = form.deptId[form.deptId.length-1]
+			}
 			isSaveing.value = true;
 			var res: any = await useUserSubmit(form);
 			isSaveing.value = false;
 			if (res.code == 0) {
 				emit('success', form, mode.value)
 				visible.value = false;
-				ElMessage.success("操作成功")
+				ElMessage.success(res.msg)
 			} else {
-				ElMessageBox.alert(res.message, "提示", { type: 'error' })
+				ElMessageBox.alert(res.msg, "提示", { type: 'error' })
 			}
 		} else {
 			return false;

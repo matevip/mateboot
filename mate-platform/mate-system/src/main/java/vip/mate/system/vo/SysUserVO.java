@@ -1,6 +1,8 @@
 package vip.mate.system.vo;
 
 import java.time.LocalDateTime;
+import java.util.Date;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -45,8 +47,8 @@ public class SysUserVO {
     @Schema(description = "手机号")
     private String mobile;
 
-    @Schema(description = "机构ID")
-    private Long orgId;
+    @Schema(description = "部门ID")
+    private Long deptId;
 
     @Schema(description = "超级管理员   0：否   1：是")
     private Byte superAdmin;
@@ -56,5 +58,8 @@ public class SysUserVO {
 
     @Schema(description = "版本号")
     private Integer version;
+
+    @Schema(description = "创建时间")
+    private Date createTime;
 
 }

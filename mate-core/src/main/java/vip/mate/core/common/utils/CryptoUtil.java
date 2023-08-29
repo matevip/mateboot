@@ -1,4 +1,4 @@
-package vip.mate.bootstrap.utils;
+package vip.mate.core.common.utils;
 
 import com.antherd.smcrypto.sm2.Sm2;
 import com.antherd.smcrypto.sm3.Sm3;

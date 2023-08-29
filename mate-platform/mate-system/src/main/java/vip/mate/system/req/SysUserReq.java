@@ -42,8 +42,8 @@ public class SysUserReq extends PageReq {
     @Schema(description = "手机号")
     private String mobile;
 
-    @Schema(description = "机构ID")
-    private Long orgId;
+    @Schema(description = "部门ID")
+    private Long deptId;
 
     @Schema(description = "超级管理员   0：否   1：是")
     private Byte superAdmin;

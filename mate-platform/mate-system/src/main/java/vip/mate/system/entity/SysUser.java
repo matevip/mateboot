@@ -57,9 +57,9 @@ public class SysUser extends MateEntity implements Serializable {
     @TableField("mobile")
     private String mobile;
 
-    @Schema(description = "机构ID")
-    @TableField("org_id")
-    private Long orgId;
+    @Schema(description = "部门ID")
+    @TableField("dept_id")
+    private Long deptId;
 
     @Schema(description = "超级管理员   0：否   1：是")
     @TableField("super_admin")

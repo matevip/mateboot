@@ -57,4 +57,11 @@ public interface SysUserService extends IService<SysUser> {
      * @return
      */
     SysUser queryByUsername(String username);
+
+    /**
+     * 判断用户是否满足条件
+     * @param user 用户实体
+     * @return
+     */
+    Boolean userCondition(SysUser user);
 }
