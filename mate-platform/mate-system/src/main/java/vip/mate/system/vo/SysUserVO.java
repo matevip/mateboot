@@ -1,13 +1,15 @@
 package vip.mate.system.vo;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fhs.core.trans.anno.Trans;
+import com.fhs.core.trans.constant.TransType;
+import com.fhs.core.trans.vo.TransPojo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import lombok.experimental.Accessors;
+import vip.mate.system.entity.SysDept;
 
 /**
  * <p>
@@ -20,7 +22,7 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 @Schema(name = "SysUserVO对象", description = "用户管理")
-public class SysUserVO {
+public class SysUserVO implements TransPojo {
 
     @Schema(description = "id")
     private Long id;
@@ -48,6 +50,7 @@ public class SysUserVO {
     private String mobile;
 
     @Schema(description = "部门ID")
+    @Trans(type = TransType.SIMPLE, target = SysDept.class, fields = "name", ref = "deptName")
     private Long deptId;
 
     @Schema(description = "超级管理员   0：否   1：是")
@@ -61,5 +64,8 @@ public class SysUserVO {
 
     @Schema(description = "创建时间")
     private Date createTime;
+
+    @Schema(description = "部门名称")
+    private String deptName;
 
 }

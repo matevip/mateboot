@@ -44,7 +44,7 @@
 					</m-table-column>
 					<m-table-column label="姓名" prop="realName" width="150" sortable='custom'></m-table-column>
 					<m-table-column label="手机号码" prop="mobile" width="200" sortable='custom'></m-table-column>
-					<m-table-column label="所属部门" prop="orgName" width="200" sortable='custom'></m-table-column>
+					<m-table-column label="所属部门" prop="deptName" width="200" sortable='custom'></m-table-column>
 					<m-table-column label="加入时间" prop="createTime" width="170" sortable='custom'></m-table-column>
 					<m-table-column label="操作" fixed="right" align="right" width="160">
 						<template #default="scope">
@@ -197,13 +197,18 @@ const upsearch = () => {
 }
 //本地更新数据
 const handleSuccess = (data: any, mode: any) => {
+	// if (mode == 'add') {
+	// 	data.id = new Date().getTime()
+	// 	tableRef.value.tableData.unshift(data)
+	// } else if (mode == 'edit') {
+	// 	tableRef.value.tableData.filter((item: any) => item.id === data.id).forEach((item: any) => {
+	// 		Object.assign(item, data)
+	// 	})
+	// }
 	if (mode == 'add') {
-		data.id = new Date().getTime()
-		tableRef.value.tableData.unshift(data)
+		tableRef.value.refresh()
 	} else if (mode == 'edit') {
-		tableRef.value.tableData.filter((item: any) => item.id === data.id).forEach((item: any) => {
-			Object.assign(item, data)
-		})
+		tableRef.value.refresh()
 	}
 }
 </script>

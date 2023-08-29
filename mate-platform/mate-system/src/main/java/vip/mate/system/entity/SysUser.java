@@ -73,6 +73,10 @@ public class SysUser extends MateEntity implements Serializable {
     @TableField("version")
     private Integer version;
 
+    @Schema(description = "部门名称")
+    @TableField(exist = false)
+    private String deptName;
+
 
 
 }

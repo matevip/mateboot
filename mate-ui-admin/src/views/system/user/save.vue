@@ -78,7 +78,7 @@ const rules = reactive({
 	avatar: [{ required: true, message: '请上传头像' }],
 	username: [{ required: true, message: '请输入登录账号' }],
 	realName: [{ required: true, message: '请输入真实姓名' }],
-	mobile: [{ required: true, message: '请输入手机号码'}],
+	mobile: [{ required: true, message: '请输入手机号码' }],
 	password: [
 		{ required: true, message: '请输入登录密码' },
 		{
@@ -165,7 +165,11 @@ const submit = () => {
 	dialogFormRef.value.validate(async (valid: any) => {
 		if (valid) {
 			if (isArray(form.deptId)) {
-				form.deptId = form.deptId[form.deptId.length-1]
+				form.deptId = form.deptId[form.deptId.length - 1]
+			}
+			if (form.password == '') {
+				delete form.password
+				delete form.password2
 			}
 			isSaveing.value = true;
 			var res: any = await useUserSubmit(form);

@@ -47,7 +47,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     }
 
     @Override
-    public Boolean createData(SysUser entity) {
+    public Boolean createData(SysUserReq req) {
+        SysUser entity = SysUserConvert.INSTANCE.convert(req);
         userCondition(entity);
         // 加密密码
         entity.setPassword(CryptoUtil.doHashValue(CryptoUtil.doSm4CbcEncrypt(entity.getPassword())));
@@ -55,13 +56,12 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     }
 
     @Override
-    public Boolean updateData(SysUser entity) {
+    public Boolean updateData(SysUserReq req) {
+        SysUser entity = SysUserConvert.INSTANCE.convert(req);
         userCondition(entity);
         if (ObjectUtil.isNotNull(entity.getPassword())) {
             // 加密密码
             entity.setPassword(CryptoUtil.doHashValue(CryptoUtil.doSm4CbcEncrypt(entity.getPassword())));
-        } else {
-            entity.setPassword(null);
         }
         return baseMapper.updateById(entity) > 0;
     }
@@ -91,7 +91,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
             // 更新操作判断
             if (ObjectUtil.isNotNull(user.getId()) && !usernameCondition.getId().equals(user.getId())) {
                 throw new ServerException(SystemCodeEnum.USERNAME_EXIST);
-            // 添加操作判断
+                // 添加操作判断
             } else if (ObjectUtil.isNull(user.getId())) {
                 throw new ServerException(SystemCodeEnum.USERNAME_EXIST);
             }
@@ -101,7 +101,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
             // 更新操作判断
             if (ObjectUtil.isNotNull(user.getId()) && !usernameCondition.getId().equals(user.getId())) {
                 throw new ServerException(SystemCodeEnum.MOBILE_EXIST);
-            // 添加操作判断
+                // 添加操作判断
             } else if (ObjectUtil.isNull(user.getId())) {
                 throw new ServerException(SystemCodeEnum.MOBILE_EXIST);
             }

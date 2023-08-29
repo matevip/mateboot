@@ -139,7 +139,7 @@
             <!-- 数据翻译工具 -->
             <dependency>
                 <groupId>com.fhs-opensource</groupId>
-                <artifactId>easy-trans-mybatis-plus-extend</artifactId>
+                <artifactId>easy-trans-spring-boot-starter</artifactId>
                 <version>${easy-trans.version}</version>
             </dependency>
             <dependency>

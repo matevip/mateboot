@@ -21,6 +21,9 @@ import lombok.EqualsAndHashCode;
 @Schema(name = "SysUserReq对象", description = "用户管理")
 public class SysUserReq extends PageReq {
 
+    @Schema(description = "id")
+    private Long id;
+
     @Schema(description = "用户名")
     private String username;
 

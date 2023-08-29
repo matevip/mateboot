@@ -25,17 +25,17 @@ public interface SysUserService extends IService<SysUser> {
 
     /**
      * 新增
-     * @param entity 实体类对象
+     * @param req 实体类对象
      * @return true：成功，false：失败
      */
-    Boolean createData(SysUser entity);
+    Boolean createData(SysUserReq req);
 
     /**
     * 修改
-    * @param entity 实体类对象
+    * @param req 实体类对象
     * @return true：成功，false：失败
     */
-    Boolean updateData(SysUser entity);
+    Boolean updateData(SysUserReq req);
 
     /**
      * 删除
