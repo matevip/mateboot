@@ -48,6 +48,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
     @Override
     public Boolean createData(SysUser entity) {
+        userCondition(entity);
         // 加密密码
         entity.setPassword(CryptoUtil.doHashValue(CryptoUtil.doSm4CbcEncrypt(entity.getPassword())));
         return baseMapper.insert(entity) > 0;
@@ -55,6 +56,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
     @Override
     public Boolean updateData(SysUser entity) {
+        userCondition(entity);
         if (ObjectUtil.isNotNull(entity.getPassword())) {
             // 加密密码
             entity.setPassword(CryptoUtil.doHashValue(CryptoUtil.doSm4CbcEncrypt(entity.getPassword())));
@@ -85,12 +87,24 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     @Override
     public Boolean userCondition(SysUser user) {
         SysUser usernameCondition = this.baseMapper.selectOne(new QueryWrapper<SysUser>().lambda().eq(SysUser::getUsername, user.getUsername()));
-        if (usernameCondition != null && (ObjectUtil.isNotNull(user.getId()) && !usernameCondition.getId().equals(user.getId()))) {
-            throw new ServerException(SystemCodeEnum.USERNAME_EXIST);
+        if (usernameCondition != null) {
+            // 更新操作判断
+            if (ObjectUtil.isNotNull(user.getId()) && !usernameCondition.getId().equals(user.getId())) {
+                throw new ServerException(SystemCodeEnum.USERNAME_EXIST);
+            // 添加操作判断
+            } else if (ObjectUtil.isNull(user.getId())) {
+                throw new ServerException(SystemCodeEnum.USERNAME_EXIST);
+            }
         }
         SysUser mobileCondition = this.baseMapper.selectOne(new QueryWrapper<SysUser>().lambda().eq(SysUser::getMobile, user.getMobile()));
-        if (mobileCondition != null && (ObjectUtil.isNotNull(user.getId()) && !usernameCondition.getId().equals(user.getId()))) {
-            throw new ServerException(SystemCodeEnum.MOBILE_EXIST);
+        if (mobileCondition != null) {
+            // 更新操作判断
+            if (ObjectUtil.isNotNull(user.getId()) && !usernameCondition.getId().equals(user.getId())) {
+                throw new ServerException(SystemCodeEnum.MOBILE_EXIST);
+            // 添加操作判断
+            } else if (ObjectUtil.isNull(user.getId())) {
+                throw new ServerException(SystemCodeEnum.MOBILE_EXIST);
+            }
         }
         return Boolean.TRUE;
     }
