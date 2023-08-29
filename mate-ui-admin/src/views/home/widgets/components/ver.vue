@@ -1,11 +1,11 @@
 <template>
 	<el-card shadow="hover" header="版本信息">
-		<div style="height: 210px;text-align: center;">
-			<img src="/img/ver.svg" style="height:140px" />
-			<h2 style="margin-top: 15px;">MateBoot Admin {{ mateConfig.CORE_VER }}</h2>
-			<p style="margin-top: 5px;">最新版本 {{ version }}</p>
+		<div class="h-52 text-center">
+			<img class="h-35" src="/img/ver.svg" />
+			<h2 class="mt-4 font-medium">MateBoot Admin {{ mateConfig.CORE_VER }}</h2>
+			<p class="m-1">最新版本 {{ version }}</p>
 		</div>
-		<div style="margin-top: 20px;">
+		<div class="mt-6 flex flex-wrap justify-center items-center">
 			<el-button type="primary" plain round @click="golog">更新日志</el-button>
 			<el-button type="primary" plain round @click="gogitee">gitee</el-button>
 			<el-button type="primary" plain round @click="gogithub">github</el-button>

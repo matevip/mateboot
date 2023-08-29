@@ -11,8 +11,7 @@ import i18n from './locales'
 
 import 'element-plus/dist/index.css'
 import '@/styles/style.scss'
-import 'virtual:windi.css'
-import 'virtual:windi-devtools'
+import "uno.css";
 
 const app = createApp(App)
 

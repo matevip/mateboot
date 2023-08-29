@@ -2,7 +2,14 @@ import { defineConfig, loadEnv } from "vite";
 import type { ConfigEnv, UserConfig } from "vite";
 import { resolve } from "path";
 import vue from "@vitejs/plugin-vue";
-import WindiCSS from "vite-plugin-windicss";
+import Unocss from "unocss/vite";
+import {
+  presetAttributify,
+  presetIcons,
+  presetUno,
+  transformerDirectives,
+  transformerVariantGroup,
+} from 'unocss'
 
 // https://vitejs.dev/config/
 export default defineConfig((env: ConfigEnv): UserConfig => {
@@ -17,7 +24,22 @@ export default defineConfig((env: ConfigEnv): UserConfig => {
       },
       extensions: [".mjs", ".js", ".ts", ".jsx", ".tsx", ".json", ".vue"],
     },
-    plugins: [vue(), WindiCSS()],
+    plugins: [
+      vue(),
+      // https://github.com/antfu/unocss
+      // see unocss.config.ts for config
+      Unocss({
+        presets: [
+          presetUno(),
+          presetAttributify(),
+          presetIcons({
+            scale: 1.2,
+            warn: true,
+          }),
+        ],
+        transformers: [transformerDirectives(), transformerVariantGroup()],
+      }),
+    ],
     // 配置sass
     css: {
       preprocessorOptions: {
