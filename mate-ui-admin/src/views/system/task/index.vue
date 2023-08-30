@@ -158,7 +158,7 @@
 	.task-item .bottom {border-top: 1px solid #EBEEF5;text-align: right;padding-top:10px;display: flex;justify-content: space-between;align-items: center;}
 
 	.task-add {display: flex;flex-direction: column;align-items: center;justify-content: center;text-align: center;cursor: pointer;color: #999;}
-	.task-add:hover {color: #0058DC;}
+	.task-add:hover {color: #3265f5;}
 	.task-add i {font-size: 30px;}
 	.task-add p {font-size: 12px;margin-top: 20px;}
 	

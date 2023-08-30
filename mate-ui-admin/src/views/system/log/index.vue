@@ -24,7 +24,7 @@
 								<template #default="scope">
 									<el-icon v-if="scope.row.level=='error'" style="color: #F56C6C;"><el-icon-circle-close-filled /></el-icon>
 									<el-icon v-if="scope.row.level=='warn'" style="color: #E6A23C;"><el-icon-warning-filled /></el-icon>
-									<el-icon v-if="scope.row.level=='info'" style="color: #0058DC;"><el-icon-info-filled /></el-icon>
+									<el-icon v-if="scope.row.level=='info'" style="color: #3265f5;"><el-icon-info-filled /></el-icon>
 								</template>
 							</el-table-column>
 							<el-table-column label="ID" prop="id" width="180"></el-table-column>
@@ -60,7 +60,7 @@
 			return {
 				infoDrawer: false,
 				logsChartOption: {
-					color: ['#0058DC','#e6a23c','#f56c6c'],
+					color: ['#3265f5','#e6a23c','#f56c6c'],
 					grid: {
 						top: '0px',
 						left: '10px',

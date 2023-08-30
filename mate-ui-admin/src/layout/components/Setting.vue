@@ -50,7 +50,7 @@ const menuIsCollapse = ref(store.globalStore.menuIsCollapse)
 const layoutTags = ref(store.globalStore.layoutTags)
 const lang = ref(cache.getLanguage())
 const dark = ref(cache.getDark())
-const colorList = ref(['#0058DC', '#009688', '#536dfe', '#ff5c93', '#c62f2f', '#fd726d'])
+const colorList = ref(['#3265f5', '#02a863', '#536dfe', '#ff5c93', '#c62f2f', '#fd726d'])
 const colorPrimary = ref(cache.getColor())
 
 watch(layout, (val) => {
@@ -77,8 +77,8 @@ watch(lang, (val) => {
 })
 watch(colorPrimary, (val: string) => {
 	if (!val) {
-		val = '#0058DC'
-		colorPrimary.value = '#0058DC'
+		val = '#3265f5'
+		colorPrimary.value = '#3265f5'
 	}
 	document.documentElement.style.setProperty('--el-color-primary', val);
 	for (let i = 1; i <= 9; i++) {

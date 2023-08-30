@@ -40,7 +40,7 @@ class Cache {
   };
     
   getColor = (): string => {
-    return Storage.getItem(CacheKey.ColorKey) || '#0058DC';
+    return Storage.getItem(CacheKey.ColorKey) || '#3265f5';
   };
 
   setColor = (value: any) => {

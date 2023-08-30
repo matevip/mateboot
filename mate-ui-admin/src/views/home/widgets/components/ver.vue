@@ -2,7 +2,7 @@
 	<el-card shadow="hover" header="版本信息">
 		<div class="h-52 text-center">
 			<img class="h-35" src="/img/ver.svg" />
-			<h2 class="mt-4 font-medium">MateBoot Admin {{ mateConfig.CORE_VER }}</h2>
+			<h3 class="mt-4 font-medium">MateBoot Admin {{ mateConfig.CORE_VER }}</h3>
 			<p class="m-1">最新版本 {{ version }}</p>
 		</div>
 		<div class="mt-6 flex flex-wrap justify-center items-center">

@@ -20,7 +20,7 @@
 			<el-main>
 				<el-scrollbar>
 					<el-menu :default-active="route.meta.active || route.fullPath" @select="select" router
-						background-color="#212d3d" text-color="#fff" active-text-color="#0058DC">
+						background-color="#212d3d" text-color="#fff" active-text-color="#3265f5">
 						<NavMenu :navMenus="menu"></NavMenu>
 					</el-menu>
 				</el-scrollbar>
@@ -96,7 +96,7 @@ const select = () => {
 	z-index: 10;
 	width: 50px;
 	height: 50px;
-	background: #0058DC;
+	background: #3265f5;
 	box-shadow: 0 2px 12px 0 rgba(64, 158, 255, 1);
 	border-radius: 50%;
 	display: flex;

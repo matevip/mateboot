@@ -32,15 +32,14 @@
 				<m-table ref="tableRef" :apiObj="apiObj" @selection-change="selectionChange" stripe remoteSort
 					remoteFilter>
 					<m-table-column type="selection" width="50"></m-table-column>
-					<m-table-column label="ID" prop="id" width="100" sortable='custom'></m-table-column>
+					<m-table-column label="登录账号" prop="username" width="150" sortable='custom'
+						column-key="filterUserName" :filters="[{ text: '系统账号', value: '1' }, { text: '普通账号', value: '0' }]">
+					</m-table-column>
 					<m-table-column label="头像" width="80" column-key="filterAvatar"
 						:filters="[{ text: '已上传', value: '1' }, { text: '未上传', value: '0' }]">
 						<template #default="scope">
 							<el-avatar :src="scope.row.avatar" size="small"></el-avatar>
 						</template>
-					</m-table-column>
-					<m-table-column label="登录账号" prop="username" width="150" sortable='custom'
-						column-key="filterUserName" :filters="[{ text: '系统账号', value: '1' }, { text: '普通账号', value: '0' }]">
 					</m-table-column>
 					<m-table-column label="姓名" prop="realName" width="150" sortable='custom'></m-table-column>
 					<m-table-column label="手机号码" prop="mobile" width="200" sortable='custom'></m-table-column>

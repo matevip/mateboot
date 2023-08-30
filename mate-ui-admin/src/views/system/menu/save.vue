@@ -142,7 +142,7 @@ const predefineColors = ref([
 	'#ffd700',
 	'#67C23A',
 	'#00ced1',
-	'#0058DC',
+	'#3265f5',
 	'#c71585'
 ])
 

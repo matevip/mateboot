@@ -27,7 +27,7 @@ import { useI18n } from 'vue-i18n';
 import cache from '@/utils/cache';
 
 const i18n = useI18n();
-const colorList = ref(['#0058DC', '#009688', '#536dfe', '#ff5c93', '#c62f2f', '#fd726d'])
+const colorList = ref(['#3265f5', '#02a863', '#536dfe', '#ff5c93', '#c62f2f', '#fd726d'])
 const config = reactive({
 	lang: cache.getLanguage(),
 	dark: cache.getDark(),
@@ -51,8 +51,8 @@ watch(() => config.lang, (val) => {
 
 watch(() => config.colorPrimary, (val) => {
 	if (!val) {
-		val = '#0058DC'
-		config.colorPrimary = '#0058DC'
+		val = '#3265f5'
+		config.colorPrimary = '#3265f5'
 	}
 	document.documentElement.style.setProperty('--el-color-primary', val);
 	for (let i = 1; i <= 9; i++) {
