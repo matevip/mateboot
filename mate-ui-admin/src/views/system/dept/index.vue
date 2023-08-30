@@ -21,11 +21,11 @@
 				<el-table-column label="操作" fixed="right" align="right" width="170">
 					<template #default="scope">
 						<el-button-group>
-							<el-button text type="primary" size="small" @click="tableShow(scope.row)">查看</el-button>
-							<el-button text type="primary" size="small" @click="tableEdit(scope.row)">编辑</el-button>
+							<el-button text type="primary" size="small" icon="el-icon-view"  @click="tableShow(scope.row)"/>
+							<el-button text type="primary" size="small" icon="el-icon-edit" @click="tableEdit(scope.row)"/>
 							<el-popconfirm title="确定删除吗？" @confirm="tableDel(scope.row)">
 								<template #reference>
-									<el-button text type="primary" size="small">删除</el-button>
+									<el-button text type="danger" size="small" icon="el-icon-delete"/>
 								</template>
 							</el-popconfirm>
 						</el-button-group>

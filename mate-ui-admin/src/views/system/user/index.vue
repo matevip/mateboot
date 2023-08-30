@@ -48,11 +48,11 @@
 					<m-table-column label="操作" fixed="right" align="right" width="160">
 						<template #default="scope">
 							<el-button-group>
-								<el-button text type="primary" size="small" @click="tableShow(scope.row)">查看</el-button>
-								<el-button text type="primary" size="small" @click="tableEdit(scope.row)" :disabled="scope.row.superAdmin==1">编辑</el-button>
+								<el-button text type="primary" size="small" icon="el-icon-view" @click="tableShow(scope.row)"/>
+								<el-button text type="primary" size="small" icon="el-icon-edit" @click="tableEdit(scope.row)" :disabled="scope.row.superAdmin==1"/>
 								<el-popconfirm title="确定删除吗？" @confirm="tableDel(scope.row, scope.$index)">
 									<template #reference>
-										<el-button text type="primary" size="small" :disabled="scope.row.superAdmin==1">删除</el-button>
+										<el-button text type="danger" size="small" icon="el-icon-delete" :disabled="scope.row.superAdmin==1"/>
 									</template>
 								</el-popconfirm>
 							</el-button-group>
