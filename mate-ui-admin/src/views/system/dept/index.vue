@@ -13,12 +13,12 @@
 			</div>
 		</el-header>
 		<el-main class="nopadding">
-			<m-table ref="tableRef" :apiObj="apiObj" row-key="id" @selection-change="selectionChange" hidePagination>
+			<m-table ref="tableRef" :apiObj="apiObj" row-key="id" default-expand-all @selection-change="selectionChange" hidePagination>
 				<el-table-column type="selection" width="50"></el-table-column>
-				<el-table-column label="机构名称" prop="name" width="250"></el-table-column>
-				<el-table-column label="排序" prop="sort" width="150"></el-table-column>
-				<el-table-column label="创建时间" prop="createTime" width="180"></el-table-column>
-				<el-table-column label="操作" fixed="right" align="right" width="170">
+				<el-table-column label="机构名称" prop="name"></el-table-column>
+				<el-table-column label="排序" prop="sort"></el-table-column>
+				<el-table-column label="创建时间" prop="createTime" ></el-table-column>
+				<el-table-column label="操作" fixed="right" align="right">
 					<template #default="scope">
 						<el-button-group>
 							<el-button text type="primary" size="small" icon="el-icon-view"  @click="tableShow(scope.row)"/>

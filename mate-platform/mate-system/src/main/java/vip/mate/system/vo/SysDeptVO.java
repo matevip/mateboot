@@ -5,6 +5,8 @@ import lombok.*;
 import lombok.experimental.Accessors;
 import vip.mate.core.common.entity.TreeNode;
 
+import java.util.Date;
+
 /**
  * <p>
  * 部门VO
@@ -32,5 +34,8 @@ public class SysDeptVO extends TreeNode<SysDeptVO> {
 
     @Schema(description = "版本号")
     private Integer version;
+
+    @Schema(description = "创建时间")
+    private Date createTime;
 
 }
