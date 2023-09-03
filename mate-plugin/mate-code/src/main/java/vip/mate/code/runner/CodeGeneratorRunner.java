@@ -41,7 +41,7 @@ public class CodeGeneratorRunner {
 
         /* 下方参数是可以动态设置的 */
         //需要生成的表名称，多个用“,”分割
-        String tableName = "mate_sys_role,mate_sys_menu,mate_sys_user_role,mate_sys_role_menu";
+        String tableName = "mate_sys_dict,mate_sys_dict_item";
         //设置是否开启包分层-按需开启
         config.getGlobalConfig().setIfEnableModel(false);
         //业务模块[包分层]/权限字符[第一段]，例如 controller/system/aaa.java

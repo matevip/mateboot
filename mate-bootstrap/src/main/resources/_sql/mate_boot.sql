@@ -235,6 +235,40 @@ CREATE TABLE `mate_sys_user_role` (
   KEY `idx_user_id` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='用户角色';
 
+create table mate_sys_dict
+(
+    id          bigint NOT NULL COMMENT 'id',
+    dict_type   varchar(100) NOT NULL COMMENT '字典类型',
+    dict_name   varchar(255) NOT NULL COMMENT '字典名称',
+    remark      varchar(255) COMMENT '备注',
+    sort        int COMMENT '排序',
+    status      tinyint  DEFAULT 1 COMMENT '状态  0：停用   1：正常',
+    deleted     tinyint COMMENT '删除标识  0：正常   1：已删除',
+    create_by     bigint COMMENT '创建者',
+    create_time datetime COMMENT '创建时间',
+    update_by     bigint COMMENT '更新者',
+    update_time datetime COMMENT '更新时间',
+    primary key (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT ='字典类型';
+
+create table mate_sys_dict_item
+(
+    id           bigint NOT NULL COMMENT 'id',
+    dict_id      bigint NOT NULL COMMENT '字典类型ID',
+    label        varchar(255) NOT NULL COMMENT '字典标签',
+    dict_value   varchar(255) COMMENT '字典值',
+    label_class  varchar(100) COMMENT '标签样式',
+    remark       varchar(255) COMMENT '备注',
+    sort         int COMMENT '排序',
+    status      tinyint  DEFAULT 1 COMMENT '状态  0：停用   1：正常',
+    deleted      tinyint COMMENT '删除标识  0：正常   1：已删除',
+    create_by      bigint COMMENT '创建者',
+    create_time  datetime COMMENT '创建时间',
+    update_by      bigint COMMENT '更新者',
+    update_time  datetime COMMENT '更新时间',
+    primary key (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT ='字典项';
+
 -- ----------------------------
 -- Records of mate_sys_user_role
 -- ----------------------------
