@@ -26,7 +26,7 @@ import vip.mate.core.common.constant.MateConstant;
  * @since 2023-09-03
  */
 @RestController
-@RequestMapping(MateConstant.MATE_PREFIX_URL + "/sysDictItem")
+@RequestMapping(MateConstant.MATE_SYSTEM_PREFIX_URL + "/dictItem")
 @AllArgsConstructor
 @ApiSupport(author = "matevip", order = 1)
 @Tag(description = "sysDictItem", name = "字典项管理")

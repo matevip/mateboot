@@ -65,22 +65,23 @@
 		</el-container>
 	</el-container>
 
-	<dic-dialog v-if="dialog.dic" ref="dicDialog" @success="handleDicSuccess" @closed="dialog.dic=false"></dic-dialog>
+	<dict-dialog v-if="dialog.dic" ref="dicDialog" @success="handleDicSuccess" @closed="dialog.dic=false"></dict-dialog>
 
 	<list-dialog v-if="dialog.list" ref="listDialog" @success="handleListSuccess" @closed="dialog.list=false"></list-dialog>
 
 </template>
 
 <script>
-	import dicDialog from './dic'
+	import dictDialog from './dict'
 	import listDialog from './list'
 	import Sortable from 'sortablejs'
 	import MTable from '@/components/MTable'
+	import { useDictList } from '@/api/system/dict'
 
 	export default {
-		name: 'dic',
+		name: 'dict',
 		components: {
-			dicDialog,
+			dictDialog,
 			listDialog,
 			MTable
 		},
@@ -113,9 +114,9 @@
 		methods: {
 			//加载树数据
 			async getDic(){
-				var res = await this.$API.system.dic.tree.get();
+				var res = await useDictList();
 				this.showDicloading = false;
-				this.dicList = res.data;
+				this.dicList = res.data.list;
 				//获取第一个节点,设置选中 & 加载明细列表
 				var firstNode = this.dicList[0];
 				if(firstNode){

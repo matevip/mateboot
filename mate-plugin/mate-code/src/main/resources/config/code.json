@@ -42,7 +42,7 @@
         //非固定请求前缀配置类 - 该类必须是静态可读取的
         "requestConstantClass":"vip.mate.core.common.constant.MateConstant",
         //参数类中的静态值，会放到请求前缀，生成示例：CommonConstant.PREFIX_URL + "/api"
-        "requestConstantClassNameAndValue":"MateConstant.MATE_PREFIX_URL",
+        "requestConstantClassNameAndValue":"MateConstant.MATE_SYSTEM_PREFIX_URL",
 
         //统一返回工具类,控制层所有方法的统一返回工具类
         "commonReturnClass":"vip.mate.core.common.response.Result",

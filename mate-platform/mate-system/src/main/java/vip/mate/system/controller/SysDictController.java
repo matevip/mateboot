@@ -26,7 +26,7 @@ import vip.mate.core.common.constant.MateConstant;
  * @since 2023-09-03
  */
 @RestController
-@RequestMapping(MateConstant.MATE_PREFIX_URL + "/sysDict")
+@RequestMapping(MateConstant.MATE_SYSTEM_PREFIX_URL + "/dict")
 @AllArgsConstructor
 @ApiSupport(author = "matevip", order = 1)
 @Tag(description = "sysDict", name = "字典类型管理")
@@ -38,7 +38,7 @@ public class SysDictController {
     @GetMapping("/page")
     @ApiOperationSupport(order = 1)
     @Operation(summary = "列表查询",description = "权限字符串：sysDict:page")
-    @SaCheckPermission("sysDict:page")
+//    @SaCheckPermission("sysDict:page")
     public Result<PageRes<SysDictVO>> queryPage(SysDictReq req) {
         return Result.ok(sysDictService.queryPage(req));
     }
