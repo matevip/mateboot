@@ -14,7 +14,6 @@
     "cropperjs": "^1.5.13",
     "echarts": "^5.4.3",
     "element-plus": "^2.3.9",
-    "inter-ui": "^3.19.3",
     "mitt": "^3.0.0",
     "nprogress": "^0.2.0",
     "pinia": "^2.1.6",

@@ -1,0 +1,54 @@
+@font-face {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: normal;
+    src: url(../assets/fonts/Roboto-Regular.ttf) format('truetype');
+}
+
+@font-face {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 700;
+    src: url(../assets/fonts/Roboto-Bold.ttf) format('truetype');
+}
+
+@font-face {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 900;
+    src: url(../assets/fonts/Roboto-Black.ttf) format('truetype');
+}
+
+@font-face {
+    font-family: 'Roboto';
+    font-style: italic;
+    font-weight: normal;
+    src: url(../assets/fonts/Roboto-Italic.ttf) format('truetype');
+}
+
+@font-face {
+    font-family: 'Roboto';
+    font-style: italic;
+    font-weight: 700;
+    src: url(../assets/fonts/Roboto-BoldItalic.ttf) format('truetype');
+}
+
+@font-face {
+    font-family: 'Roboto';
+    font-style: italic;
+    font-weight: 900;
+    src: url(../assets/fonts/Roboto-BlackItalic.ttf) format('truetype');
+}
+
+$font: Roboto, -apple-system, BlinkMacSystemFont, PingFang SC, Hiragino Sans GB, Helvetica Neue,
+    Helvetica, Arial, sans-serif;
+
+html {
+    font-family: $font;
+}
+
+@supports (font-variation-settings: normal) {
+    html {
+        font-family: $font;
+    }
+}
