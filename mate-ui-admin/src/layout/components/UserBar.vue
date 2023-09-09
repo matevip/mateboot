@@ -93,7 +93,7 @@ const msgList = ref([
 		id: 1,
 		type: 'user',
 		avatar: "img/avatar.jpg",
-		title: "Skuya",
+		title: "Matevip",
 		describe: "如果喜欢就点个星星支持一下哦",
 		link: "https://gitee.com/matevip/mateboot",
 		time: "5分钟前"
@@ -102,7 +102,7 @@ const msgList = ref([
 		id: 2,
 		type: 'user',
 		avatar: "img/avatar2.gif",
-		title: "Lolowan",
+		title: "Admin",
 		describe: "点进去Gitee获取最新开源版本",
 		link: "https://gitee.com/matevip/mateboot",
 		time: "14分钟前"
