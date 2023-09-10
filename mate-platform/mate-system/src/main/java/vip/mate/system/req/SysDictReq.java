@@ -21,8 +21,8 @@ import lombok.EqualsAndHashCode;
 @Schema(name = "SysDictReq对象", description = "字典类型")
 public class SysDictReq extends PageReq {
 
-    @Schema(description = "字典类型")
-    private String dictType;
+    @Schema(description = "字典编码")
+    private String dictCode;
 
     @Schema(description = "字典名称")
     private String dictName;

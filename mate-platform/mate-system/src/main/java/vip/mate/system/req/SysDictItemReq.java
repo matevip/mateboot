@@ -24,14 +24,14 @@ public class SysDictItemReq extends PageReq {
     @Schema(description = "字典类型ID")
     private Long dictId;
 
-    @Schema(description = "字典标签")
-    private String label;
+    @Schema(description = "字典名称")
+    private String dictName;
 
     @Schema(description = "字典值")
     private String dictValue;
 
-    @Schema(description = "标签样式")
-    private String labelClass;
+    @Schema(description = "字典样式")
+    private String dictClass;
 
     @Schema(description = "备注")
     private String remark;

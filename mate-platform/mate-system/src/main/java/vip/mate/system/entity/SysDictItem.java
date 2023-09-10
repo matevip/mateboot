@@ -33,17 +33,17 @@ public class SysDictItem extends MateEntity implements Serializable {
     @TableField("dict_id")
     private Long dictId;
 
-    @Schema(description = "字典标签")
-    @TableField("label")
-    private String label;
+    @Schema(description = "字典名称")
+    @TableField("dict_name")
+    private String dictName;
 
     @Schema(description = "字典值")
     @TableField("dict_value")
     private String dictValue;
 
-    @Schema(description = "标签样式")
-    @TableField("label_class")
-    private String labelClass;
+    @Schema(description = "字典样式")
+    @TableField("dict_class")
+    private String dictClass;
 
     @Schema(description = "备注")
     @TableField("remark")

@@ -29,9 +29,9 @@ import lombok.experimental.Accessors;
 public class SysDict extends MateEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    @Schema(description = "字典类型")
-    @TableField("dict_type")
-    private String dictType;
+    @Schema(description = "字典编码")
+    @TableField("dict_code")
+    private String dictCode;
 
     @Schema(description = "字典名称")
     @TableField("dict_name")

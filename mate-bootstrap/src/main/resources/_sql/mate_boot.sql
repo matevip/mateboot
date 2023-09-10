@@ -238,7 +238,7 @@ CREATE TABLE `mate_sys_user_role` (
 create table mate_sys_dict
 (
     id          bigint NOT NULL COMMENT 'id',
-    dict_type   varchar(100) NOT NULL COMMENT '字典类型',
+    dict_code   varchar(100) NOT NULL COMMENT '字典类型',
     dict_name   varchar(255) NOT NULL COMMENT '字典名称',
     remark      varchar(255) COMMENT '备注',
     sort        int COMMENT '排序',
@@ -255,12 +255,12 @@ create table mate_sys_dict_item
 (
     id           bigint NOT NULL COMMENT 'id',
     dict_id      bigint NOT NULL COMMENT '字典类型ID',
-    label        varchar(255) NOT NULL COMMENT '字典标签',
+    dict_name    varchar(255) NOT NULL COMMENT '字典名称',
     dict_value   varchar(255) COMMENT '字典值',
-    label_class  varchar(100) COMMENT '标签样式',
+    dict_class   varchar(100) COMMENT '字典样式',
     remark       varchar(255) COMMENT '备注',
     sort         int COMMENT '排序',
-    status      tinyint  DEFAULT 1 COMMENT '状态  0：停用   1：正常',
+    status       tinyint  DEFAULT 1 COMMENT '状态  0：停用   1：正常',
     deleted      tinyint COMMENT '删除标识  0：正常   1：已删除',
     create_by      bigint COMMENT '创建者',
     create_time  datetime COMMENT '创建时间',

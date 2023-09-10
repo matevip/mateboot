@@ -40,10 +40,11 @@
 					<el-button type="primary" icon="el-icon-plus" @click="addInfo"></el-button>
 					<el-button type="danger" plain icon="el-icon-delete" :disabled="selection.length == 0"
 						@click="batch_del"></el-button>
+					<el-button type="primary" plain disabled>已选：[ {{ checkedDcitName }} ]</el-button>
 				</div>
 			</el-header>
 			<el-main class="nopadding">
-				<mTable ref="tableRef" :apiObj="listApi" row-key="id" :params="listApiParams"
+				<m-table ref="tableRef" :apiObj="listApi" row-key="id" :params="listApiParams"
 					@selection-change="selectionChange" stripe :paginationLayout="'prev, pager, next'">
 					<el-table-column type="selection" width="50"></el-table-column>
 					<el-table-column label="键值" prop="dictValue" width="150"></el-table-column>
@@ -69,7 +70,7 @@
 							</el-button-group>
 						</template>
 					</el-table-column>
-				</mTable>
+				</m-table>
 			</el-main>
 		</el-container>
 	</el-container>
@@ -82,8 +83,8 @@
 
 <script setup lang="ts">
 import { ref, reactive, onMounted, watch, nextTick } from 'vue'
-import dicDialog from './dict'
-import listDialog from './list'
+import dicDialog from './dict.vue'
+import listDialog from './list.vue'
 import Sortable from 'sortablejs'
 import MTable from '@/components/MTable/index.vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
@@ -91,10 +92,10 @@ import { ElMessage, ElMessageBox } from 'element-plus'
 import { useDictList, useDictItemList } from '@/api/system/dict'
 
 
-const dictTreeRef = ref('')
-const dicDialogRef = ref('')
-const listDialogRef = ref('')
-const tableRef = ref('')
+const dictTreeRef = ref()
+const dicDialogRef = ref()
+const listDialogRef = ref()
+const tableRef = ref()
 
 const dialog = ref({
 	dic: false,
@@ -111,6 +112,7 @@ const listApiParams = ref({})
 const selection = ref([])
 const isListSaveing = ref(false)
 const listDialogVisible = ref(false)
+const checkedDcitName = ref('')
 
 
 // watch((val) => {
@@ -136,7 +138,7 @@ const getDic = async () => {
 		listApiParams.value = {
 			dictId: firstNode.id
 		}
-		console.log(listApiParams.value)
+		checkedDcitName.value = firstNode.dictName
 		listApi.value = useDictItemList;
 	}
 }
@@ -154,18 +156,21 @@ const addDic = () => {
 	})
 }
 //编辑树
-const dicEdit = (data) => {
+const dicEdit = (data: any) => {
 	dialog.value.dic = true
 	nextTick(() => {
-		dicDialogRef.value.open('edit').setData(data)
+		dicDialogRef.value.open('edit')
+		dicDialogRef.value.setData(data)
 	})
 }
 //树点击事件
 const dicClick = (data: any) => {
-	console.log("dicClick:", data)
 	tableRef.value.reload({
-		typeCode: data.dictType
+		dictId: data.id,
+		dictCode: data.dictCode,
+		dictName: data.dictName
 	})
+	checkedDcitName.value = data.dictName
 }
 //删除树
 const dicDel = async (node, data) => {
@@ -177,7 +182,7 @@ const dicDel = async (node, data) => {
 		if (dicCurrentKey == data.id) {
 			var firstNode = dicList.value[0];
 			if (firstNode) {
-				dictTreeRef.setCurrentKey(firstNode.id);
+				dictTreeRef.value.setCurrentKey(firstNode.id);
 				tableRef.upData({
 					code: firstNode.code
 				})
@@ -206,14 +211,14 @@ const addInfo = () => {
 			dic: dicCurrentKey,
 			code: code
 		}
-		listDialogRef.open().setData(data)
+		listDialogRef.value.open().setData(data)
 	})
 }
 //编辑明细
 const table_edit = (row) => {
 	dialog.value.list = true
 	nextTick(() => {
-		var dicCurrentKey = dictTreeRef.getCurrentKey();
+		var dicCurrentKey = dictTreeRef.value.getCurrentKey();
 		row.dic = dicCurrentKey
 
 		var t = dicList.value.find(d => d.id == dicCurrentKey)
@@ -225,7 +230,7 @@ const table_edit = (row) => {
 const table_del = async (row, index) => {
 	var res = await this.$API.system_dict.dict.delItem.delete(row.id);
 	if (res.code === '0') {
-		tableRef.tableData.splice(index, 1);
+		tableRef.value.tableData.splice(index, 1);
 		ElMessage.success("删除成功")
 	} else {
 		ElMessageBox.alert(res.message, "提示", { type: 'error' })
@@ -273,13 +278,13 @@ const handleDicSuccess = (data, mode) => {
 	if (mode == 'add') {
 		getDic()
 	} else if (mode == 'edit') {
-		var editNode = dictTreeRef.getNode(data.id);
+		var editNode = dictTreeRef.value.getNode(data.id);
 		//判断是否移动？
 		var editNodeParentId = editNode.level == 1 ? undefined : editNode.parent.data.id
 		if (editNodeParentId != data.parentId) {
 			var obj = editNode.data;
-			dictTreeRef.remove(data.id)
-			dictTreeRef.append(obj, data.parentId[0])
+			dictTreeRef.value.remove(data.id)
+			dictTreeRef.value.append(obj, data.parentId[0])
 		}
 		Object.assign(editNode.data, data)
 	}
