@@ -34,12 +34,17 @@ onMounted(() => {
 const getBreadcrumb = () => {
 	let matched = route.meta.breadcrumb;
 	breadList.value = matched;
-	
 }
 
-// watch(route, () => {
-// 	getBreadcrumb()
-// })
+watch(
+  () => route.path,
+  () => {
+    getBreadcrumb();
+  },
+  {
+    deep: true
+  }
+);
 
 </script>
 
