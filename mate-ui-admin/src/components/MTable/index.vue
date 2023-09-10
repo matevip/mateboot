@@ -106,7 +106,7 @@ const prop = ref(null)
 const order = ref(null)
 const loading = ref(false)
 const tableHeight = ref("100%")
-const tableParams: any = reactive(props.params)
+const tableParams = ref()
 const userColumn: any = reactive({})
 const customColumnShow = ref(false)
 const summary: any = ref([])
@@ -118,6 +118,13 @@ const configPage = reactive({
 const emit = defineEmits(['dataChange'])
 const scTableRef = ref()
 const columnSettingRef = ref()
+
+/**
+ * 监视表格参数，作为查询条件
+ */
+watch(()=> props.params, (val) => {
+	tableParams.value = val;
+})
 
 watch(() => props.data, (val) => {
 	Object.assign(tableData, val)
@@ -178,7 +185,7 @@ const getData = async () => {
 		delete reqData[config.request.page]
 		delete reqData[config.request.pageSize]
 	}
-	Object.assign(reqData, tableParams)
+	Object.assign(reqData, tableParams.value)
 
 	try {
 		// var res = await this.apiObj.get(reqData);
