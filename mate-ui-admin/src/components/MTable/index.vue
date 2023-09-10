@@ -106,7 +106,7 @@ const prop = ref(null)
 const order = ref(null)
 const loading = ref(false)
 const tableHeight = ref("100%")
-const tableParams = ref()
+const tableParams = ref({})
 const userColumn: any = reactive({})
 const customColumnShow = ref(false)
 const summary: any = ref([])
@@ -131,7 +131,7 @@ watch(() => props.data, (val) => {
 })
 
 watch(() => props.apiObj, (val) => {
-	Object.assign(tableParams, val);
+	Object.assign(tableParams.value, val);
 	refresh()
 })
 
@@ -241,14 +241,14 @@ const refresh = () => {
 const upData = (params: any, page = 1) => {
 	currentPage.value = page;
 	scTableRef.value.clearSelection();
-	Object.assign(tableParams, params || {})
+	Object.assign(tableParams.value, params || {})
 	getData()
 }
 
 //重载数据 替换params
 const reload = (params: any, page = 1) => {
 	currentPage.value = page;
-	Object.assign(tableParams, params || {})
+	Object.assign(tableParams.value, params || {})
 	scTableRef.value.clearSelection();
 	scTableRef.value.clearSort()
 	scTableRef.value.clearFilter()
