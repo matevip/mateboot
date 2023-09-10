@@ -1,7 +1,7 @@
 package vip.mate.system.vo;
 
-import java.time.LocalDateTime;
-import com.fasterxml.jackson.annotation.JsonFormat;
+import java.util.Date;
+
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import lombok.experimental.Accessors;
@@ -18,6 +18,9 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 @Schema(name = "SysDictItemVO对象", description = "字典项")
 public class SysDictItemVO {
+
+    @Schema(description = "id")
+    private Long id;
 
     @Schema(description = "字典类型ID")
     private Long dictId;
@@ -39,5 +42,8 @@ public class SysDictItemVO {
 
     @Schema(description = "状态  0：停用   1：正常")
     private Byte status;
+
+    @Schema(description = "创建时间")
+    private Date createTime;
 
 }

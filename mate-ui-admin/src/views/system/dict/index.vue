@@ -46,14 +46,16 @@
 				<mTable ref="tableRef" :apiObj="listApi" row-key="id" :params="listApiParams"
 					@selection-change="selectionChange" stripe :paginationLayout="'prev, pager, next'">
 					<el-table-column type="selection" width="50"></el-table-column>
-					<el-table-column label="名称" prop="name" width="150"></el-table-column>
-					<el-table-column label="键值" prop="value" width="150"></el-table-column>
+					<el-table-column label="键值" prop="dictValue" width="150"></el-table-column>
+					<el-table-column label="名称" prop="label" width="150"></el-table-column>
 					<el-table-column label="是否有效" prop="status" width="100">
 						<template #default="scope">
-							<el-tag v-if="scope.row.status === 1" type="success">启用</el-tag>
+							<el-tag v-if="scope.row.status === '1'	" type="success">启用</el-tag>
 							<el-tag v-else type="info">禁用</el-tag>
 						</template>
 					</el-table-column>
+					<el-table-column label="排序" prop="sort" width="150"></el-table-column>
+					<el-table-column label="创建时间" prop="createTime" width="150"></el-table-column>
 					<el-table-column label="操作" fixed="right" align="right" width="120">
 						<template #default="scope">
 							<el-button-group>
@@ -86,7 +88,7 @@ import Sortable from 'sortablejs'
 import MTable from '@/components/MTable/index.vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 
-import { useDictList } from '@/api/system/dict'
+import { useDictList, useDictItemList } from '@/api/system/dict'
 
 
 const dictTreeRef = ref('')
@@ -104,7 +106,7 @@ const dicFilterText = ref('')
 let dicProps = ref({
 	label: 'name'
 })
-const listApi = ref(useDictList)
+const listApi = ref()
 const listApiParams = ref({})
 const selection = ref([])
 const isListSaveing = ref(false)
@@ -132,10 +134,10 @@ const getDic = async () => {
 			dictTreeRef.value.setCurrentKey(firstNode.id)
 		})
 		listApiParams.value = {
-			typeCode: firstNode.code
+			dictId: firstNode.id
 		}
-		// listApi.value = this.$API.system_dict.dict.itemsListPages;
-		// listApi.value =;
+		console.log(listApiParams.value)
+		listApi.value = useDictItemList;
 	}
 }
 //树过滤
@@ -159,9 +161,10 @@ const dicEdit = (data) => {
 	})
 }
 //树点击事件
-const dicClick = (data) => {
+const dicClick = (data: any) => {
+	console.log("dicClick:", data)
 	tableRef.value.reload({
-		typeCode: data.code
+		typeCode: data.dictType
 	})
 }
 //删除树

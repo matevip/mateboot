@@ -38,7 +38,7 @@ public class SysDictItemController {
     @GetMapping("/page")
     @ApiOperationSupport(order = 1)
     @Operation(summary = "列表查询",description = "权限字符串：sysDictItem:page")
-    @SaCheckPermission("sysDictItem:page")
+//    @SaCheckPermission("sysDictItem:page")
     public Result<PageRes<SysDictItemVO>> queryPage(SysDictItemReq req) {
         return Result.ok(sysDictItemService.queryPage(req));
     }
