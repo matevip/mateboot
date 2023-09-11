@@ -16,3 +16,11 @@ export const useDictItemList = (params: any) => {
   return http.get("/sys/dictItem/page",  { params });
 };
 
+export const useDictItemSave = (dataForm: any) => {
+  if (dataForm.id) {
+    return http.put("/sys/dictItem/update", dataForm);
+  } else {
+    return http.post("/sys/dictItem/add", dataForm);
+  }
+};
+

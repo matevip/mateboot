@@ -12,7 +12,7 @@
 						<template #default="{ node, data }">
 							<span class="custom-tree-node">
 								<span class="label">{{ data.dictName }}</span>
-								<span class="code">{{ data.dictType }}</span>
+								<span class="code">{{ data.dictCode }}</span>
 								<span class="status">
 									<el-tag v-if="data.status === '1'" type="success">正常</el-tag>
 									<el-tag v-else type="info">禁用</el-tag>
@@ -47,11 +47,11 @@
 				<m-table ref="tableRef" :apiObj="listApi" row-key="id" :params="listApiParams"
 					@selection-change="selectionChange" stripe :paginationLayout="'prev, pager, next'">
 					<el-table-column type="selection" width="50"></el-table-column>
+					<el-table-column label="名称" prop="dictName" width="150"></el-table-column>
 					<el-table-column label="键值" prop="dictValue" width="150"></el-table-column>
-					<el-table-column label="名称" prop="label" width="150"></el-table-column>
 					<el-table-column label="是否有效" prop="status" width="100">
 						<template #default="scope">
-							<el-tag v-if="scope.row.status === '1'	" type="success">启用</el-tag>
+							<el-tag v-if="scope.row.status === '1'	" type="success">正常</el-tag>
 							<el-tag v-else type="info">禁用</el-tag>
 						</template>
 					</el-table-column>
@@ -205,13 +205,14 @@ const addInfo = () => {
 		var code = null
 		if (dicList.value.length > 0) {
 			var t = dicList.value.find(d => d.id == dicCurrentKey)
-			code = t.code
+			code = t.dictCode
 		}
 		const data = {
-			dic: dicCurrentKey,
-			code: code
+			dictId: dicCurrentKey,
+			dictCode: code
 		}
-		listDialogRef.value.open().setData(data)
+		listDialogRef.value.open()
+		listDialogRef.value.setData(data)
 	})
 }
 //编辑明细
@@ -222,8 +223,9 @@ const table_edit = (row) => {
 		row.dic = dicCurrentKey
 
 		var t = dicList.value.find(d => d.id == dicCurrentKey)
-		row.code = t.code
-		listDialogRef.value.open('edit').setData(row)
+		row.dictCode = t.dictCode
+		listDialogRef.value.open('edit')
+		listDialogRef.value.setData(row)
 	})
 }
 //删除明细

@@ -40,7 +40,7 @@ const form = reactive({
 	id: "",
 	dictName: "",
 	dictCode: "",
-	status: 1
+	status: '1'
 })
 
 //验证规则

@@ -238,7 +238,7 @@ CREATE TABLE `mate_sys_user_role` (
 create table mate_sys_dict
 (
     id          bigint NOT NULL COMMENT 'id',
-    dict_code   varchar(100) NOT NULL COMMENT '字典类型',
+    dict_code   varchar(100) NOT NULL COMMENT '字典编码',
     dict_name   varchar(255) NOT NULL COMMENT '字典名称',
     remark      varchar(255) COMMENT '备注',
     sort        int COMMENT '排序',
