@@ -1,7 +1,11 @@
 import http from "@/utils/request";
 
-export const useDictList = () => {
+export const useDictPage = () => {
   return http.get("/sys/dict/page");
+};
+
+export const useDictList = () => {
+  return http.get("/sys/dict/list");
 };
 
 export const useDictSave = (dataForm: any) => {

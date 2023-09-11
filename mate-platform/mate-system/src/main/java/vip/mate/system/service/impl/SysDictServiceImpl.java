@@ -1,12 +1,15 @@
 package vip.mate.system.service.impl;
 
 import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.fhs.trans.service.impl.DictionaryTransService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.transaction.annotation.Transactional;
 import vip.mate.core.common.exception.ServerException;
+import vip.mate.system.convert.SysRoleConvert;
 import vip.mate.system.entity.SysDict;
 import vip.mate.system.entity.SysDictItem;
 import vip.mate.system.mapper.SysDictMapper;
@@ -121,6 +124,19 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
             }
             return null;
         });
+    }
+
+    @Override
+    public List<SysDictVO> getList(SysDictReq sysDictReq) {
+        List<SysDict> sysDicts = baseMapper.selectList(getWrapper(sysDictReq));
+        return SysDictConvert.INSTANCE.toVo(sysDicts);
+    }
+
+    private Wrapper getWrapper(SysDictReq req) {
+        LambdaQueryWrapper<SysDict> wrapper = Wrappers.<SysDict>lambdaQuery();
+        wrapper.like(StrUtil.isNotBlank(req.getDictName()), SysDict::getDictName, req.getDictName());
+        wrapper.like(StrUtil.isNotBlank(req.getDictCode()), SysDict::getDictCode, req.getDictCode());
+        return wrapper;
     }
 }
 

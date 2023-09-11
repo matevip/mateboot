@@ -19,7 +19,8 @@
 								</span>
 								<span class="do">
 									<el-button-group>
-										<el-button icon="el-icon-edit" size="small" @click.stop="dictEdit(data)"></el-button>
+										<el-button icon="el-icon-edit" size="small"
+											@click.stop="dictEdit(data)"></el-button>
 										<el-popconfirm title="确定删除吗,字典项会一并删除？" @confirm="dictDel(node, data)">
 											<template #reference>
 												<el-button icon="el-icon-delete" size="small" />
@@ -118,11 +119,9 @@ const listDialogVisible = ref(false)
 const checkedDcitName = ref('')
 
 
-// watch((val) => {
-// 	dicFilterText(val) {
-// 			this.$refs.dic.filter(val);
-// 		}
-// })
+watch(dicFilterText, (val) => {
+	dictTreeRef.value.filter(val);
+})
 onMounted(() => {
 	getDict()
 })
@@ -131,7 +130,7 @@ onMounted(() => {
 const getDict = async () => {
 	var res = await useDictList();
 	showDicloading.value = false;
-	dicList.value = res.data.list;
+	dicList.value = res.data;
 	//获取第一个节点,设置选中 & 加载明细列表
 	var firstNode: any = dicList.value[0];
 	if (firstNode) {
