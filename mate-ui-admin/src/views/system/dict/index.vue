@@ -19,8 +19,8 @@
 								</span>
 								<span class="do">
 									<el-button-group>
-										<el-button icon="el-icon-edit" size="small" @click.stop="dicEdit(data)"></el-button>
-										<el-popconfirm title="确定删除吗,字典项会一并删除？" @confirm="dicDel(node, data)">
+										<el-button icon="el-icon-edit" size="small" @click.stop="dictEdit(data)"></el-button>
+										<el-popconfirm title="确定删除吗,字典项会一并删除？" @confirm="dictDel(node, data)">
 											<template #reference>
 												<el-button icon="el-icon-delete" size="small" />
 											</template>
@@ -33,7 +33,7 @@
 				</el-main>
 				<el-footer style="height:51px;">
 					<el-button type="primary" size="small" icon="el-icon-plus" style="width: 100%;"
-						@click="addDic">字典分类</el-button>
+						@click="addDict">字典分类</el-button>
 				</el-footer>
 			</el-container>
 		</el-aside>
@@ -64,8 +64,8 @@
 						<template #default="scope">
 							<el-button-group>
 								<el-button text type="primary" size="small"
-									@click="table_edit(scope.row, scope.$index)">编辑</el-button>
-								<el-popconfirm title="确定删除吗？" @confirm="table_del(scope.row, scope.$index)">
+									@click="tableEdit(scope.row, scope.$index)">编辑</el-button>
+								<el-popconfirm title="确定删除吗？" @confirm="tableDel(scope.row, scope.$index)">
 									<template #reference>
 										<el-button text type="primary" size="small">删除</el-button>
 									</template>
@@ -124,11 +124,11 @@ const checkedDcitName = ref('')
 // 		}
 // })
 onMounted(() => {
-	getDic()
+	getDict()
 })
 
 //加载树数据
-const getDic = async () => {
+const getDict = async () => {
 	var res = await useDictList();
 	showDicloading.value = false;
 	dicList.value = res.data.list;
@@ -152,14 +152,14 @@ const dicFilterNode = (value: any, data: any) => {
 	return targetText.indexOf(value) !== -1;
 }
 //树增加
-const addDic = () => {
+const addDict = () => {
 	dialog.value.dic = true
 	nextTick(() => {
 		dicDialogRef.value.open()
 	})
 }
 //编辑树
-const dicEdit = (data: any) => {
+const dictEdit = (data: any) => {
 	dialog.value.dic = true
 	nextTick(() => {
 		dicDialogRef.value.open('edit')
@@ -174,10 +174,10 @@ const dicClick = (data: any) => {
 	checkedDcitName.value = data.dictName
 }
 //删除树
-const dicDel = async (node: any, data: any) => {
+const dictDel = async (node: any, data: any) => {
 	showDicloading.value = true;
 	var res: any = await useDictDel(data.id);
-	if (res.code == 0) {
+	if (res.code === 0) {
 		var dicCurrentKey = dictTreeRef.value.getCurrentKey();
 		dictTreeRef.value.remove(data.id)
 		if (dicCurrentKey == data.id) {
@@ -207,7 +207,7 @@ const addInfo = () => {
 		var dicCurrentKey = dictTreeRef.value.getCurrentKey();
 		var code = null
 		if (dicList.value.length > 0) {
-			var t = dicList.value.find(d => d.id == dicCurrentKey)
+			var t: any = dicList.value.find((d: any) => d.id == dicCurrentKey)
 			code = t.dictCode
 		}
 		const data = {
@@ -219,20 +219,20 @@ const addInfo = () => {
 	})
 }
 //编辑明细
-const table_edit = (row) => {
+const tableEdit = (row: any) => {
 	dialog.value.list = true
 	nextTick(() => {
 		var dicCurrentKey = dictTreeRef.value.getCurrentKey();
 		row.dic = dicCurrentKey
 
-		var t = dicList.value.find(d => d.id == dicCurrentKey)
+		var t: any = dicList.value.find((d: any) => d.id == dicCurrentKey)
 		row.dictCode = t.dictCode
 		listDialogRef.value.open('edit')
 		listDialogRef.value.setData(row)
 	})
 }
 //删除明细
-const table_del = async (row: any, index: any) => {
+const tableDel = async (row: any, index: any) => {
 	var res: any = await useDictItemDel(row.id);
 	if (res.code === 0) {
 		tableRef.value.tableData.splice(index, 1);
@@ -282,7 +282,7 @@ const selectionChange = (data: any) => {
 //本地更新数据
 const handleDicSuccess = (data: any, mode: any) => {
 	if (mode == 'add') {
-		getDic()
+		getDict()
 	} else if (mode == 'edit') {
 		var editNode = dictTreeRef.value.getNode(data.id);
 		//判断是否移动？

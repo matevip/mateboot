@@ -1,12 +1,14 @@
 package vip.mate.system.service.impl;
 
 import cn.hutool.core.util.ObjectUtil;
-import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.fhs.trans.service.impl.DictionaryTransService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.transaction.annotation.Transactional;
 import vip.mate.core.common.exception.ServerException;
 import vip.mate.system.entity.SysDict;
+import vip.mate.system.entity.SysDictItem;
 import vip.mate.system.mapper.SysDictMapper;
 import vip.mate.system.service.SysDictItemService;
 import vip.mate.system.service.SysDictService;
@@ -18,6 +20,8 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
 
 import cn.hutool.core.collection.CollectionUtil;
 import vip.mate.system.convert.SysDictConvert;
@@ -34,9 +38,9 @@ import vip.mate.core.mybatis.res.PageRes;
  */
 @Service
 @RequiredArgsConstructor
-public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> implements SysDictService {
-
+public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> implements SysDictService, InitializingBean {
     private final SysDictItemService sysDictItemService;
+    private final DictionaryTransService dictionaryTransService;
 
     @Override
     public PageRes<SysDictVO> queryPage(SysDictReq req) {
@@ -93,5 +97,30 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
         return SysDictConvert.INSTANCE.convertVo(info);
     }
 
+    @Override
+    public void afterPropertiesSet() {
+        refreshTransCache();
+    }
+
+    @Override
+    public void refreshTransCache() {
+        System.out.println("-----------刷新字典缓存-----------");
+        // 异步不阻塞主线程，不会 增加启动用时
+        CompletableFuture.supplyAsync(() -> {
+            // 获取所有的字典项数据
+            List<SysDictItem> dataList = sysDictItemService.list(new LambdaQueryWrapper<>());
+            // 根据类型分组
+            Map<Long, List<SysDictItem>> dictData = dataList.stream().collect(Collectors
+                    .groupingBy(SysDictItem::getDictId));
+            List<SysDict> dictEntities = super.list();
+            for (SysDict dictEntity : dictEntities) {
+                if (dictData.containsKey(dictEntity.getId())) {
+                    dictionaryTransService.refreshCache(dictEntity.getDictCode(), dictData.get(dictEntity.getId())
+                            .stream().collect(Collectors.toMap(SysDictItem::getDictValue, SysDictItem::getDictName)));
+                }
+            }
+            return null;
+        });
+    }
 }
 

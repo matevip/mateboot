@@ -50,4 +50,9 @@ public interface SysDictService extends IService<SysDict> {
      * @return true：成功，false：失败
      */
     SysDictVO getData(Long id);
+
+    /**
+     * 刷新字典缓存
+     */
+    void refreshTransCache();
 }

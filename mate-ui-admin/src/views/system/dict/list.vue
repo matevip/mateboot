@@ -2,7 +2,7 @@
 	<el-dialog :title="titleMap[mode]" v-model="visible" :width="400" destroy-on-close @closed="$emit('closed')">
 		<el-form :model="form" :rules="rules" ref="dialogFormRef" label-width="100px" label-position="left">
 			<el-form-item label="字典分类" prop="dictId">
-				<el-cascader v-model="form.dictId" :options="dic" :props="dicProps" :show-all-levels="false"
+				<el-cascader v-model="form.dictId" :options="dictOptions" :props="dictProps" :show-all-levels="false"
 					clearable disabled></el-cascader>
 			</el-form-item>
 			<el-form-item label="项名称" prop="name">
@@ -61,8 +61,8 @@ const rules = reactive({
 	]
 })
 
-const dic = ref([])
-const dicProps = ref({
+const dictOptions = ref([])
+const dictProps = ref({
 	value: "id",
 	label: "dictName",
 	emitPath: false,
@@ -73,7 +73,7 @@ const dicProps = ref({
 const dialogFormRef = ref()
 
 onMounted(() => {
-	getDic()
+	getDict()
 })
 //显示
 const open = (data = 'add') => {
@@ -82,9 +82,9 @@ const open = (data = 'add') => {
 }
 
 //获取字典列表
-const getDic = async () => {
+const getDict = async () => {
 	var res = await useDictList();
-	dic.value = res.data.list;
+	dictOptions.value = res.data.list;
 }
 
 //表单提交方法
