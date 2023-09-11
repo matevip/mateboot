@@ -50,4 +50,11 @@ public interface SysDictItemService extends IService<SysDictItem> {
      * @return true：成功，false：失败
      */
     SysDictItemVO getData(Long id);
+
+    /**
+     * 删除字典类型同时删除字典项
+     * @param dictId 字典类型ID
+     * @return
+     */
+    Boolean deleteByDictId(Long dictId);
 }

@@ -429,7 +429,8 @@ defineExpose({
 	pushRow,
 	unshiftRow,
 	reload,
-	refresh
+	refresh,
+	tableData
 })
 
 </script>

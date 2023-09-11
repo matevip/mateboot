@@ -12,6 +12,10 @@ export const useDictSave = (dataForm: any) => {
   }
 };
 
+export const useDictDel = (id: any) => {
+  return http.delete("/sys/dict/delete?id=" + id);
+};
+
 export const useDictItemList = (params: any) => {
   return http.get("/sys/dictItem/page",  { params });
 };
@@ -22,5 +26,9 @@ export const useDictItemSave = (dataForm: any) => {
   } else {
     return http.post("/sys/dictItem/add", dataForm);
   }
+};
+
+export const useDictItemDel = (id: any) => {
+  return http.delete("/sys/dictItem/delete?id=" + id);
 };
 

@@ -3,7 +3,7 @@
 		<el-form :model="form" :rules="rules" ref="dialogFormRef" label-width="100px" label-position="left">
 			<el-form-item label="字典分类" prop="dictId">
 				<el-cascader v-model="form.dictId" :options="dic" :props="dicProps" :show-all-levels="false"
-					clearable></el-cascader>
+					clearable disabled></el-cascader>
 			</el-form-item>
 			<el-form-item label="项名称" prop="name">
 				<el-input v-model="form.dictName" clearable></el-input>
@@ -73,9 +73,6 @@ const dicProps = ref({
 const dialogFormRef = ref()
 
 onMounted(() => {
-	// if(this.params){
-	// 			this.form.dic = this.params.code
-	// 		}
 	getDic()
 })
 //显示
@@ -114,98 +111,10 @@ const setData = (data: any) => {
 	Object.assign(form, data)
 }
 
-console.log(form)
-
 defineExpose({
 	open,
 	setData
 })
-
 </script>
-<!-- <script>
-	export default {
-		emits: ['success', 'closed'],
-		data() {
-			return {
-				mode: "add",
-				titleMap: {
-					add: '新增项',
-					edit: '编辑项'
-				},
-				visible: false,
-				isSaveing: false,
-				form: {
-					id: "",
-					dic: "",
-					name: "",
-					key: "",
-					yx: "1"
-				},
-				rules: {
-					dic: [
-						{required: true, message: '请选择所属字典'}
-					],
-					name: [
-						{required: true, message: '请输入项名称'}
-					],
-					key: [
-						{required: true, message: '请输入键值'}
-					]
-				},
-				dic: [],
-				dicProps: {
-					value: "id",
-					label: "name",
-					emitPath: false,
-					checkStrictly: true
-				}
-			}
-		},
-		mounted() {
-			if(this.params){
-				this.form.dic = this.params.code
-			}
-			this.getDic()
-		},
-		methods: {
-			//显示
-			open(mode='add'){
-				this.mode = mode;
-				this.visible = true;
-				return this;
-			},
-			//获取字典列表
-			async getDic(){
-				var res = await this.$API.system.dic.tree.get();
-				this.dic = res.data;
-			},
-			//表单提交方法
-			submit(){
-				this.$refs.dialogForm.validate(async (valid) => {
-					if (valid) {
-						this.isSaveing = true;
-						var res = await this.$API.demo.post.post(this.form);
-						this.isSaveing = false;
-						if(res.code == 200){
-							this.$emit('success', this.form, this.mode)
-							this.visible = false;
-							this.$message.success("操作成功")
-						}else{
-							this.$alert(res.message, "提示", {type: 'error'})
-						}
-					}
-				})
-			},
-			//表单注入数据
-			setData(data){
-				this.form.id = data.id
-				this.form.name = data.name
-				this.form.key = data.key
-				this.form.yx = data.yx
-				this.form.dic = data.dic
-			}
-		}
-	}
-</script> -->
 
 <style></style>

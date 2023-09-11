@@ -20,8 +20,11 @@
 								<span class="do">
 									<el-button-group>
 										<el-button icon="el-icon-edit" size="small" @click.stop="dicEdit(data)"></el-button>
-										<el-button icon="el-icon-delete" size="small"
-											@click.stop="dicDel(node, data)"></el-button>
+										<el-popconfirm title="确定删除吗,字典项会一并删除？" @confirm="dicDel(node, data)">
+											<template #reference>
+												<el-button icon="el-icon-delete" size="small" />
+											</template>
+										</el-popconfirm>
 									</el-button-group>
 								</span>
 							</span>
@@ -51,7 +54,7 @@
 					<el-table-column label="键值" prop="dictValue" width="150"></el-table-column>
 					<el-table-column label="是否有效" prop="status" width="100">
 						<template #default="scope">
-							<el-tag v-if="scope.row.status === '1'	" type="success">正常</el-tag>
+							<el-tag v-if="scope.row.status === '1'" type="success">正常</el-tag>
 							<el-tag v-else type="info">禁用</el-tag>
 						</template>
 					</el-table-column>
@@ -89,7 +92,7 @@ import Sortable from 'sortablejs'
 import MTable from '@/components/MTable/index.vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 
-import { useDictList, useDictItemList } from '@/api/system/dict'
+import { useDictList, useDictItemList, useDictDel, useDictItemDel } from '@/api/system/dict'
 
 
 const dictTreeRef = ref()
@@ -97,7 +100,7 @@ const dicDialogRef = ref()
 const listDialogRef = ref()
 const tableRef = ref()
 
-const dialog = ref({
+const dialog: any = ref({
 	dic: false,
 	info: false
 })
@@ -130,7 +133,7 @@ const getDic = async () => {
 	showDicloading.value = false;
 	dicList.value = res.data.list;
 	//获取第一个节点,设置选中 & 加载明细列表
-	var firstNode = dicList.value[0];
+	var firstNode: any = dicList.value[0];
 	if (firstNode) {
 		nextTick(() => {
 			dictTreeRef.value.setCurrentKey(firstNode.id)
@@ -143,7 +146,7 @@ const getDic = async () => {
 	}
 }
 //树过滤
-const dicFilterNode = (value, data) => {
+const dicFilterNode = (value: any, data: any) => {
 	if (!value) return true;
 	var targetText = data.name + data.code;
 	return targetText.indexOf(value) !== -1;
@@ -167,34 +170,34 @@ const dicEdit = (data: any) => {
 const dicClick = (data: any) => {
 	tableRef.value.reload({
 		dictId: data.id,
-		dictCode: data.dictCode,
-		dictName: data.dictName
 	})
 	checkedDcitName.value = data.dictName
 }
 //删除树
-const dicDel = async (node, data) => {
+const dicDel = async (node: any, data: any) => {
 	showDicloading.value = true;
-	var res = await this.$API.system_dict.dict.delType.delete(data.id);
-	if (res.code === '00000') {
-		var dicCurrentKey = this.$refs.dic.getCurrentKey();
+	var res: any = await useDictDel(data.id);
+	if (res.code == 0) {
+		var dicCurrentKey = dictTreeRef.value.getCurrentKey();
 		dictTreeRef.value.remove(data.id)
 		if (dicCurrentKey == data.id) {
-			var firstNode = dicList.value[0];
+			var firstNode: any = dicList.value[0];
 			if (firstNode) {
 				dictTreeRef.value.setCurrentKey(firstNode.id);
-				tableRef.upData({
-					code: firstNode.code
+				tableRef.value.upData({
+					dictId: firstNode.id
 				})
 			} else {
 				listApi.value = null;
 				tableRef.value.tableData = []
+				checkedDcitName.value = ''
 			}
 		}
 		showDicloading.value = false;
-		ElMessage.success("删除成功")
+		ElMessage.success(res.msg)
 	} else {
-		ElMessageBox.alert(res.message, "提示", { type: 'error' })
+		ElMessageBox.alert(res.msg, "提示", { type: 'error' })
+		showDicloading.value = false;
 	}
 }
 //添加明细
@@ -229,13 +232,13 @@ const table_edit = (row) => {
 	})
 }
 //删除明细
-const table_del = async (row, index) => {
-	var res = await this.$API.system_dict.dict.delItem.delete(row.id);
-	if (res.code === '0') {
+const table_del = async (row: any, index: any) => {
+	var res: any = await useDictItemDel(row.id);
+	if (res.code === 0) {
 		tableRef.value.tableData.splice(index, 1);
-		ElMessage.success("删除成功")
+		ElMessage.success(res.msg)
 	} else {
-		ElMessageBox.alert(res.message, "提示", { type: 'error' })
+		ElMessageBox.alert(res.msg, "提示", { type: 'error' })
 	}
 }
 //批量删除
@@ -243,10 +246,10 @@ const batch_del = async () => {
 	ElMessageBox.confirm(`确定删除选中的 ${selection.value.length} 项吗？`, '提示', {
 		type: 'warning'
 	}).then(() => {
-		selection.value.forEach(item => {
-			tableRef.value.tableData.forEach((itemI, indexI) => {
+		selection.value.forEach((item: any) => {
+			tableRef.value.tableData.forEach((itemI: any, indexI: any) => {
 				if (item.id === itemI.id) {
-					var res = this.$API.system_dict.dict.delItem.delete(itemI.id);
+					var res = useDictItemDel(itemI.id);
 					tableRef.value.tableData.splice(indexI, 1)
 				}
 			})
@@ -258,7 +261,7 @@ const batch_del = async () => {
 }
 //提交明细
 const saveList = () => {
-	listDialogRef.value.submit(async (formData) => {
+	listDialogRef.value.submit(async (formData: any) => {
 		isListSaveing.value = true;
 		var res = await this.$API.demo.post.post(formData);
 		isListSaveing.value = false;
@@ -272,11 +275,12 @@ const saveList = () => {
 	})
 }
 //表格选择后回调事件
-const selectionChange = (selection) => {
-	selection.value = selection;
+const selectionChange = (data: any) => {
+	selection.value = data;
+	console.log('selection', selection.value)
 }
 //本地更新数据
-const handleDicSuccess = (data, mode) => {
+const handleDicSuccess = (data: any, mode: any) => {
 	if (mode == 'add') {
 		getDic()
 	} else if (mode == 'edit') {
@@ -292,7 +296,7 @@ const handleDicSuccess = (data, mode) => {
 	}
 }
 //本地更新数据
-const handleListSuccess = (data, mode) => {
+const handleListSuccess = (data: any, mode: any) => {
 	tableRef.value.reload({
 		typeCode: data.oldTypeCode
 	})
