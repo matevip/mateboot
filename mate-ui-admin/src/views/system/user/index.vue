@@ -18,8 +18,8 @@
 					<el-button type="primary" icon="el-icon-plus" @click="add"></el-button>
 					<el-button type="danger" plain icon="el-icon-delete" :disabled="selection.length == 0"
 						@click="batchDel"></el-button>
-					<el-button type="primary" plain :disabled="selection.length == 0">分配角色</el-button>
-					<el-button type="primary" plain :disabled="selection.length == 0">密码重置</el-button>
+					<el-button type="primary" plain :disabled="selection.length !== 1" @click="setRole">分配角色</el-button>
+					<el-button type="primary" plain :disabled="selection.length !== 1" @click="setPassowrd">密码重置</el-button>
 				</div>
 				<div class="right-panel">
 					<div class="right-panel-search">
@@ -66,12 +66,20 @@
 	<save-dialog v-if="dialog.save" ref="saveDialogRef" @success="handleSuccess" @closed="dialog.save = false">
 	</save-dialog>
 
+	<password-dialog v-if="dialog.save" ref="passwordDialogRef" @success="handleSuccess" @closed="dialog.save = false">
+	</password-dialog>
+
+	<role-dialog v-if="dialog.save" ref="roleDialogRef" @success="handleSuccess" @closed="dialog.save = false">
+	</role-dialog>
+
 </template>
 
 <script lang="ts" setup name="user">
 import { ref, reactive, nextTick, watch, onMounted } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import saveDialog from './save.vue'
+import passwordDialog from './password.vue'
+import roleDialog from './role.vue'
 import MTable from '@/components/MTable/index.vue'
 import MTableColumn from '@/components/MTable/column.js'
 import { userPageApi, userDelApi } from '@/api/system/user'
@@ -98,6 +106,8 @@ const search = reactive({
 const saveDialogRef = ref()
 const tableRef = ref()
 const groupRef = ref()
+const passwordDialogRef = ref()
+const roleDialogRef = ref()
 
 onMounted(() => {
 	getGroup()
@@ -117,8 +127,6 @@ const add = () => {
 //编辑
 const tableEdit = (row: any) => {
 	dialog.save = true
-	console.log(row, 'row');
-	
 	nextTick(() => {
 		saveDialogRef.value.open('edit')
 		saveDialogRef.value.setData(row)
@@ -163,6 +171,23 @@ const batchDel = () => {
 
 	}).catch(() => {
 
+	})
+}
+
+//设置密码
+const setPassowrd = () => {
+	dialog.save = true
+	nextTick(() => {
+		passwordDialogRef.value.open()
+		passwordDialogRef.value.setData(selection.value[0])
+	})
+}
+//分配角色
+const setRole = () => {
+	dialog.save = true
+	nextTick(() => {
+		roleDialogRef.value.open()
+		roleDialogRef.value.setData(selection.value[0])
 	})
 }
 //表格选择后回调事件

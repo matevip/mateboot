@@ -6,12 +6,17 @@ import com.baomidou.dynamic.datasource.toolkit.CryptoUtils;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import lombok.RequiredArgsConstructor;
 import vip.mate.core.common.exception.ServerException;
 import vip.mate.core.common.utils.CryptoUtil;
 import vip.mate.core.mybatis.service.impl.BaseServiceImpl;
+import vip.mate.system.entity.SysRole;
 import vip.mate.system.entity.SysUser;
+import vip.mate.system.entity.SysUserRole;
 import vip.mate.system.enums.SystemCodeEnum;
 import vip.mate.system.mapper.SysUserMapper;
+import vip.mate.system.service.SysRoleService;
+import vip.mate.system.service.SysUserRoleService;
 import vip.mate.system.service.SysUserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import vip.mate.system.vo.SysUserVO;
@@ -36,7 +41,10 @@ import vip.mate.core.mybatis.res.PageRes;
  * @since 2023-08-21
  */
 @Service
+@RequiredArgsConstructor
 public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> implements SysUserService {
+
+    private final SysUserRoleService sysUserRoleService;
 
     @Override
     public PageRes<SysUserVO> queryPage(SysUserReq req) {
@@ -50,6 +58,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
 
     /**
      * 自定义查询功能
+     *
      * @param req 请求对象
      * @return
      */
@@ -77,9 +86,17 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
     public Boolean updateData(SysUserReq req) {
         SysUser entity = SysUserConvert.INSTANCE.convert(req);
         userCondition(entity);
+        // 更新密码
         if (ObjectUtil.isNotNull(entity.getPassword())) {
             // 加密密码
             entity.setPassword(CryptoUtil.doHashValue(CryptoUtil.doSm4CbcEncrypt(entity.getPassword())));
+        }
+        // 更新用户角色关系
+        if (ObjectUtil.isNotNull(req.getRoleIdList())) {
+            // 删除用户角色关系
+            sysUserRoleService.removeByUserId(req.getId());
+            // 保存用户角色关系
+            sysUserRoleService.saveBatch(req.getId(), req.getRoleIdList());
         }
         return baseMapper.updateById(entity) > 0;
     }

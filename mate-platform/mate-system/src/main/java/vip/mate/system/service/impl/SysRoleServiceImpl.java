@@ -1,5 +1,8 @@
 package vip.mate.system.service.impl;
 
+import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import vip.mate.system.entity.SysRole;
 import vip.mate.system.mapper.SysRoleMapper;
 import vip.mate.system.service.SysRoleService;
@@ -9,7 +12,9 @@ import vip.mate.system.req.SysRoleReq;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import org.springframework.stereotype.Service;
+
 import java.util.*;
+
 import cn.hutool.core.collection.CollectionUtil;
 import vip.mate.system.convert.SysRoleConvert;
 import vip.mate.core.mybatis.res.PageRes;
@@ -30,11 +35,11 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     public PageRes<SysRoleVO> queryPage(SysRoleReq req) {
         SysRole info = SysRoleConvert.INSTANCE.convert(req);
         Page<SysRole> pageData = baseMapper.selectPage(new Page<>(req.getPageNo(), req.getPageSize()), Wrappers.query(info));
-        if(CollectionUtil.isEmpty(pageData.getRecords())){
+        if (CollectionUtil.isEmpty(pageData.getRecords())) {
             return PageRes.empty();
         }
         List<SysRoleVO> vos = SysRoleConvert.INSTANCE.toVo(pageData.getRecords());
-        return new PageRes<>(vos, pageData.getTotal(),req);
+        return new PageRes<>(vos, pageData.getTotal(), req);
     }
 
     @Override
@@ -57,6 +62,18 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     public SysRoleVO getData(Long id) {
         final SysRole info = baseMapper.selectById(id);
         return SysRoleConvert.INSTANCE.convertVo(info);
+    }
+
+    @Override
+    public List<SysRoleVO> getList(SysRoleReq sysRoleReq) {
+        List<SysRole> list = baseMapper.selectList(getWrapper(sysRoleReq));
+        return SysRoleConvert.INSTANCE.toVo(list);
+    }
+
+    private Wrapper<SysRole> getWrapper(SysRoleReq req) {
+        LambdaQueryWrapper<SysRole> wrapper = new LambdaQueryWrapper<>();
+        wrapper.like(StrUtil.isNotBlank(req.getName()), SysRole::getName, req.getName());
+        return wrapper;
     }
 
 }

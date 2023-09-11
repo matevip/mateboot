@@ -2,6 +2,8 @@ package vip.mate.system.req;
 
 import vip.mate.core.mybatis.req.PageReq;
 import java.time.LocalDateTime;
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
@@ -56,5 +58,8 @@ public class SysUserReq extends PageReq {
 
     @Schema(description = "版本号")
     private Integer version;
+
+    @Schema(description = "角色ID列表")
+    private List<Long> roleIdList;
 
 }

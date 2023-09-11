@@ -32,3 +32,7 @@ export const userSaveApi = (ids: any) => {
 export const userPageApi = (params: any) => {
   return http.get("/sys/user/page", { params });
 };
+
+export const useGetRoleApi = (userId: any) => {
+  return http.get("/sys/user/getRole", { params: { userId } });
+};

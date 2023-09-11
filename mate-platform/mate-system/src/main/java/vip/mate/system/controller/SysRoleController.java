@@ -20,6 +20,8 @@ import org.springframework.validation.annotation.Validated;
 import jakarta.validation.Valid;
 import vip.mate.core.common.constant.MateConstant;
 
+import java.util.List;
+
 /**
  * <p>
  * 角色管理 前端控制器
@@ -45,6 +47,14 @@ public class SysRoleController {
 //    @SaCheckPermission("sysRole:page")
     public Result<PageRes<SysRoleVO>> queryPage(SysRoleReq req) {
         return Result.ok(sysRoleService.queryPage(req));
+    }
+
+    @GetMapping("/list")
+    @ApiOperationSupport(order = 7)
+    @Operation(summary = "列表查询",description = "权限字符串：sysRole:list")
+    public Result<List<SysRoleVO>> list() {
+        List<SysRoleVO> list = sysRoleService.getList(new SysRoleReq());
+        return Result.ok(list);
     }
 
     @PostMapping("/add")

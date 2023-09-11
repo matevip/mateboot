@@ -11,12 +11,15 @@ import org.springframework.web.bind.annotation.*;
 import vip.mate.core.common.response.Result;
 import vip.mate.core.mybatis.res.PageRes;
 import vip.mate.system.req.SysUserReq;
+import vip.mate.system.service.SysUserRoleService;
 import vip.mate.system.vo.SysUserVO;
 import vip.mate.system.service.SysUserService;
 import vip.mate.system.entity.SysUser;
 import org.springframework.validation.annotation.Validated;
 import jakarta.validation.Valid;
 import vip.mate.core.common.constant.MateConstant;
+
+import java.util.List;
 
 /**
  * <p>
@@ -35,6 +38,7 @@ import vip.mate.core.common.constant.MateConstant;
 public class SysUserController {
 
     private final SysUserService sysUserService;
+    private final SysUserRoleService sysUserRoleService;
 
     @GetMapping("/page")
     @ApiOperationSupport(order = 1)
@@ -80,10 +84,17 @@ public class SysUserController {
     }
 
     @GetMapping("/info")
-    @ApiOperationSupport(order = 5)
+    @ApiOperationSupport(order = 6)
     @Operation(summary = "用户信息")
     public Result<SysUserVO> info() {
         return Result.ok(sysUserService.getData(Long.parseLong(StpUtil.getLoginId().toString())));
+    }
+
+    @GetMapping("/getRole")
+    @ApiOperationSupport(order = 7)
+    @Operation(summary = "用户信息")
+    public Result<List<Long>> getRoleIds(@RequestParam("userId") Long userId) {
+        return Result.ok(sysUserRoleService.getRoleIdsByUserId(userId));
     }
 }
 

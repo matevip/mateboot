@@ -71,6 +71,9 @@ const form = reactive({
 	password2: "",
 	mobile: "",
 	email: "",
+	superAdmin: 0,
+	gender: 0,
+	status: 1,
 	roleList: []
 })
 //验证规则

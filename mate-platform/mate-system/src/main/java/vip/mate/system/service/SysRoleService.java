@@ -6,6 +6,8 @@ import vip.mate.system.vo.SysRoleVO;
 import vip.mate.system.req.SysRoleReq;
 import vip.mate.core.mybatis.res.PageRes;
 
+import java.util.List;
+
 /**
 * <p>
 * 角色管理 服务类
@@ -50,4 +52,11 @@ public interface SysRoleService extends IService<SysRole> {
      * @return true：成功，false：失败
      */
     SysRoleVO getData(Long id);
+
+    /**
+     * 获取角色列表
+     * @param sysRoleReq
+     * @return
+     */
+    List<SysRoleVO> getList(SysRoleReq sysRoleReq);
 }
