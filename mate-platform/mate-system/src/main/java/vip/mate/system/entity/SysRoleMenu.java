@@ -27,7 +27,7 @@ public class SysRoleMenu implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @TableId
+    @TableId(value = "id",type = IdType.ASSIGN_ID)
     @Schema(description = "ID")
     private Long id;
 

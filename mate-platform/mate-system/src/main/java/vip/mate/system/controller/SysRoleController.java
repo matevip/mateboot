@@ -1,6 +1,5 @@
 package vip.mate.system.controller;
 
-import cn.dev33.satoken.annotation.SaCheckPermission;
 import cn.dev33.satoken.annotation.SaIgnore;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import lombok.AllArgsConstructor;
@@ -13,6 +12,7 @@ import vip.mate.core.common.response.R;
 import vip.mate.core.common.response.Result;
 import vip.mate.core.mybatis.res.PageRes;
 import vip.mate.system.req.SysRoleReq;
+import vip.mate.system.service.SysRoleMenuService;
 import vip.mate.system.vo.SysRoleVO;
 import vip.mate.system.service.SysRoleService;
 import vip.mate.system.entity.SysRole;
@@ -40,6 +40,7 @@ import java.util.List;
 public class SysRoleController {
 
     private final SysRoleService sysRoleService;
+    private final SysRoleMenuService sysRoleMenuService;
 
     @GetMapping("/page")
     @ApiOperationSupport(order = 1)
@@ -70,8 +71,8 @@ public class SysRoleController {
     @ApiOperationSupport(order = 3)
     @Operation(summary = "修改",description = "权限字符串：sysRole:update")
 //    @SaCheckPermission("sysRole:update")
-    public Result<String> update(@Valid @RequestBody SysRole entity){
-        boolean flag = sysRoleService.updateData(entity);
+    public Result<String> update(@Valid @RequestBody SysRoleReq req){
+        boolean flag = sysRoleService.updateData(req);
         return flag ? Result.ok("修改成功") : Result.error("修改失败");
     }
 
@@ -99,6 +100,21 @@ public class SysRoleController {
 //    @SaCheckPermission("sysRole:status")
     public Result<String> updateStatus(@Valid @RequestBody SysRole entity) {
         sysRoleService.update(Wrappers.<SysRole>update().lambda().eq(SysRole::getId, entity.getId()).set(SysRole::getStatus, entity.getStatus()));
+        return R.ok();
+    }
+
+    @GetMapping("/getMenuIds")
+    @ApiOperationSupport(order = 7)
+    @Operation(summary = "获取角色菜单")
+    public Result<List<Long>> getMenuIds(@RequestParam("roleId") Long roleId) {
+        return Result.ok(sysRoleMenuService.getMenuIdsByRoleId(roleId));
+    }
+
+    @PostMapping("/updateRoleMenu")
+    @ApiOperationSupport(order = 8)
+    @Operation(summary = "更新角色菜单")
+    public Result<String> updateRoleMenu(@Valid @RequestBody SysRoleReq req) {
+        sysRoleMenuService.saveRoleMenu(req.getId(), req.getMenuIds());
         return R.ok();
     }
 }

@@ -2,6 +2,8 @@ package vip.mate.system.req;
 
 import vip.mate.core.mybatis.req.PageReq;
 import java.time.LocalDateTime;
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
@@ -20,6 +22,9 @@ import lombok.EqualsAndHashCode;
 @Accessors(chain = true)
 @Schema(name = "SysRoleReq对象", description = "角色管理")
 public class SysRoleReq extends PageReq {
+
+    @Schema(description = "id")
+    private Long id;
 
     @Schema(description = "角色名称")
     private String name;
@@ -41,5 +46,11 @@ public class SysRoleReq extends PageReq {
 
     @Schema(description = "状态")
     private Byte status;
+
+    @Schema(description = "菜单ID集合")
+    private List<Long> menuIds;
+
+    @Schema(description = "部门ID集合")
+    private List<Long> deptIds;
 
 }

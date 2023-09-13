@@ -105,6 +105,7 @@ const permission = () => {
 	dialog.permission = true
 	nextTick(() => {
 		permissionDialogRef.value.open()
+		permissionDialogRef.value.setData(selection.value[0])
 	})
 }
 //删除

@@ -6,6 +6,8 @@ import vip.mate.system.vo.SysRoleMenuVO;
 import vip.mate.system.req.SysRoleMenuReq;
 import vip.mate.core.mybatis.res.PageRes;
 
+import java.util.List;
+
 /**
 * <p>
 * 角色菜单 服务类
@@ -50,4 +52,18 @@ public interface SysRoleMenuService extends IService<SysRoleMenu> {
      * @return true：成功，false：失败
      */
     SysRoleMenuVO getData(Long id);
+
+    /**
+     * 保存角色菜单
+     * @param id
+     * @param menuIds
+     */
+    Boolean saveRoleMenu(Long id, List<Long> menuIds);
+
+    /**
+     * 根据角色ID获取菜单ID集合
+     * @param roleId 角色ID
+     * @return 菜单ID集合
+     */
+    List<Long> getMenuIdsByRoleId(Long roleId);
 }

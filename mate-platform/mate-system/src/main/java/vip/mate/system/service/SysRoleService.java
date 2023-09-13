@@ -34,10 +34,10 @@ public interface SysRoleService extends IService<SysRole> {
 
     /**
     * 修改
-    * @param entity 实体类对象
+    * @param req 实体类对象
     * @return true：成功，false：失败
     */
-    Boolean updateData(SysRole entity);
+    Boolean updateData(SysRoleReq req);
 
     /**
      * 删除

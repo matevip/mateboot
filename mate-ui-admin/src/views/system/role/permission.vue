@@ -18,13 +18,15 @@
 							<el-option label="自定义" value="6"></el-option>
 						</el-select>
 					</el-form-item>
-					<el-form-item label="选择部门" v-show="data.dataType=='5'">
+					<el-form-item label="选择部门" v-show="data.dataType == '5'">
 						<div class="treeMain" style="width: 100%;">
-							<el-tree ref="deptRef" node-key="id" :data="data.list" :props="data.props" show-checkbox></el-tree>
+							<el-tree ref="deptRef" node-key="id" :data="data.list" :props="data.props"
+								show-checkbox></el-tree>
 						</div>
 					</el-form-item>
-					<el-form-item label="规则值" v-show="data.dataType=='6'">
-						<el-input v-model="data.rule" clearable type="textarea" :rows="6" placeholder="请输入自定义规则代码"></el-input>
+					<el-form-item label="规则值" v-show="data.dataType == '6'">
+						<el-input v-model="data.rule" clearable type="textarea" :rows="6"
+							placeholder="请输入自定义规则代码"></el-input>
 					</el-form-item>
 				</el-form>
 			</el-tab-pane>
@@ -32,7 +34,8 @@
 				<el-form label-width="100px" label-position="left">
 					<el-form-item label="控制台视图">
 						<el-select v-model="dashboard" placeholder="请选择">
-							<el-option v-for="item in dashboardOptions" :key="item.value" :label="item.label" :value="item.value">
+							<el-option v-for="item in dashboardOptions" :key="item.value" :label="item.label"
+								:value="item.value">
 								<span style="float: left">{{ item.label }}</span>
 								<span style="float: right; color: #8492a6; font-size: 12px">{{ item.views }}</span>
 							</el-option>
@@ -43,7 +46,7 @@
 			</el-tab-pane>
 		</el-tabs>
 		<template #footer>
-			<el-button @click="visible=false" >取 消</el-button>
+			<el-button @click="visible = false">取 消</el-button>
 			<el-button type="primary" :loading="isSaveing" @click="submit()">保 存</el-button>
 		</template>
 	</el-dialog>
@@ -54,6 +57,7 @@ import { ref, reactive, onMounted, nextTick } from 'vue'
 import { ElMessage } from 'element-plus'
 import { useMenuList } from '@/api/system/menu'
 import { useDeptList } from '@/api/system/dept'
+import { useGetMenuIds, useRoleSave, useUpdateRoleMenu } from '@/api/system/role'
 
 const emit = defineEmits(['success', 'closed'])
 
@@ -101,6 +105,12 @@ const dashboardOptions = ref([
 const menuRef = ref()
 const deptRef = ref()
 
+const form = reactive({
+	id: "",
+	menuIds: [],
+	deptIds: []
+})
+
 const open = () => {
 	visible.value = true;
 }
@@ -109,12 +119,14 @@ const submit = () => {
 
 	//选中的和半选的合并后传值接口
 	var checkedKeys = menuRef.value.getCheckedKeys().concat(menuRef.value.getHalfCheckedKeys())
-	console.log(checkedKeys)
+	form.menuIds = checkedKeys
+	
 
 	var checkedKeys_dept = deptRef.value.getCheckedKeys().concat(deptRef.value.getHalfCheckedKeys())
 	console.log(checkedKeys_dept)
 
-	setTimeout(() => {
+	setTimeout(async() => {
+		await useUpdateRoleMenu(form);	
 		isSaveing.value = false;
 		visible.value = false;
 		ElMessage.success("操作成功")
@@ -126,8 +138,11 @@ const getMenu = async () => {
 	var res = await useMenuList(-1)
 	menu.list = res.data
 
-	//获取接口返回的之前选中的和半选的合并，处理过滤掉有叶子节点的key
-	menu.checked = ["system", "user", "user.add", "user.edit", "user.del", "directive.edit", "other", "directive"]
+	var idsRes = await useGetMenuIds(form.id)
+	menu.checked = idsRes.data
+
+	// //获取接口返回的之前选中的和半选的合并，处理过滤掉有叶子节点的key
+	// menu.checked = ["system", "user", "user.add", "user.edit", "user.del", "directive.edit", "other", "directive"]
 	nextTick(() => {
 		let filterKeys = menu.checked.filter((key: any) => menuRef.value.getNode(key).isLeaf)
 		menuRef.value.setCheckedKeys(filterKeys, true)
@@ -143,11 +158,19 @@ const getDept = async () => {
 	})
 }
 
+//表单注入数据
+const setData = (data: any) => {
+	form.id = data.id
+}
+
 defineExpose({
-	open
+	open, setData
 })
 </script>
 
-<style scoped>
-	.treeMain {height:280px;overflow: auto;border: 1px solid #dcdfe6;margin-bottom: 10px;}
-</style>
+<style scoped>.treeMain {
+	height: 280px;
+	overflow: auto;
+	border: 1px solid #dcdfe6;
+	margin-bottom: 10px;
+}</style>

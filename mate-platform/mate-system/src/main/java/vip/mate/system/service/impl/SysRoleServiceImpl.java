@@ -1,10 +1,14 @@
 package vip.mate.system.service.impl;
 
+import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import lombok.RequiredArgsConstructor;
 import vip.mate.system.entity.SysRole;
+import vip.mate.system.entity.SysRoleMenu;
 import vip.mate.system.mapper.SysRoleMapper;
+import vip.mate.system.service.SysRoleMenuService;
 import vip.mate.system.service.SysRoleService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import vip.mate.system.vo.SysRoleVO;
@@ -48,7 +52,9 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     }
 
     @Override
-    public Boolean updateData(SysRole entity) {
+    public Boolean updateData(SysRoleReq req) {
+        // 更新角色信息
+        SysRole entity = SysRoleConvert.INSTANCE.convert(req);
         return baseMapper.updateById(entity) > 0;
     }
 

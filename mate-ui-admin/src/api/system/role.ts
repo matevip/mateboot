@@ -23,3 +23,11 @@ export const useRoleDel = (id: any) => {
 export const useRoleStatus = (dataForm: any) => {
   return http.put("/sys/role/updateStatus", dataForm);
 };
+
+export const useGetMenuIds = (id: any) => {
+  return http.get("/sys/role/getMenuIds?roleId=" + id);
+};
+
+export const useUpdateRoleMenu = (dataForm: any) => {
+    return http.post("/sys/role/updateRoleMenu", dataForm);
+};

@@ -85,13 +85,6 @@ const submit = () => {
 }
 //表单注入数据
 const setData = (data: any) => {
-	// this.form.id = data.id
-	// this.form.label = data.label
-	// this.form.alias = data.alias
-	// this.form.sort = data.sort
-	// this.form.status = data.status
-	// this.form.remark = data.remark
-
 	//可以和上面一样单个注入，也可以像下面一样直接合并进去
 	Object.assign(form, data)
 }
