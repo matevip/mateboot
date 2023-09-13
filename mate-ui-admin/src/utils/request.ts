@@ -1,4 +1,4 @@
-import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
+import axios, { InternalAxiosRequestConfig, AxiosResponse, AxiosError } from "axios";
 import qs from "qs";
 import { ElMessageBox, ElNotification } from "element-plus";
 import store from "@/store";
@@ -14,7 +14,7 @@ const http = axios.create({
 
 // 请求拦截器
 http.interceptors.request.use(
-  (config: any) => {
+  (config: InternalAxiosRequestConfig) => {
     const userStore = store.userStore;
     if (userStore?.token) {
       config.headers.Authorization = userStore.token;
@@ -38,7 +38,7 @@ http.interceptors.request.use(
 
     return config;
   },
-  (error) => {
+  (error: AxiosError) => {
     return Promise.reject(error);
   }
 );
@@ -74,7 +74,7 @@ http.interceptors.response.use(
     }
     return Promise.reject(new Error(res.msg || "Error"));
   },
-  (error) => {
+  (error: AxiosError) => {
     ElNotification.error(error.message);
     return Promise.reject(error);
   }
