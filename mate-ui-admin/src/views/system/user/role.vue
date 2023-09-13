@@ -18,7 +18,7 @@
 </template>
     
 <script setup lang='ts'>
-import { ref, reactive, onBeforeMount, onMounted } from 'vue'
+import { ref, reactive, onBeforeMount } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { useGetRoleApi, useUserSubmit } from '@/api/system/user'
 import { useRoleList } from '@/api/system/role';
@@ -46,7 +46,9 @@ const roleProps = ref({
 })
 //验证规则
 const rules = reactive({
-	
+	roleIdList: [
+		{ required: true, message: '请选择所属角色' }
+	],	
 })
 
 onBeforeMount(() => {

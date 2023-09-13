@@ -11,7 +11,7 @@
  Target Server Version : 50719
  File Encoding         : 65001
 
- Date: 29/08/2023 21:03:18
+ Date: 13/09/2023 21:32:58
 */
 
 SET NAMES utf8mb4;
@@ -90,6 +90,71 @@ INSERT INTO `mate_sys_dept` VALUES (1695564226522865666, 1695561846813188098, '�
 COMMIT;
 
 -- ----------------------------
+-- Table structure for mate_sys_dict
+-- ----------------------------
+DROP TABLE IF EXISTS `mate_sys_dict`;
+CREATE TABLE `mate_sys_dict` (
+  `id` bigint(20) NOT NULL COMMENT 'id',
+  `dict_code` varchar(100) NOT NULL COMMENT '字典类型',
+  `dict_name` varchar(255) NOT NULL COMMENT '字典名称',
+  `remark` varchar(255) DEFAULT NULL COMMENT '备注',
+  `sort` int(11) DEFAULT NULL COMMENT '排序',
+  `status` tinyint(4) DEFAULT '1' COMMENT '状态  0：停用   1：正常',
+  `deleted` tinyint(4) DEFAULT NULL COMMENT '删除标识  0：正常   1：已删除',
+  `create_by` bigint(20) DEFAULT NULL COMMENT '创建者',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_by` bigint(20) DEFAULT NULL COMMENT '更新者',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='字典类型';
+
+-- ----------------------------
+-- Records of mate_sys_dict
+-- ----------------------------
+BEGIN;
+INSERT INTO `mate_sys_dict` VALUES (1701080075010592769, 'sys_render', '性别', NULL, NULL, 1, 0, 1696500250245672962, '2023-09-11 11:47:49', 1696500250245672962, '2023-09-11 11:49:42');
+INSERT INTO `mate_sys_dict` VALUES (1701080602846973953, 'sys_status', '状态', NULL, NULL, 1, 0, 1696500250245672962, '2023-09-11 11:49:55', 1696500250245672962, '2023-09-11 15:03:34');
+INSERT INTO `mate_sys_dict` VALUES (1701081038022791170, 'sys_yes_no', '是否', NULL, NULL, 1, 0, 1696500250245672962, '2023-09-11 11:51:39', NULL, NULL);
+INSERT INTO `mate_sys_dict` VALUES (1701128755340140545, 'sys_test', '测试', NULL, NULL, 0, 0, 1696500250245672962, '2023-09-11 15:01:15', 1696500250245672962, '2023-09-11 15:01:19');
+COMMIT;
+
+-- ----------------------------
+-- Table structure for mate_sys_dict_item
+-- ----------------------------
+DROP TABLE IF EXISTS `mate_sys_dict_item`;
+CREATE TABLE `mate_sys_dict_item` (
+  `id` bigint(20) NOT NULL COMMENT 'id',
+  `dict_id` bigint(20) NOT NULL COMMENT '字典类型ID',
+  `dict_name` varchar(255) NOT NULL COMMENT '字典名称',
+  `dict_value` varchar(255) DEFAULT NULL COMMENT '字典值',
+  `dict_class` varchar(100) DEFAULT NULL COMMENT '字典样式',
+  `remark` varchar(255) DEFAULT NULL COMMENT '备注',
+  `sort` int(11) DEFAULT NULL COMMENT '排序',
+  `status` tinyint(4) DEFAULT '1' COMMENT '状态  0：停用   1：正常',
+  `deleted` tinyint(4) DEFAULT NULL COMMENT '删除标识  0：正常   1：已删除',
+  `create_by` bigint(20) DEFAULT NULL COMMENT '创建者',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_by` bigint(20) DEFAULT NULL COMMENT '更新者',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='字典项';
+
+-- ----------------------------
+-- Records of mate_sys_dict_item
+-- ----------------------------
+BEGIN;
+INSERT INTO `mate_sys_dict_item` VALUES (1701080098603552770, 1701080075010592769, '男', '1', NULL, NULL, 0, 1, 0, 1696500250245672962, '2023-09-11 11:47:55', NULL, NULL);
+INSERT INTO `mate_sys_dict_item` VALUES (1701080116630671361, 1701080075010592769, '女', '2', NULL, NULL, 0, 1, 0, 1696500250245672962, '2023-09-11 11:47:59', NULL, NULL);
+INSERT INTO `mate_sys_dict_item` VALUES (1701080144589901826, 1701080075010592769, '未知', '0', NULL, NULL, 0, 1, 0, 1696500250245672962, '2023-09-11 11:48:06', NULL, NULL);
+INSERT INTO `mate_sys_dict_item` VALUES (1701080752021590017, 1701080602846973953, '正常', ' 1', NULL, NULL, 0, 1, 0, 1696500250245672962, '2023-09-11 11:50:30', NULL, NULL);
+INSERT INTO `mate_sys_dict_item` VALUES (1701080789069877250, 1701080602846973953, '禁用', '0', NULL, NULL, 0, 1, 0, 1696500250245672962, '2023-09-11 11:50:39', NULL, NULL);
+INSERT INTO `mate_sys_dict_item` VALUES (1701081083245776898, 1701081038022791170, '是', '1', NULL, NULL, 0, 1, 0, 1696500250245672962, '2023-09-11 11:51:49', NULL, NULL);
+INSERT INTO `mate_sys_dict_item` VALUES (1701125560916267009, 1701081038022791170, '否', '0', NULL, NULL, 0, 1, 0, 1696500250245672962, '2023-09-11 14:48:34', NULL, NULL);
+INSERT INTO `mate_sys_dict_item` VALUES (1701128803675299842, 1701128755340140545, '测试成功', '1', NULL, NULL, 0, 1, 0, 1696500250245672962, '2023-09-11 15:01:27', NULL, NULL);
+INSERT INTO `mate_sys_dict_item` VALUES (1701128830300741633, 1701128755340140545, '测试失败', '0', NULL, NULL, 0, 1, 0, 1696500250245672962, '2023-09-11 15:01:33', 1696500250245672962, '2023-09-11 15:01:40');
+COMMIT;
+
+-- ----------------------------
 -- Table structure for mate_sys_menu
 -- ----------------------------
 DROP TABLE IF EXISTS `mate_sys_menu`;
@@ -129,7 +194,7 @@ INSERT INTO `mate_sys_menu` VALUES (1695809033467912193, 1695808445619429377, 'u
 INSERT INTO `mate_sys_menu` VALUES (1695810131813523458, 0, 'system', '系统管理', '/system', '', 'sys:menu:list', 0, 0, 'el-icon-tools', 1, 0, '', 0, 0, 0, 0, 10000, '2023-08-27 22:46:57', 10000, '2023-08-27 23:29:28');
 INSERT INTO `mate_sys_menu` VALUES (1695811066761633794, 1695810131813523458, 'config', '配置管理', '/config', '', NULL, 0, 0, 'el-icon-files', 1, 0, '', 0, 0, 0, 0, 10000, '2023-08-27 22:50:40', 10000, '2023-08-27 23:47:36');
 INSERT INTO `mate_sys_menu` VALUES (1695811171111723010, 1695811066761633794, 'setting', '系统设置', '/system/setting', 'system/setting/index', 'sys:menu:list', 0, 0, 'el-icon-setting', 1, 0, '', 0, 0, 0, 0, 10000, '2023-08-27 22:51:04', 10000, '2023-08-27 23:23:48');
-INSERT INTO `mate_sys_menu` VALUES (1695811373994401794, 1695811066761633794, 'dic', '数据字典', '/system/dic', 'system/dic/index', NULL, 0, 0, 'el-icon-reading', 2, 0, '', 0, 0, 0, 0, 10000, '2023-08-27 22:51:53', 10000, '2023-08-27 23:25:55');
+INSERT INTO `mate_sys_menu` VALUES (1695811373994401794, 1695811066761633794, 'dict', '数据字典', '/system/dict', 'system/dict/index', NULL, 0, 0, 'el-icon-reading', 2, 0, '', 0, 0, 0, 0, 10000, '2023-08-27 22:51:53', 1696500250245672962, '2023-09-04 21:14:07');
 INSERT INTO `mate_sys_menu` VALUES (1695811916687007745, 1695811066761633794, 'task', '定时任务', '/system/task', 'system/task/index', NULL, 0, 0, 'el-icon-calendar', 3, 0, '', 0, 0, 0, 0, 10000, '2023-08-27 22:54:02', 10000, '2023-08-27 22:54:30');
 INSERT INTO `mate_sys_menu` VALUES (1695813352850251778, 1695810131813523458, 'authority', '权限管理', '/authority', '', NULL, 0, 0, 'el-icon-first-aid-kit', 3, 0, '', 0, 0, 0, 0, 10000, '2023-08-27 22:59:45', 10000, '2023-08-27 23:00:35');
 INSERT INTO `mate_sys_menu` VALUES (1695813590046531586, 1695813352850251778, 'user', '用户管理', '/system/user', 'system/user/index', NULL, 0, 0, 'el-icon-user', 1, 0, '', 0, 0, 0, 0, 10000, '2023-08-27 23:00:41', 10000, '2023-08-27 23:01:12');
@@ -138,8 +203,9 @@ INSERT INTO `mate_sys_menu` VALUES (1695813988744486914, 1695813352850251778, 'm
 INSERT INTO `mate_sys_menu` VALUES (1695814157506502657, 1695813352850251778, 'dept', '部门管理', '/system/dept', 'system/dept/index', NULL, 0, 0, 'el-icon-folder-opened', 4, 0, '', 0, 0, 0, 0, 10000, '2023-08-27 23:02:57', 10000, '2023-08-27 23:03:34');
 INSERT INTO `mate_sys_menu` VALUES (1695820872713035778, 0, 'link', '外链管理', '', '', 'sys:menu:list', 0, 0, 'el-icon-operation', 2, 0, 'new', 0, 0, 0, 0, 10000, '2023-08-27 23:29:38', 10000, '2023-08-27 23:33:09');
 INSERT INTO `mate_sys_menu` VALUES (1695822917742391297, 1695820872713035778, 'vue', 'Vue 官网', 'https://vuejs.org', '', 'sys:menu:list', 3, 0, 'sc-icon-vue', 0, 0, '官方', 0, 0, 0, 0, 10000, '2023-08-27 23:37:45', 10000, '2023-08-27 23:38:41');
-INSERT INTO `mate_sys_menu` VALUES (1695823190003052546, 1695820872713035778, 'element-plus', 'Element Plus', 'https://element-plus.gitee.io/zh-CN/', '', 'sys:menu:list', 2, 0, 'el-icon-info-filled', 100, 0, '', 0, 0, 0, 0, 10000, '2023-08-27 23:38:50', 10000, '2023-08-27 23:39:39');
+INSERT INTO `mate_sys_menu` VALUES (1695823190003052546, 1695820872713035778, 'element-plus', 'Element Plus', 'https://element-plus.gitee.io/zh-CN/', '', 'sys:menu:list', 2, 0, 'el-icon-info-filled', 2, 0, '', 0, 0, 0, 0, 10000, '2023-08-27 23:38:50', 1696500250245672962, '2023-09-13 21:27:54');
 INSERT INTO `mate_sys_menu` VALUES (1695823619575279617, 0, 'about', '关于', '/other/about', 'other/about', 'sys:menu:list', 0, 0, 'el-icon-info-filled', 99, 0, '', 0, 0, 0, 0, 10000, '2023-08-27 23:40:32', 10000, '2023-08-27 23:41:20');
+INSERT INTO `mate_sys_menu` VALUES (1701950609839640577, 1695820872713035778, 'mate_doc', 'Mate文档', 'http://localhost:8888/doc.html', '', 'sys:menu:list', 2, 0, 'el-icon-collection', 3, 0, 'new', 0, 0, 0, 0, 1696500250245672962, '2023-09-13 21:27:01', 1696500250245672962, '2023-09-13 21:31:39');
 COMMIT;
 
 -- ----------------------------
@@ -169,6 +235,7 @@ CREATE TABLE `mate_sys_role` (
 -- ----------------------------
 BEGIN;
 INSERT INTO `mate_sys_role` VALUES (1696042640069423105, '超级管理员', 'super_admin', '平台管理员，拥有所有数据可视权限', NULL, NULL, NULL, 1, 0, 10000, '2023-08-28 14:10:51', 10000, '2023-08-28 14:11:03');
+INSERT INTO `mate_sys_role` VALUES (1701343371496370177, '普通管理员', 'common_admin', '普通管理员', NULL, NULL, NULL, 1, 0, 1696500250245672962, '2023-09-12 05:14:04', NULL, NULL);
 COMMIT;
 
 -- ----------------------------
@@ -179,15 +246,28 @@ CREATE TABLE `mate_sys_role_menu` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'id',
   `role_id` bigint(20) DEFAULT NULL COMMENT '角色ID',
   `menu_id` bigint(20) DEFAULT NULL COMMENT '菜单ID',
+  `deleted` tinyint(4) DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `idx_role_id` (`role_id`),
   KEY `idx_menu_id` (`menu_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='角色菜单';
+) ENGINE=InnoDB AUTO_INCREMENT=1701949457190375428 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='角色菜单';
 
 -- ----------------------------
 -- Records of mate_sys_role_menu
 -- ----------------------------
 BEGIN;
+INSERT INTO `mate_sys_role_menu` VALUES (1701949457173598209, 1701343371496370177, 1695808640885252098, 0);
+INSERT INTO `mate_sys_role_menu` VALUES (1701949457177792513, 1701343371496370177, 1695810131813523458, 0);
+INSERT INTO `mate_sys_role_menu` VALUES (1701949457177792514, 1701343371496370177, 1695811066761633794, 0);
+INSERT INTO `mate_sys_role_menu` VALUES (1701949457181986818, 1701343371496370177, 1695811171111723010, 0);
+INSERT INTO `mate_sys_role_menu` VALUES (1701949457181986819, 1701343371496370177, 1695811373994401794, 0);
+INSERT INTO `mate_sys_role_menu` VALUES (1701949457181986820, 1701343371496370177, 1695811916687007745, 0);
+INSERT INTO `mate_sys_role_menu` VALUES (1701949457186181122, 1701343371496370177, 1695813352850251778, 0);
+INSERT INTO `mate_sys_role_menu` VALUES (1701949457186181123, 1701343371496370177, 1695813590046531586, 0);
+INSERT INTO `mate_sys_role_menu` VALUES (1701949457186181124, 1701343371496370177, 1695813747962077186, 0);
+INSERT INTO `mate_sys_role_menu` VALUES (1701949457190375425, 1701343371496370177, 1695813988744486914, 0);
+INSERT INTO `mate_sys_role_menu` VALUES (1701949457190375426, 1701343371496370177, 1695814157506502657, 0);
+INSERT INTO `mate_sys_role_menu` VALUES (1701949457190375427, 1701343371496370177, 1695808445619429377, 0);
 COMMIT;
 
 -- ----------------------------
@@ -220,6 +300,7 @@ CREATE TABLE `mate_sys_user` (
 -- ----------------------------
 BEGIN;
 INSERT INTO `mate_sys_user` VALUES (1696500250245672962, 'admin', '03c404e0317940b5bad7801b33aefb30e6bc3a1f6fddc2799ab7b05d75fbf316', '超管', 'https://cdn.maku.net/images/avatar.png', 0, '7333791@qq.com', '13900139000', 1695561846813188098, 1, 1, 0, 0, 10000, '2022-12-24 22:30:00', 10000, '2023-08-29 20:28:52');
+INSERT INTO `mate_sys_user` VALUES (1701336117057458178, 'user', '989126c054da515a41ebe1c64ebb03c16981539f2c3e5012d33ca1f5aa0ffc36', '用户', '', 0, '7357288@qq.com', '13800138000', 1695564226522865666, 0, 1, NULL, 0, 1696500250245672962, '2023-09-12 04:45:14', 1696500250245672962, '2023-09-13 21:25:26');
 COMMIT;
 
 -- ----------------------------
@@ -230,49 +311,17 @@ CREATE TABLE `mate_sys_user_role` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'id',
   `role_id` bigint(20) DEFAULT NULL COMMENT '角色ID',
   `user_id` bigint(20) DEFAULT NULL COMMENT '用户ID',
+  `deleted` tinyint(4) DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `idx_role_id` (`role_id`),
   KEY `idx_user_id` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='用户角色';
-
-create table mate_sys_dict
-(
-    id          bigint NOT NULL COMMENT 'id',
-    dict_code   varchar(100) NOT NULL COMMENT '字典编码',
-    dict_name   varchar(255) NOT NULL COMMENT '字典名称',
-    remark      varchar(255) COMMENT '备注',
-    sort        int COMMENT '排序',
-    status      tinyint  DEFAULT 1 COMMENT '状态  0：停用   1：正常',
-    deleted     tinyint COMMENT '删除标识  0：正常   1：已删除',
-    create_by     bigint COMMENT '创建者',
-    create_time datetime COMMENT '创建时间',
-    update_by     bigint COMMENT '更新者',
-    update_time datetime COMMENT '更新时间',
-    primary key (id)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT ='字典类型';
-
-create table mate_sys_dict_item
-(
-    id           bigint NOT NULL COMMENT 'id',
-    dict_id      bigint NOT NULL COMMENT '字典类型ID',
-    dict_name    varchar(255) NOT NULL COMMENT '字典名称',
-    dict_value   varchar(255) COMMENT '字典值',
-    dict_class   varchar(100) COMMENT '字典样式',
-    remark       varchar(255) COMMENT '备注',
-    sort         int COMMENT '排序',
-    status       tinyint  DEFAULT 1 COMMENT '状态  0：停用   1：正常',
-    deleted      tinyint COMMENT '删除标识  0：正常   1：已删除',
-    create_by      bigint COMMENT '创建者',
-    create_time  datetime COMMENT '创建时间',
-    update_by      bigint COMMENT '更新者',
-    update_time  datetime COMMENT '更新时间',
-    primary key (id)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT ='字典项';
+) ENGINE=InnoDB AUTO_INCREMENT=1701950213586964483 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='用户角色';
 
 -- ----------------------------
 -- Records of mate_sys_user_role
 -- ----------------------------
 BEGIN;
+INSERT INTO `mate_sys_user_role` VALUES (1701950213586964482, 1701343371496370177, 1701336117057458178, 0);
 COMMIT;
 
 SET FOREIGN_KEY_CHECKS = 1;
