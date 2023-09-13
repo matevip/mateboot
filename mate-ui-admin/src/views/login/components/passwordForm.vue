@@ -43,7 +43,7 @@ import store from '@/store'
 import { useCaptcha } from '@/api/model/auth'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
-import { ElMessage } from 'element-plus'
+import { ElNotification } from 'element-plus'
 
 interface LoginInfo {
 	username: string;
@@ -52,7 +52,7 @@ interface LoginInfo {
 	captcha?: string;
 	autologin: boolean;
 	clientId: string;
-	grantType: string;	
+	grantType: string;
 }
 
 const router = useRouter()
@@ -97,7 +97,11 @@ const onLogin = () => {
 			.then(() => {
 				router.replace({ path: '/' })
 				store.userStore.getMenuListAction()
-				ElMessage.success("登录成功")
+				ElNotification({
+					title: '登录成功!',
+					type: 'success',
+					message: `欢迎回来，${form.username}`
+				});
 				islogin.value = false
 			})
 			.catch(() => {
