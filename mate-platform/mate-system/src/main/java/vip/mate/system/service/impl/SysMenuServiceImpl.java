@@ -181,6 +181,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
                     buttonMenu.setType(Byte.parseByte(String.valueOf(MenuTypeEnum.BUTTON.getValue())));
                     buttonMenu.setPid(sysMenu.getId());
                 }
+                buttonMenu.setId(null);
                 this.saveOrUpdate(buttonMenu);
             });
         }

@@ -32,7 +32,7 @@ import java.util.Set;
  * @author matevip
  * @since 2023-08-22
  */
-@SaIgnore
+//@SaIgnore
 @RestController
 @RequestMapping(MateConstant.MATE_SYSTEM_PREFIX_URL + "/menu")
 @AllArgsConstructor
@@ -81,12 +81,12 @@ public class SysMenuController {
     @GetMapping("/get")
     @ApiOperationSupport(order = 5)
     @Operation(summary = "单条查询", description = "权限字符串：sysMenu:index")
-    @SaCheckPermission("sysMenu:index")
     public Result<SysMenuVO> getOne(@RequestParam("id") Long id) {
         return Result.ok(sysMenuService.getData(id));
     }
 
     @GetMapping("/route")
+    @ApiOperationSupport(order = 6)
     @Operation(summary = "菜单路由")
     public Result<List<SysMenuVO>> route() {
         String loginId = StpUtil.getLoginId().toString();
@@ -118,12 +118,14 @@ public class SysMenuController {
 
     @PostMapping("/saveAll")
     @Operation(summary = "保存菜单按钮")
+    @SaCheckPermission("sysMenu:update")
     public Result<String> saveAll(@Valid @RequestBody SysMenuReq req) {
         return R.ok(sysMenuService.saveAll(req));
     }
 
     @PostMapping("/deleteAll")
     @Operation(summary = "批量删除菜单")
+    @SaCheckPermission("sysMenu:del")
     public Result<String> deleteAll(@RequestBody Long[] ids) {
         sysMenuService.deleteAll(ids);
         return R.ok();
