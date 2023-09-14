@@ -33,11 +33,13 @@
             <artifactId>mate-system</artifactId>
             <version>${revision}</version>
         </dependency>
+        <!--
         <dependency>
             <groupId>vip.mate</groupId>
             <artifactId>mate-demo</artifactId>
             <version>${revision}</version>
         </dependency>
+        -->
     </dependencies>
     <build>
         <plugins>
