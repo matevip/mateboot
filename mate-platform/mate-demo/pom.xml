@@ -1,0 +1,23 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>vip.mate</groupId>
+        <artifactId>mate-platform</artifactId>
+        <version>${revision}</version>
+    </parent>
+
+    <artifactId>mate-demo</artifactId>
+    <packaging>jar</packaging>
+    <name>mate-demo</name>
+
+    <dependencies>
+        <dependency>
+            <groupId>vip.mate</groupId>
+            <artifactId>mate-core</artifactId>
+            <version>${revision}</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+
+</project>

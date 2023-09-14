@@ -18,7 +18,7 @@ public interface MateConstant {
     String MATE_PREFIX_REDIS = "mate::";
 
     /**
-     * 系统api前缀标识
+     * 默认api前缀标识
      */
     String MATE_PREFIX_URL = "/v1";
 
@@ -26,4 +26,9 @@ public interface MateConstant {
      * 系统api前缀标识
      */
     String MATE_SYSTEM_PREFIX_URL = "/sys";
+
+    /**
+     * 演示api前缀标识
+     */
+    String MATE_DEMO_PREFIX_URL = "/demo";
 }
