@@ -1,6 +1,6 @@
 {
   "name": "mate-ui-admin",
-  "version": "1.0.8-SNAPSHOT",
+  "version": "1.1.8",
   "scripts": {
     "serve": "cross-env VITE_SERVICE_ENV=dev vite",
     "build": "cross-env VITE_SERVICE_ENV=prod vite build",

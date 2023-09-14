@@ -25,7 +25,7 @@ MateBoot是一个基于SpringBoot3的快速开发平台，采用前后端分离�
 ## 项目特点
 1. 极简的代码，强大的功能，开箱即用，开发效率高，学习成本低。
 2. 主流技术栈，SpringBoot3、SA-TOKEN认证、Mybatis-Plus、Redis、RabbitMQ、FastDFS等。
-3. 强大的本地代码生成器，后端代码快速生成，降低代码量。
+3. 强大的本地代码生成器，后端代码快速生成，本项目后台开发，代码都是生成器生成，做了简单调整，开发速度快。
 4. 前端采用Element Plus组件，简单易用，开发效率高。
 
 ## 后端项目启动
@@ -60,6 +60,9 @@ mateboot
 - [需求收集](https://gitee.com/matevip/mateboot/issues/new)
 - [更新日志](https://gitee.com/matevip/mateboot/releases)
 
+## 特别鸣谢
+- [Jetbrains](https://www.jetbrains.com/) 提供的非商业开源软件开发授权
+- sakuya 提供的[SCUI前端](https://gitee.com/lolicode/scui)模板
 ## GIT Commit 提交规范
 
 - feat: 新功能、新特性
@@ -75,4 +78,5 @@ mateboot
 - chore: 其他修改（不在上述类型中的修改）
 - release: 发布新版本
 - workflow: 工作流相关文件修改
+
 
