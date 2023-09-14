@@ -68,8 +68,7 @@ spring:
 mybatis-plus:
   mapper-locations: classpath*:/mapper/**/*.xml
   # 实体扫描，多个package用逗号或者分号分隔
-#  typeAliasesPackage: vip.mate.*.entity
-  # TODO
+  typeAliasesPackage: vip.mate.*.entity
   mapperPackage: vip.mate.*.mapper
   global-config:
     # 数据库相关配置
@@ -92,7 +91,27 @@ mybatis-plus:
     blobType: BLOB
     boolValue: TRUE
 
-#easy trans 数据翻译组件
+# Sa-Token配置
+sa-token:
+  # token名称 (同时也是cookie名称)
+  token-name: Authorization
+  # token固定超时 设为七天 (必定过期) 单位: 秒
+  timeout: 604800
+  # 多端不同 token 有效期 可查看 LoginHelper.loginByDevice 方法自定义
+  # token最低活跃时间 (指定时间无操作就过期) 单位: 秒
+  active-timeout: 1800
+  # 是否允许同一账号并发登录 (为true时允许一起登录, 为false时新登录挤掉旧登录)
+  is-concurrent: true
+  # 在多人登录同一账号时，是否共用一个token (为true时所有登录共用一个token, 为false时每次登录新建一个token)
+  is-share: false
+  # jwt秘钥
+  jwt-secret-key: abcdefghijklmnopqrstuvwxyz
+  # 关闭 banner
+  is-print: false
+  # token 风格（默认可取值：uuid、simple-uuid、random-32、random-64、random-128、tik）
+  token-style: simple-uuid
+
+# easy trans 数据翻译组件
 easy-trans:
   #启用redis缓存 如果不用redis请设置为false
   is-enable-redis: false
@@ -101,40 +120,9 @@ easy-trans:
   #启用平铺模式
   is-enable-tile: true
 
+# knife4j配置
 knife4j:
   enable: true
   setting:
     custom-code: 500
     enable-footer-custom: false
-#springdoc:
-#  api-docs:
-#    # 是否开启接口文档
-#    enabled: ${mate.docEnable}
-#  #  swagger-ui:
-#  #    # 持久化认证数据
-#  #    persistAuthorization: true
-#  info:
-#    # 标题
-#    title: '标题：${mate.name}多租户管理系统_接口文档'
-#    # 描述
-#    description: '描述：用于管理集团旗下公司的人员信息,具体包括XXX,XXX模块...'
-#    # 版本
-#    version: '版本号: ${mate.version}'
-#    # 作者信息
-#    contact:
-#      name: Lion Li
-#      email: crazylionli@163.com
-#      url: https://gitee.com/dromara/RuoYi-Vue-Plus
-#  components:
-#    # 鉴权方式配置
-#    security-schemes:
-#      apiKey:
-#        type: APIKEY
-#        in: HEADER
-#        name: ${sa-token.token-name}
-#  #这里定义了两个分组，可定义多个，也可以不定义
-#  group-configs:
-#    - group: 3.人工智能模块
-#      packages-to-scan: vip.mate.ai
-#    - group: 4.代码生成模块
-#      packages-to-scan: vip.mate.generator

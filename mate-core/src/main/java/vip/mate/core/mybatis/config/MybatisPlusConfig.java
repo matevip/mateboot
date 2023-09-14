@@ -43,7 +43,6 @@ import java.util.Date;
 @EnableTransactionManagement(proxyTargetClass = true)
 @Configuration
 @MapperScan("${mybatis-plus.mapperPackage}")
-@PropertySource(value = "classpath:mate-base.yml", factory = YmlPropertySourceFactory.class)
 public class MybatisPlusConfig {
     @Bean
     public MybatisPlusInterceptor mybatisPlusInterceptor() {

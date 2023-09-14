@@ -5,7 +5,7 @@ spring:
     # 动态数据源文档 https://www.kancloud.cn/tracy5546/dynamic-datasource/content
     dynamic:
       # 性能分析插件(有性能损耗 不建议生产环境使用)
-      p6spy: true
+      p6spy: false
       # 设置默认的数据源或者数据源组,默认值即为 master
       primary: master
       # 严格模式 匹配不到数据源则报错
@@ -21,13 +21,13 @@ spring:
           username: root
           password: 123456
         # 从库数据源
-        slave:
-          lazy: true
-          type: ${spring.datasource.type}
-          driverClassName: com.mysql.cj.jdbc.Driver
-          url: jdbc:mysql://localhost:3306/mate-boot?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8&autoReconnect=true&rewriteBatchedStatements=true&allowPublicKeyRetrieval=true
-          username: root
-          password: 123456
+#        slave:
+#          lazy: true
+#          type: ${spring.datasource.type}
+#          driverClassName: com.mysql.cj.jdbc.Driver
+#          url: jdbc:mysql://localhost:3306/mate_boot?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8&autoReconnect=true&rewriteBatchedStatements=true&allowPublicKeyRetrieval=true
+#          username: root
+#          password: 123456
 #        oracle:
 #          type: ${spring.datasource.type}
 #          driverClassName: oracle.jdbc.OracleDriver

@@ -48,10 +48,6 @@
             <artifactId>dynamic-datasource-spring-boot3-starter</artifactId>
         </dependency>
         <dependency>
-            <groupId>p6spy</groupId>
-            <artifactId>p6spy</artifactId>
-        </dependency>
-        <dependency>
             <groupId>cn.dev33</groupId>
             <artifactId>sa-token-spring-boot3-starter</artifactId>
         </dependency>
