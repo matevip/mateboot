@@ -46,7 +46,8 @@ public class SaTokenConfig implements WebMvcConfigurer {
             "/doc.html",
             "/images/**",
             "/v1/auth/captcha",
-            "/v1/auth/login"
+            "/v1/auth/login",
+            "/version",
     };
 
     // 注册拦截器
