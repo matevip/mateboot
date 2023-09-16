@@ -3,26 +3,28 @@
 		<el-header>
 			<div class="left-panel">
 				<el-button type="primary" icon="el-icon-plus" @click="add"></el-button>
-				<el-button type="danger" plain icon="el-icon-delete" :disabled="selection.length==0" @click="batch_del"></el-button>
+				<el-button type="danger" plain icon="el-icon-delete" :disabled="selection.length==0" @click="batchDel"></el-button>
 			</div>
 		</el-header>
 		<el-main class="nopadding">
-			<scTable ref="table" :apiObj="apiObj" row-key="id" @selection-change="selectionChange" stripe>
+			<m-table ref="tableRef" :apiObj="apiObj" row-key="id" @selection-change="selectionChange" stripe>
 				<el-table-column type="selection" width="50"></el-table-column>
-				<el-table-column label="应用ID" prop="appId" width="150"></el-table-column>
-				<el-table-column label="应用名称" prop="appName" width="250"></el-table-column>
-				<el-table-column label="状态" width="50">
+				<el-table-column label="客户端ID" prop="clientId" width="150"></el-table-column>
+				<el-table-column label="标识" prop="clientKey" width="100"></el-table-column>		
+				<el-table-column label="秘钥" prop="clientSecret" show-overflow-tooltip width="150"></el-table-column>
+				<el-table-column label="设备类型" prop="deviceType" show-overflow-tooltip width="150"></el-table-column>
+				<el-table-column label="状态" width="90">
 					<template #default>
 						<el-icon style="color: #67C23A;"><el-icon-circle-check-filled /></el-icon>
 					</template>
 				</el-table-column>
-				<el-table-column label="秘钥" prop="secret" show-overflow-tooltip width="150"></el-table-column>
-				<el-table-column label="授权到期" prop="exp" width="150"></el-table-column>
+				<el-table-column label="活跃超时" prop="activeTimeout" width="250"></el-table-column>
+				<el-table-column label="固定超时" prop="timeout" width="250"></el-table-column>
 				<el-table-column label="操作" fixed="right" align="right" width="120">
 					<template #default="scope">
 						<el-button-group>
-							<el-button text type="primary" size="small" @click="table_edit(scope.row, scope.$index)">编辑</el-button>
-							<el-popconfirm title="确定删除吗？" @confirm="table_del(scope.row, scope.$index)">
+							<el-button text type="primary" size="small" @click="tableEdit(scope.row)">编辑</el-button>
+							<el-popconfirm title="确定删除吗？" @confirm="tableDel(scope.row)">
 								<template #reference>
 									<el-button text type="primary" size="small">删除</el-button>
 								</template>
@@ -30,14 +32,105 @@
 						</el-button-group>
 					</template>
 				</el-table-column>
-			</scTable>
+			</m-table>
 		</el-main>
 	</el-container>
 
-	<save-dialog v-if="dialog.save" ref="saveDialog" @success="handleSuccess" @closed="dialog.save=false"></save-dialog>
+	<save-dialog v-if="dialog.save" ref="saveDialogRef" @success="handleSuccess" @closed="dialog.save=false"></save-dialog>
 
 </template>
 
+<script setup lang="ts">
+
+import { ref, reactive, nextTick } from 'vue'
+import { ElMessage, ElMessageBox } from 'element-plus'
+import saveDialog from './save.vue'
+import MTable from '@/components/MTable/index.vue'
+import { useClientPage, useClientDel } from '@/api/system/client'
+
+const dialog = reactive({
+	save: false,
+})
+const search = reactive({
+	name: null
+})
+const apiObj = ref(useClientPage)
+const selection = ref([])
+const saveDialogRef = ref()
+const permissionDialogRef = ref()
+const tableRef = ref()
+
+//添加
+const add = () => {
+	dialog.save = true
+	nextTick(() => {
+		saveDialogRef.value.open()
+	})
+}
+
+//编辑
+const tableEdit = (row: any) => {
+	dialog.save = true
+	nextTick(() => {
+		saveDialogRef.value.open('edit')
+		saveDialogRef.value.setData(row)
+	})
+}
+//查看
+const tableShow = (row: any) => {
+	dialog.save = true
+	nextTick(() => {
+		saveDialogRef.value.open('show')
+		saveDialogRef.value.setData(row)
+	})
+}
+
+//删除
+const tableDel = async (row: any) => {
+	var reqData = { id: row.id }
+	var res: any = await useClientDel(row.id);
+	if (res.code == 0) {
+		tableRef.value.refresh()
+		ElMessage.success("删除成功")
+	} else {
+		ElMessageBox.alert(res.message, "提示", { type: 'error' })
+	}
+}
+//批量删除
+const batchDel = async () => {
+	ElMessageBox.confirm(`确定删除选中的 ${selection.value.length} 项吗？如果删除项中含有子集将会被一并删除`, '提示', {
+		type: 'warning'
+	}).then(() => {
+		//@ts-ignore
+		// const { proxy } = getCurrentInstance();
+		// const loading = proxy.$loading;
+		tableRef.value.refresh()
+		// loading.close();
+		ElMessage.warning("待开发")
+	}).catch(() => {
+
+	})
+}
+//表格选择后回调事件
+const selectionChange = (data: any) => {
+	selection.value = data;
+}
+
+//搜索
+const upsearch = () => {
+	tableRef.value.upData(search)
+}
+
+//本地更新数据
+const handleSuccess = (data: any, mode: any) => {
+	if (mode == 'add') {
+		tableRef.value.refresh()
+	} else if (mode == 'edit') {
+		tableRef.value.refresh()
+	}
+}
+</script>
+<!-- 
 <script>
 	import saveDialog from './save'
 
@@ -117,8 +210,8 @@
 				}
 			}
 		}
-	}
-</script>
+	} -->
+<!-- </script> -->
 
 <style>
 </style>

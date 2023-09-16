@@ -64,7 +64,7 @@ public class SysClientController {
     @DeleteMapping("/delete")
     @ApiOperationSupport(order = 4)
     @Operation(summary = "删除",description = "权限字符串：sysClient:del")
-    @SaCheckPermission("${sysClient:del")
+    @SaCheckPermission("sysClient:del")
     public Result<String> delete(@RequestParam("id") Long id){
         boolean flag = sysClientService.removeData(id);
         return flag ? Result.ok("删除成功") : Result.error("删除失败");
