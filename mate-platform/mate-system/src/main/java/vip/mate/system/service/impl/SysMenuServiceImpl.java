@@ -169,19 +169,14 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         this.saveOrUpdate(sysMenu);
         // 判断是否需要对按钮操作
         if (ObjectUtil.isNotEmpty(req.getButtonList())) {
-            // 删除所有按钮
-            this.baseMapper.delete(Wrappers.<SysMenu>lambdaUpdate()
-                    .eq(SysMenu::getPid, sysMenu.getId())
-                    .eq(SysMenu::getType, MenuTypeEnum.BUTTON.getValue()));
-
             // 设置按钮
             req.getButtonList().forEach(buttons -> {
                 SysMenu buttonMenu = SysMenuConvert.INSTANCE.convert(buttons);
                 if (buttonMenu.getId() == 0L) {
+                    buttonMenu.setId(null);
                     buttonMenu.setType(Byte.parseByte(String.valueOf(MenuTypeEnum.BUTTON.getValue())));
                     buttonMenu.setPid(sysMenu.getId());
                 }
-                buttonMenu.setId(null);
                 this.saveOrUpdate(buttonMenu);
             });
         }

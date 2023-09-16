@@ -32,62 +32,19 @@ import java.util.Set;
  * @author matevip
  * @since 2023-08-22
  */
-//@SaIgnore
 @RestController
 @RequestMapping(MateConstant.MATE_SYSTEM_PREFIX_URL + "/menu")
 @AllArgsConstructor
 @ApiSupport(order = 1)
-@Tag(description = "sysMenu", name = "菜单数据管理")
+@Tag(name = "菜单数据")
 @Validated
 public class SysMenuController {
 
     private final SysMenuService sysMenuService;
 
-    @GetMapping("/page")
-    @ApiOperationSupport(order = 1)
-    @Operation(summary = "列表查询", description = "权限字符串：sysMenu:page")
-    @SaCheckPermission("sysMenu:page")
-    public Result<PageRes<SysMenuVO>> queryPage(SysMenuReq req) {
-        return Result.ok(sysMenuService.queryPage(req));
-    }
-
-    @PostMapping("/add")
-    @ApiOperationSupport(order = 2)
-    @Operation(summary = "新增", description = "权限字符串：sysMenu:add")
-    @SaCheckPermission("sysMenu:add")
-    public Result<String> create(@Valid @RequestBody SysMenu entity) {
-        boolean flag = sysMenuService.createData(entity);
-        return flag ? Result.ok("创建成功") : Result.error("创建失败");
-    }
-
-    @PutMapping("/update")
-    @ApiOperationSupport(order = 3)
-    @Operation(summary = "修改", description = "权限字符串：sysMenu:update")
-    @SaCheckPermission("sysMenu:update")
-    public Result<String> update(@Valid @RequestBody SysMenu entity) {
-        boolean flag = sysMenuService.updateData(entity);
-        return flag ? Result.ok("修改成功") : Result.error("修改失败");
-    }
-
-    @DeleteMapping("/delete")
-    @ApiOperationSupport(order = 4)
-    @Operation(summary = "删除", description = "权限字符串：sysMenu:del")
-    @SaCheckPermission("sysMenu:del")
-    public Result<String> delete(@RequestParam("id") Long id) {
-        boolean flag = sysMenuService.removeData(id);
-        return flag ? Result.ok("删除成功") : Result.error("删除失败");
-    }
-
-    @GetMapping("/get")
-    @ApiOperationSupport(order = 5)
-    @Operation(summary = "单条查询", description = "权限字符串：sysMenu:index")
-    public Result<SysMenuVO> getOne(@RequestParam("id") Long id) {
-        return Result.ok(sysMenuService.getData(id));
-    }
-
     @GetMapping("/route")
-    @ApiOperationSupport(order = 6)
     @Operation(summary = "菜单路由")
+    @ApiOperationSupport(order = 1)
     public Result<List<SysMenuVO>> route() {
         String loginId = StpUtil.getLoginId().toString();
         List<SysMenuVO> routes = sysMenuService.route(loginId);
@@ -96,6 +53,7 @@ public class SysMenuController {
 
     @GetMapping("/authority")
     @Operation(summary = "用户权限集合")
+    @ApiOperationSupport(order = 2)
     public Result<Set<String>> authority() {
         String loginId = StpUtil.getLoginId().toString();
         Set<String> permissions = sysMenuService.authority(loginId);
@@ -104,6 +62,8 @@ public class SysMenuController {
 
     @GetMapping("/list")
     @Operation(summary = "菜单列表")
+    @ApiOperationSupport(order = 3)
+    @SaCheckPermission("sysMenu:list")
     public Result<List<SysMenuVO>> list(Integer type){
         List<SysMenuVO> list = sysMenuService.getMenuList(type);
         return R.ok(list);
@@ -111,20 +71,23 @@ public class SysMenuController {
 
     @GetMapping("/buttons")
     @Operation(summary = "按钮列表")
+    @ApiOperationSupport(order = 4)
     public Result<List<SysMenuVO>> buttons(Long id){
         List<SysMenuVO> list = sysMenuService.getButtonList(id, MenuTypeEnum.BUTTON.getValue());
         return R.ok(list);
     }
 
     @PostMapping("/saveAll")
-    @Operation(summary = "保存菜单按钮")
+    @Operation(summary = "保存菜单")
+    @ApiOperationSupport(order = 5)
     @SaCheckPermission("sysMenu:update")
     public Result<String> saveAll(@Valid @RequestBody SysMenuReq req) {
         return R.ok(sysMenuService.saveAll(req));
     }
 
     @PostMapping("/deleteAll")
-    @Operation(summary = "批量删除菜单")
+    @Operation(summary = "删除菜单")
+    @ApiOperationSupport(order = 6)
     @SaCheckPermission("sysMenu:del")
     public Result<String> deleteAll(@RequestBody Long[] ids) {
         sysMenuService.deleteAll(ids);
