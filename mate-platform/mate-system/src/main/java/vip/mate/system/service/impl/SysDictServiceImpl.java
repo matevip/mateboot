@@ -46,17 +46,6 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
     private final DictionaryTransService dictionaryTransService;
 
     @Override
-    public PageRes<SysDictVO> queryPage(SysDictReq req) {
-        SysDict info = SysDictConvert.INSTANCE.convert(req);
-        Page<SysDict> pageData = baseMapper.selectPage(new Page<>(req.getPageNo(), req.getPageSize()), Wrappers.query(info));
-        if (CollectionUtil.isEmpty(pageData.getRecords())) {
-            return PageRes.empty();
-        }
-        List<SysDictVO> vos = SysDictConvert.INSTANCE.toVo(pageData.getRecords());
-        return new PageRes<>(vos, pageData.getTotal(), req);
-    }
-
-    @Override
     public Boolean createData(SysDict entity) {
         dictCodeIsExist(entity);
         return baseMapper.insert(entity) > 0;

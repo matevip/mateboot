@@ -19,14 +19,6 @@ import java.util.List;
 public interface SysDictService extends IService<SysDict> {
 
     /**
-     * 列表查询
-     *
-     * @param req 参数
-     * @return 分页结果
-     */
-    PageRes<SysDictVO> queryPage(SysDictReq req);
-
-    /**
      * 新增
      *
      * @param entity 实体类对象

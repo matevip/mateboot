@@ -29,7 +29,7 @@ import vip.mate.core.common.constant.MateConstant;
 @RequestMapping(MateConstant.MATE_SYSTEM_PREFIX_URL + "/client")
 @AllArgsConstructor
 @ApiSupport(order = 1)
-@Tag(description = "sysClient", name = "客户端授权")
+@Tag(name = "客户端授权")
 @Validated
 public class SysClientController {
 
@@ -73,7 +73,6 @@ public class SysClientController {
     @GetMapping("/get")
     @ApiOperationSupport(order = 5)
     @Operation(summary = "单条查询",description = "权限字符串：sysClient:index")
-    @SaCheckPermission("sysClient:index")
     public Result<SysClientVO> getOne(@RequestParam("id") Long id){
         return Result.ok(sysClientService.getData(id));
     }

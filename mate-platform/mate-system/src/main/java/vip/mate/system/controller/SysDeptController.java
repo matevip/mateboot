@@ -31,8 +31,8 @@ import java.util.List;
 @RestController
 @RequestMapping(MateConstant.MATE_SYSTEM_PREFIX_URL + "/dept")
 @AllArgsConstructor
-@ApiSupport(author = "matevip", order = 1)
-@Tag(description = "sysDept", name = "部门管理")
+@ApiSupport(order = 1)
+@Tag(name = "部门管理")
 @Validated
 public class SysDeptController {
 
@@ -41,23 +41,24 @@ public class SysDeptController {
     @GetMapping("/page")
     @ApiOperationSupport(order = 1)
     @Operation(summary = "列表查询", description = "权限字符串：sysDept:page")
-//    @SaCheckPermission("sysDept:page")
+    @SaCheckPermission("sysDept:list")
     public Result<PageRes<SysDeptVO>> queryPage(SysDeptReq req) {
         return Result.ok(sysDeptService.queryPage(req));
     }
 
     @GetMapping("/list")
-    @ApiOperationSupport(order = 1)
+    @ApiOperationSupport(order = 2)
     @Operation(summary = "列表查询")
+    @SaCheckPermission("sysDept:list")
     public Result<List<SysDeptVO>> list() {
         return R.ok(sysDeptService.getList());
     }
 
 
     @PostMapping("/add")
-    @ApiOperationSupport(order = 2)
+    @ApiOperationSupport(order = 3)
     @Operation(summary = "新增", description = "权限字符串：sysDept:add")
-//    @SaCheckPermission("sysDept:add")
+    @SaCheckPermission("sysDept:add")
     public Result<String> create(@Valid @RequestBody SysDept entity) {
         boolean flag = sysDeptService.createData(entity);
         return flag ? Result.ok("创建成功") : Result.error("创建失败");
@@ -66,7 +67,7 @@ public class SysDeptController {
     @PutMapping("/update")
     @ApiOperationSupport(order = 3)
     @Operation(summary = "修改", description = "权限字符串：sysDept:update")
-//    @SaCheckPermission("sysDept:update")
+    @SaCheckPermission("sysDept:update")
     public Result<String> update(@Valid @RequestBody SysDept entity) {
         boolean flag = sysDeptService.updateData(entity);
         return flag ? Result.ok("修改成功") : Result.error("修改失败");
@@ -75,7 +76,7 @@ public class SysDeptController {
     @DeleteMapping("/delete")
     @ApiOperationSupport(order = 4)
     @Operation(summary = "删除", description = "权限字符串：sysDept:del")
-//    @SaCheckPermission("sysDept:del")
+    @SaCheckPermission("sysDept:del")
     public Result<String> delete(@RequestParam("id") Long id) {
         boolean flag = sysDeptService.removeData(id);
         return flag ? Result.ok("删除成功") : Result.error("删除失败");
@@ -84,7 +85,6 @@ public class SysDeptController {
     @GetMapping("/get")
     @ApiOperationSupport(order = 5)
     @Operation(summary = "单条查询", description = "权限字符串：sysDept:index")
-//    @SaCheckPermission("sysDept:index")
     public Result<SysDeptVO> getOne(@RequestParam("id") Long id) {
         return Result.ok(sysDeptService.getData(id));
     }
