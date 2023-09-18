@@ -1,5 +1,6 @@
 package vip.mate.bootstrap.handler;
 
+import cn.dev33.satoken.exception.NotPermissionException;
 import cn.dev33.satoken.exception.SaTokenException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.BindException;
@@ -44,10 +45,12 @@ public class GlobalServerExceptionHandler {
         return Result.error(fieldError.getDefaultMessage());
     }
 
-    @ExceptionHandler(AccessDeniedException.class)
-    public Result<String> handleAccessDeniedException(Exception ex) {
-
-        return Result.error(ErrorCode.FORBIDDEN);
+    /**
+     * 没有权限异常
+     */
+    @ExceptionHandler(NotPermissionException.class)
+    public Result<String> handleAccessDeniedException(NotPermissionException ex) {
+        return Result.error(ErrorCode.FORBIDDEN.getCode(), ex.getMessage());
     }
 
     @ExceptionHandler(SaTokenException.class)

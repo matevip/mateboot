@@ -29,7 +29,7 @@ public class SaInterfaceImpl implements StpInterface {
         SysMenuMapper sysMenuMapper = SpringContextUtil.getBeanByClass(SysMenuMapper.class);
         Long userId = StpUtil.getLoginIdAsLong();
         SysUser byId = sysUserService.getById(userId);
-        List<SysMenu> menuList = new ArrayList<>();
+        List<SysMenu> menuList;
         if (byId.getSuperAdmin() == 1) {
             menuList = sysMenuMapper.getMenuList(QueryMenuTypeEnum.BUTTON.getValue());
             return menuList.stream().map(SysMenu::getAuthority).distinct().toList();
