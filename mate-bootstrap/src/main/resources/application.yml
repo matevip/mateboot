@@ -120,9 +120,7 @@ easy-trans:
   #启用平铺模式
   is-enable-tile: true
 
-# knife4j配置
+# knife4j配置 https://doc.xiaominfo.com/docs/features/enhance
 knife4j:
   enable: true
-  setting:
-    custom-code: 500
-    enable-footer-custom: false
+  production: false
