@@ -27,15 +27,6 @@ public class SwaggerConfig {
      */
     private final MateConfig mateConfig;
 
-//    @Bean
-//    public GroupedOpenApi userApi() {
-//        String[] paths = {"/**"};
-//        String[] packagedToMatch = {"vip.mate.system"};
-//        return GroupedOpenApi.builder().group("1.系统模块")
-//                .pathsToMatch(paths)
-//                .packagesToScan(packagedToMatch).build();
-//    }
-
     @Bean
     public OpenAPI customOpenAPI() {
         Contact contact = new Contact();
