@@ -29,14 +29,15 @@ MateBoot是一个基于SpringBoot3的快速开发平台，采用前后端分离�
 4. 前端采用Element Plus组件，简单易用，开发效率高。
 
 ## 后端项目启动
-1. 创建数据库，导入`mate-bootstrap/src/main/resources/_sql`目录下的SQL文件。
+1. JDK版本要求：JDK17+。
+2. 创建数据库，导入`mate-bootstrap/src/main/resources/_sql`目录下的SQL文件。
 2. 修改`mate-bootstrap/src/main/resources/application-dev.yml`文件中的数据库配置。
 3. 安装Redis，修改`mate-bootstrap/src/main/resources/application-dev.yml`文件中的Redis配置。
 4. 启动`mate-bootstrap/src/main/java/vip/mate/bootstrap/MateBootstrapApplication.java`文件。
 5. 后台访问地址：http://localhost:8888/doc.html 查看文档
 
 ## 前端项目启动
-1. 安装Node.js，推荐使用最新稳定版14+。
+1. 安装Node.js，推荐使用最新稳定版16+。
 2. 进入目录mate-ui-admin，执行`yarn install`安装依赖。
 3. 执行`yarn serve`启动项目。
 
