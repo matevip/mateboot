@@ -1,5 +1,6 @@
 package vip.mate.core.common.response;
 
+import cn.hutool.core.date.DateUtil;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import vip.mate.core.common.enums.ErrorCode;
@@ -24,6 +25,9 @@ public class Result<T> {
 
     @Schema(description = "响应数据")
     private T data;
+
+    @Schema(description = "时间戳", example = "1691453288")
+    private long timestamp = DateUtil.currentSeconds();
 
     public static <T> Result<T> ok() {
         return ok(null);
