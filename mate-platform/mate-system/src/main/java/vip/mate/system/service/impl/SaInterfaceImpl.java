@@ -2,14 +2,13 @@ package vip.mate.system.service.impl;
 
 import cn.dev33.satoken.stp.StpInterface;
 import cn.dev33.satoken.stp.StpUtil;
-import com.fhs.common.spring.SpringContextUtil;
+import cn.hutool.extra.spring.SpringUtil;
 import vip.mate.system.entity.SysMenu;
 import vip.mate.system.entity.SysUser;
 import vip.mate.system.enums.QueryMenuTypeEnum;
 import vip.mate.system.mapper.SysMenuMapper;
 import vip.mate.system.service.SysUserService;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,8 +24,8 @@ public class SaInterfaceImpl implements StpInterface {
 
     @Override
     public List<String> getPermissionList(Object o, String s) {
-        SysUserService sysUserService = SpringContextUtil.getBeanByClass(SysUserService.class);
-        SysMenuMapper sysMenuMapper = SpringContextUtil.getBeanByClass(SysMenuMapper.class);
+        SysUserService sysUserService = SpringUtil.getBean(SysUserService.class);
+        SysMenuMapper sysMenuMapper = SpringUtil.getBean(SysMenuMapper.class);
         Long userId = StpUtil.getLoginIdAsLong();
         SysUser byId = sysUserService.getById(userId);
         List<SysMenu> menuList;
