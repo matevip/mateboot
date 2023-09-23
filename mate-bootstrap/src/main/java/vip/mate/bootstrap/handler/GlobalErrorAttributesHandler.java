@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.WebRequest;
 import vip.mate.core.common.exception.ServerException;
 import vip.mate.core.common.response.Result;
-import vip.mate.core.common.utils.HttpContextUtils;
+import vip.mate.core.common.utils.ServletUtils;
 
 import java.util.Map;
 
@@ -44,7 +44,7 @@ public class GlobalErrorAttributesHandler extends DefaultErrorAttributes {
                 }
             } else {
                 return BeanUtil.beanToMap(Result.get(HttpStatus.HTTP_INTERNAL_ERROR, "服务器异常，请求地址：" +
-                        HttpContextUtils.getHttpServletRequest().getRequestURL(), null));
+                        ServletUtils.getHttpServletRequest().getRequestURL(), null));
             }
         }
 
@@ -57,7 +57,7 @@ public class GlobalErrorAttributesHandler extends DefaultErrorAttributes {
                 return BeanUtil.beanToMap(Result.error(serverException.getMsg()));
             } else {
                 return BeanUtil.beanToMap(Result.get(HttpStatus.HTTP_INTERNAL_ERROR, "服务器异常，请求地址：" +
-                        HttpContextUtils.getHttpServletRequest().getRequestURL(), null));
+                        ServletUtils.getHttpServletRequest().getRequestURL(), null));
             }
         } else {
             // throwable为空，则直接返回默认异常

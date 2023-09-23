@@ -2,26 +2,20 @@ package vip.mate.system.service.impl;
 
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
-import com.baomidou.dynamic.datasource.toolkit.CryptoUtils;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import lombok.RequiredArgsConstructor;
 import vip.mate.core.common.exception.ServerException;
-import vip.mate.core.common.utils.CryptoUtil;
+import vip.mate.core.common.utils.CryptoUtils;
 import vip.mate.core.mybatis.service.impl.BaseServiceImpl;
-import vip.mate.system.entity.SysRole;
 import vip.mate.system.entity.SysUser;
-import vip.mate.system.entity.SysUserRole;
 import vip.mate.system.enums.SystemCodeEnum;
 import vip.mate.system.mapper.SysUserMapper;
-import vip.mate.system.service.SysRoleService;
 import vip.mate.system.service.SysUserRoleService;
 import vip.mate.system.service.SysUserService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import vip.mate.system.vo.SysUserVO;
 import vip.mate.system.req.SysUserReq;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import org.springframework.stereotype.Service;
 
@@ -78,7 +72,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
         SysUser entity = SysUserConvert.INSTANCE.convert(req);
         userCondition(entity);
         // 加密密码
-        entity.setPassword(CryptoUtil.doHashValue(CryptoUtil.doSm4CbcEncrypt(entity.getPassword())));
+        entity.setPassword(CryptoUtils.doHashValue(CryptoUtils.doSm4CbcEncrypt(entity.getPassword())));
         return baseMapper.insert(entity) > 0;
     }
 
@@ -89,7 +83,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
         // 更新密码
         if (ObjectUtil.isNotNull(entity.getPassword())) {
             // 加密密码
-            entity.setPassword(CryptoUtil.doHashValue(CryptoUtil.doSm4CbcEncrypt(entity.getPassword())));
+            entity.setPassword(CryptoUtils.doHashValue(CryptoUtils.doSm4CbcEncrypt(entity.getPassword())));
         }
         // 更新用户角色关系
         if (ObjectUtil.isNotNull(req.getRoleIdList())) {

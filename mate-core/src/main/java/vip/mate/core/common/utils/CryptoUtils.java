@@ -18,7 +18,7 @@ import lombok.extern.slf4j.Slf4j;
  * @copyright <a href="https://mate.vip">MateBoot</a>
  */
 @Slf4j
-public class CryptoUtil {
+public class CryptoUtils {
 
     /** 公钥 */
     private static final String PUBLIC_KEY = "04c5c773e251c9e81611835090906b757baca669d2df0153532a7e23c4345152a9b191ff09f167d02e9246d236c7f177005294be678f2a89736c95a7d235d7afa7";

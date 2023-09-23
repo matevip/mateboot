@@ -22,7 +22,7 @@ import java.util.Map;
  * @email 7333791@qq.com
  * @copyright <a href="https://mate.vip">MateBoot</a>
  */
-public class HttpContextUtils {
+public class ServletUtils {
 
     public static HttpServletRequest getHttpServletRequest() {
         RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();

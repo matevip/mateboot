@@ -16,7 +16,7 @@ import vip.mate.bootstrap.service.SysAuthService;
 import vip.mate.bootstrap.service.SysCaptchaService;
 import vip.mate.bootstrap.vo.SysTokenVO;
 import vip.mate.core.common.exception.ServerException;
-import vip.mate.core.common.utils.CryptoUtil;
+import vip.mate.core.common.utils.CryptoUtils;
 import vip.mate.system.entity.SysUser;
 import vip.mate.system.service.SysClientService;
 import vip.mate.system.service.SysUserService;
@@ -57,7 +57,7 @@ public class SysAuthServiceImpl implements SysAuthService {
             throw new ServerException(AuthCodeEnum.USER_ERROR, login.getUsername(), Boolean.TRUE);
         }
         // 用户名密码不正确
-        if (!CryptoUtil.doHashValue(CryptoUtil.doSm4CbcEncrypt(login.getPassword()))
+        if (!CryptoUtils.doHashValue(CryptoUtils.doSm4CbcEncrypt(login.getPassword()))
                 .equals(sysUser.getPassword())) {
             throw new ServerException(AuthCodeEnum.PWD_ERROR, login.getUsername(), Boolean.TRUE);
         }
