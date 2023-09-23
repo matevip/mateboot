@@ -9,6 +9,8 @@ mate:
   active: @profiles.active@
   # 是否开启文档
   docEnable: true
+  # 本地IP解析开关
+  localIpEnabled: true
 
 # 开发环境配置
 server:

@@ -1,5 +1,7 @@
 package vip.mate.core.common.config;
 
+import cn.hutool.core.convert.Convert;
+import cn.hutool.extra.spring.SpringUtil;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
@@ -36,4 +38,18 @@ public class MateConfig {
      * 实例演示开关
      */
     private boolean demoEnabled;
+
+    /**
+     * 本地IP地址解析开关
+     */
+    private boolean localIpEnabled;
+
+    /**
+     * 是否本地解析 IP 归属地
+     */
+    public static final boolean IP_ADDR_LOCAL_PARSE_ENABLED;
+
+    static {
+        IP_ADDR_LOCAL_PARSE_ENABLED = Convert.toBool(SpringUtil.getProperty("mate.localIpEnabled"));
+    }
 }
