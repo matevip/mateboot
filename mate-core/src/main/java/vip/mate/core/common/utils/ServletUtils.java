@@ -9,6 +9,7 @@ import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import java.io.IOException;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
@@ -24,16 +25,21 @@ import java.util.Map;
  */
 public class ServletUtils {
 
+    /**
+     * 获取 HttpServletRequest 请求
+     */
     public static HttpServletRequest getHttpServletRequest() {
         RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
         if (requestAttributes == null) {
             return null;
         }
-
         return ((ServletRequestAttributes) requestAttributes).getRequest();
     }
 
 
+    /**
+     * 获取 HttpServletResponse 响应
+     */
     public static HttpServletResponse getHttpServletResponse() {
         RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
         if (requestAttributes == null) {
@@ -44,6 +50,9 @@ public class ServletUtils {
     }
 
 
+    /**
+     * 获取请求参数
+     */
     public static Map<String, String> getParameterMap(HttpServletRequest request) {
         Enumeration<String> parameters = request.getParameterNames();
 
@@ -59,12 +68,18 @@ public class ServletUtils {
         return params;
     }
 
+    /**
+     * 获取域名
+     */
     public static String getDomain() {
         HttpServletRequest request = getHttpServletRequest();
-        
+
         return getDomain(request);
     }
 
+    /**
+     * 获取域名
+     */
     public static String getDomain(HttpServletRequest request) {
         String domain = request.getHeader(HttpHeaders.ORIGIN);
         if (StrUtil.isBlank(domain)) {
@@ -73,8 +88,30 @@ public class ServletUtils {
         return StringUtils.removeEnd(domain, "/");
     }
 
+    /**
+     * 获取来源
+     */
     public static String getOrigin() {
         HttpServletRequest request = getHttpServletRequest();
         return request.getHeader(HttpHeaders.ORIGIN);
+    }
+
+    /**
+     * 将字符串渲染到客户端
+     *
+     * @param response 渲染对象
+     * @param string   待渲染的字符串
+     * @return null
+     */
+    public static String renderString(HttpServletResponse response, String string) {
+        try {
+            response.setStatus(200);
+            response.setContentType("application/json");
+            response.setCharacterEncoding("utf-8");
+            response.getWriter().print(string);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
