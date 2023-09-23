@@ -4,6 +4,7 @@ import io.netty.util.NetUtil;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import vip.mate.core.common.utils.IpUtils;
+import vip.mate.core.common.utils.ServletUtils;
 
 import java.net.Inet4Address;
 
@@ -12,9 +13,7 @@ public class IpParseTests {
 
     @Test
     public void ipTest() throws Exception {
-        Inet4Address localhost4 = NetUtil.LOCALHOST4;
-        String ip = localhost4.getHostAddress();
-        ip = "172.71.218.175";
+        String ip = IpUtils.getIpAddr(ServletUtils.getHttpServletRequest());
         System.out.println(ip);
         System.out.println(IpUtils.getCityInfo(ip));
     }

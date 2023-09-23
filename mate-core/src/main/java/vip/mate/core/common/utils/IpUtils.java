@@ -2,10 +2,12 @@ package vip.mate.core.common.utils;
 
 import cn.hutool.core.net.NetUtil;
 import cn.hutool.extra.spring.SpringUtil;
+import cn.hutool.http.HTMLFilter;
 import cn.hutool.http.HtmlUtil;
 import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -79,8 +81,49 @@ public class IpUtils {
      * @return 是否内网IP
      */
     public static boolean isInnerIp(String ip) {
-        ip = "0:0:0:0:0:0:0:1".equals(ip) ? "127.0.0.1" : HtmlUtil.cleanHtmlTag(ip);
+        ip = "0:0:0:0:0:0:0:1".equals(ip) ? "127.0.0.1" : clean(ip);
         return NetUtil.isInnerIP(ip);
+    }
+
+    /**
+     * 获取IP地址
+     *
+     * @param request 请求
+     * @return IP地址
+     */
+    public static String getIpAddr(HttpServletRequest request) {
+        if (request == null) {
+            return "unknown";
+        }
+        String ip = request.getHeader("x-forwarded-for");
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getHeader("Proxy-Client-IP");
+        }
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getHeader("X-Forwarded-For");
+        }
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getHeader("WL-Proxy-Client-IP");
+        }
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getHeader("X-Real-IP");
+        }
+
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getRemoteAddr();
+        }
+        return "0:0:0:0:0:0:0:1".equals(ip) ? "127.0.0.1" : clean(ip);
+    }
+
+
+    /**
+     * 清除所有HTML标签，但是不删除标签内的内容
+     *
+     * @param content 文本
+     * @return 清除标签后的文本
+     */
+    public static String clean(String content) {
+        return new HTMLFilter().filter(content);
     }
 
 }

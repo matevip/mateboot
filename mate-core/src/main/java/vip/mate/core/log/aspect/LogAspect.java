@@ -10,6 +10,8 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
+import vip.mate.core.common.utils.IpUtils;
+import vip.mate.core.common.utils.ServletUtils;
 import vip.mate.core.log.annotation.Log;
 
 /**
@@ -59,6 +61,8 @@ public class LogAspect {
             if(controllerLog == null){
                 return;
             }
+
+            String ip = IpUtils.getIpAddr(ServletUtils.getHttpServletRequest());
 
 
 
