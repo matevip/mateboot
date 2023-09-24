@@ -72,6 +72,11 @@ public enum BusinessType {
     DOWNLOAD,
 
     /**
+     * 查询
+     */
+    QUERY,
+
+    /**
      * remote op
      */
     REMOTE_OPERATION,

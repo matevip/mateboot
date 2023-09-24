@@ -9,12 +9,13 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.*;
 import vip.mate.core.common.response.Result;
+import vip.mate.core.log.annotation.Log;
+import vip.mate.core.log.enums.BusinessType;
 import vip.mate.core.mybatis.res.PageRes;
 import vip.mate.system.req.SysUserReq;
 import vip.mate.system.service.SysUserRoleService;
 import vip.mate.system.vo.SysUserVO;
 import vip.mate.system.service.SysUserService;
-import vip.mate.system.entity.SysUser;
 import org.springframework.validation.annotation.Validated;
 import jakarta.validation.Valid;
 import vip.mate.core.common.constant.MateConstant;
@@ -44,6 +45,7 @@ public class SysUserController {
     @ApiOperationSupport(order = 1)
     @Operation(summary = "列表查询", description = "权限字符串：sysUser:page")
     @SaCheckPermission("sysUser:list")
+    @Log(title = "列表查询", businessType = BusinessType.QUERY)
     public Result<PageRes<SysUserVO>> queryPage(SysUserReq req) {
         return Result.ok(sysUserService.queryPage(req));
     }

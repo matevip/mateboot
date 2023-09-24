@@ -1,18 +1,25 @@
 package vip.mate.core.log.aspect;
 
+import cn.hutool.json.JSONUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
+import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
+import vip.mate.core.common.response.Result;
 import vip.mate.core.common.utils.IpUtils;
 import vip.mate.core.common.utils.ServletUtils;
 import vip.mate.core.log.annotation.Log;
+import vip.mate.core.log.enums.BusinessStatus;
+
+import java.lang.reflect.Method;
 
 /**
  * 日志切面
@@ -64,6 +71,23 @@ public class LogAspect {
 
             String ip = IpUtils.getIpAddr(ServletUtils.getHttpServletRequest());
 
+            Result result = JSONUtil.toBean(JSONUtil.parseObj(jsonResult), Result.class);
+
+            int status = result.getCode() == 0 ? BusinessStatus.SUCCESS.ordinal() : BusinessStatus.FAIL.ordinal();
+
+            // 设置方法名称
+            String className = joinPoint.getTarget().getClass().getName();
+            String methodName = joinPoint.getSignature().getName();
+            System.out.println(className + "." + methodName + "()");
+            String requestURI = ServletUtils.getHttpServletRequest().getRequestURI();
+            String method = ServletUtils.getHttpServletRequest().getMethod();
+            System.out.println("requestURI=" + requestURI + ",method=" + method);
+            // 设置请求方式
+//            operLog.setRequestMethod(ServletUtils.getHttpServletRequest().getMethod());
+            // 处理设置注解上的参数
+
+
+
 
 
         } catch (Exception exp) {
@@ -76,9 +100,12 @@ public class LogAspect {
      * 是否存在注解，如果存在就获取
      */
     private Log getAnnotationLog(JoinPoint joinPoint) throws Exception {
-        Log log = joinPoint.getTarget().getClass().getAnnotation(Log.class);
-        if (log != null) {
-            return log;
+        Signature signature = joinPoint.getSignature();
+        MethodSignature methodSignature = (MethodSignature) signature;
+        Method method = methodSignature.getMethod();
+
+        if (method != null) {
+            return method.getAnnotation(Log.class);
         }
         return null;
     }
