@@ -11,7 +11,7 @@
  Target Server Version : 50719
  File Encoding         : 65001
 
- Date: 17/09/2023 21:32:16
+ Date: 25/09/2023 22:09:49
 */
 
 SET NAMES utf8mb4;
@@ -234,6 +234,38 @@ INSERT INTO `mate_sys_menu` VALUES (1703400975345164289, 1695813590046531586, NU
 COMMIT;
 
 -- ----------------------------
+-- Table structure for mate_sys_operate_log
+-- ----------------------------
+DROP TABLE IF EXISTS `mate_sys_operate_log`;
+CREATE TABLE `mate_sys_operate_log` (
+  `id` bigint(20) NOT NULL COMMENT 'id',
+  `module` varchar(100) DEFAULT NULL COMMENT '模块名',
+  `name` varchar(100) DEFAULT NULL COMMENT '操作名',
+  `req_uri` varchar(200) DEFAULT NULL COMMENT '请求URI',
+  `req_method` varchar(20) DEFAULT NULL COMMENT '请求方法',
+  `req_params` text COMMENT '请求参数',
+  `ip` varchar(32) DEFAULT NULL COMMENT '操作IP',
+  `address` varchar(32) DEFAULT NULL COMMENT '登录地点',
+  `user_agent` varchar(500) DEFAULT NULL COMMENT 'User Agent',
+  `business_type` tinyint(4) DEFAULT NULL COMMENT '操作类型',
+  `duration` int(11) NOT NULL COMMENT '执行时长',
+  `status` tinyint(4) DEFAULT NULL COMMENT '操作状态  0：失败   1：成功',
+  `user_id` bigint(20) DEFAULT NULL COMMENT '用户ID',
+  `real_name` varchar(50) DEFAULT NULL COMMENT '操作人',
+  `json_result` longtext COMMENT '返回消息',
+  `error_msg` longtext COMMENT '返回消息',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `method` varchar(255) DEFAULT NULL COMMENT '方法名',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='操作日志';
+
+-- ----------------------------
+-- Records of mate_sys_operate_log
+-- ----------------------------
+BEGIN;
+COMMIT;
+
+-- ----------------------------
 -- Table structure for mate_sys_role
 -- ----------------------------
 DROP TABLE IF EXISTS `mate_sys_role`;
@@ -260,7 +292,7 @@ CREATE TABLE `mate_sys_role` (
 -- ----------------------------
 BEGIN;
 INSERT INTO `mate_sys_role` VALUES (1696042640069423105, '超级管理员', 'super_admin', '平台管理员，拥有所有数据可视权限', NULL, NULL, NULL, 1, 0, 10000, '2023-08-28 14:10:51', 10000, '2023-08-28 14:11:03');
-INSERT INTO `mate_sys_role` VALUES (1701343371496370177, '普通管理员', 'common_admin', '普通管理员', NULL, NULL, NULL, 1, 0, 1696500250245672962, '2023-09-12 05:14:04', 1696500250245672962, '2023-09-17 21:30:55');
+INSERT INTO `mate_sys_role` VALUES (1701343371496370177, '普通管理员', 'common_admin', '普通管理员', NULL, NULL, NULL, 1, 0, 1696500250245672962, '2023-09-12 05:14:04', 1696500250245672962, '2023-09-25 17:29:39');
 COMMIT;
 
 -- ----------------------------
@@ -275,24 +307,19 @@ CREATE TABLE `mate_sys_role_menu` (
   PRIMARY KEY (`id`),
   KEY `idx_role_id` (`role_id`),
   KEY `idx_menu_id` (`menu_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1702233553447686146 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='角色菜单';
+) ENGINE=InnoDB AUTO_INCREMENT=1704699152480391171 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='角色菜单';
 
 -- ----------------------------
 -- Records of mate_sys_role_menu
 -- ----------------------------
 BEGIN;
-INSERT INTO `mate_sys_role_menu` VALUES (1702233553388965890, 1701343371496370177, 1695808640885252098, 0);
-INSERT INTO `mate_sys_role_menu` VALUES (1702233553430908929, 1701343371496370177, 1695810131813523458, 0);
-INSERT INTO `mate_sys_role_menu` VALUES (1702233553430908930, 1701343371496370177, 1695811066761633794, 0);
-INSERT INTO `mate_sys_role_menu` VALUES (1702233553430908931, 1701343371496370177, 1695811171111723010, 0);
-INSERT INTO `mate_sys_role_menu` VALUES (1702233553439297538, 1701343371496370177, 1695811373994401794, 0);
-INSERT INTO `mate_sys_role_menu` VALUES (1702233553439297539, 1701343371496370177, 1695811916687007745, 0);
-INSERT INTO `mate_sys_role_menu` VALUES (1702233553439297540, 1701343371496370177, 1695813352850251778, 0);
-INSERT INTO `mate_sys_role_menu` VALUES (1702233553439297541, 1701343371496370177, 1695813590046531586, 0);
-INSERT INTO `mate_sys_role_menu` VALUES (1702233553439297542, 1701343371496370177, 1695813747962077186, 0);
-INSERT INTO `mate_sys_role_menu` VALUES (1702233553439297543, 1701343371496370177, 1695813988744486914, 0);
-INSERT INTO `mate_sys_role_menu` VALUES (1702233553439297544, 1701343371496370177, 1695814157506502657, 0);
-INSERT INTO `mate_sys_role_menu` VALUES (1702233553447686145, 1701343371496370177, 1695808445619429377, 0);
+INSERT INTO `mate_sys_role_menu` VALUES (1704699152467808257, 1701343371496370177, 1695808445619429377, 0);
+INSERT INTO `mate_sys_role_menu` VALUES (1704699152476196865, 1701343371496370177, 1695808640885252098, 0);
+INSERT INTO `mate_sys_role_menu` VALUES (1704699152476196866, 1701343371496370177, 1695809033467912193, 0);
+INSERT INTO `mate_sys_role_menu` VALUES (1704699152476196867, 1701343371496370177, 1695811171111723010, 0);
+INSERT INTO `mate_sys_role_menu` VALUES (1704699152476196868, 1701343371496370177, 1695811916687007745, 0);
+INSERT INTO `mate_sys_role_menu` VALUES (1704699152480391169, 1701343371496370177, 1695810131813523458, 0);
+INSERT INTO `mate_sys_role_menu` VALUES (1704699152480391170, 1701343371496370177, 1695811066761633794, 0);
 COMMIT;
 
 -- ----------------------------
