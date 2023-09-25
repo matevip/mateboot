@@ -14,6 +14,7 @@ import vip.mate.core.common.response.Result;
 import vip.mate.core.mybatis.res.PageRes;
 import vip.mate.system.enums.MenuTypeEnum;
 import vip.mate.system.req.SysMenuReq;
+import vip.mate.system.service.SysUserService;
 import vip.mate.system.vo.SysMenuVO;
 import vip.mate.system.service.SysMenuService;
 import vip.mate.system.entity.SysMenu;
@@ -41,13 +42,14 @@ import java.util.Set;
 public class SysMenuController {
 
     private final SysMenuService sysMenuService;
+    private final SysUserService sysUserService;
 
     @GetMapping("/route")
     @Operation(summary = "菜单路由")
     @ApiOperationSupport(order = 1)
     public Result<List<SysMenuVO>> route() {
         String loginId = StpUtil.getLoginId().toString();
-        List<SysMenuVO> routes = sysMenuService.route(loginId);
+        List<SysMenuVO> routes = sysUserService.route(loginId);
         return Result.ok(routes);
     }
 

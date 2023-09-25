@@ -11,6 +11,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.*;
 import vip.mate.core.common.response.R;
 import vip.mate.core.common.response.Result;
+import vip.mate.core.log.annotation.Log;
+import vip.mate.core.log.enums.BusinessType;
 import vip.mate.core.mybatis.res.PageRes;
 import vip.mate.system.req.SysRoleReq;
 import vip.mate.system.service.SysRoleMenuService;
@@ -73,6 +75,7 @@ public class SysRoleController {
     @ApiOperationSupport(order = 3)
     @Operation(summary = "修改",description = "权限字符串：sysRole:update")
     @SaCheckPermission("sysRole:update")
+    @Log(title = "修改角色", businessType = BusinessType.UPDATE)
     public Result<String> update(@Valid @RequestBody SysRoleReq req){
         boolean flag = sysRoleService.updateData(req);
         return flag ? Result.ok("修改成功") : Result.error("修改失败");

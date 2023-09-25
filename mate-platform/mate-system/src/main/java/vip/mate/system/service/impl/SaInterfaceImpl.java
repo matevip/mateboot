@@ -25,16 +25,8 @@ public class SaInterfaceImpl implements StpInterface {
     @Override
     public List<String> getPermissionList(Object o, String s) {
         SysUserService sysUserService = SpringUtil.getBean(SysUserService.class);
-        SysMenuMapper sysMenuMapper = SpringUtil.getBean(SysMenuMapper.class);
         Long userId = StpUtil.getLoginIdAsLong();
-        SysUser byId = sysUserService.getById(userId);
-        List<SysMenu> menuList;
-        if (byId.getSuperAdmin() == 1) {
-            menuList = sysMenuMapper.getMenuList(QueryMenuTypeEnum.BUTTON.getValue());
-            return menuList.stream().map(SysMenu::getAuthority).distinct().toList();
-        }
-        menuList = sysMenuMapper.getUserMenuList(userId, QueryMenuTypeEnum.BUTTON.getValue());
-        return menuList.stream().map(SysMenu::getAuthority).distinct().toList();
+        return sysUserService.getPermissionByUserId(userId);
     }
 
     @Override

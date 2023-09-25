@@ -41,10 +41,7 @@ import vip.mate.system.vo.SysUserVO;
  * @since 2023-08-22
  */
 @Service
-@RequiredArgsConstructor
 public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> implements SysMenuService {
-
-    private final SysUserService sysUserService;
 
     @Override
     public PageRes<SysMenuVO> queryPage(SysMenuReq req) {
@@ -77,39 +74,6 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     public SysMenuVO getData(Long id) {
         final SysMenu info = baseMapper.selectById(id);
         return SysMenuConvert.INSTANCE.convertVo(info);
-    }
-
-    @Override
-    public List<SysMenuVO> route(String loginId) {
-        if (ObjectUtil.isEmpty(loginId)) {
-            throw new ServerException(SystemCodeEnum.USER_ID_NULL_ERROR);
-        }
-        long userId = Long.parseLong(loginId);
-        SysUserVO userData = sysUserService.getData(userId);
-        List<SysMenu> userMenuList = null;
-        if (userData.getSuperAdmin() == 1) {
-            userMenuList = baseMapper.getMenuList(QueryMenuTypeEnum.EXCEPT_BUTTON.getValue());
-        } else {
-            userMenuList = baseMapper.getUserMenuList(userId, QueryMenuTypeEnum.EXCEPT_BUTTON.getValue());
-        }
-
-        List<SysMenuVO> sysMenuVOS = SysMenuConvert.INSTANCE.convertList(userMenuList);
-
-        // 转换增加meta元数据
-        List<SysMenuVO> collect = sysMenuVOS.stream().map(sysMenuVO -> {
-            Meta meta = new Meta();
-            meta.setTitle(sysMenuVO.getTitle());
-            meta.setIcon(sysMenuVO.getIcon());
-            meta.setType(MenuTypeEnum.getCode(sysMenuVO.getType()).getCode());
-            meta.setAffix(sysMenuVO.getAffix() == 1 ? "true" : "");
-            meta.setHidden(sysMenuVO.getHidden());
-            meta.setHiddenBreadcrumb(sysMenuVO.getHiddenBreadcrumb());
-            meta.setTag(sysMenuVO.getTag());
-            sysMenuVO.setMeta(meta);
-            return sysMenuVO;
-        }).collect(Collectors.toList());
-
-        return TreeUtils.build(collect);
     }
 
     @Override
@@ -206,5 +170,16 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         // 删除所有菜单
         this.removeBatchByIds(Arrays.asList(ids));
     }
+
+    @Override
+    public List<SysMenu> getLocalMenuList(Integer type) {
+        return baseMapper.getMenuList(type);
+    }
+
+    @Override
+    public List<SysMenu> getUserMenuList(Long userId, Integer type) {
+        return baseMapper.getUserMenuList(userId, type);
+    }
+
 }
 

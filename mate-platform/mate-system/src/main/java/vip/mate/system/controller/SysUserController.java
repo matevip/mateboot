@@ -88,7 +88,7 @@ public class SysUserController {
     @ApiOperationSupport(order = 6)
     @Operation(summary = "用户信息")
     public Result<SysUserVO> info() {
-        return Result.ok(sysUserService.getData(Long.parseLong(StpUtil.getLoginId().toString())));
+        return Result.ok(sysUserService.getData(StpUtil.getLoginIdAsLong()));
     }
 
     @GetMapping("/getRole")

@@ -1,25 +1,40 @@
 package vip.mate.system.service.impl;
 
+import cn.dev33.satoken.stp.StpUtil;
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.BeanUtils;
+import vip.mate.core.common.context.UserInfoContextHolder;
 import vip.mate.core.common.exception.ServerException;
+import vip.mate.core.common.req.UserVO;
 import vip.mate.core.common.utils.CryptoUtils;
+import vip.mate.core.common.utils.TreeUtils;
 import vip.mate.core.mybatis.service.impl.BaseServiceImpl;
+import vip.mate.system.convert.SysMenuConvert;
+import vip.mate.system.entity.SysMenu;
 import vip.mate.system.entity.SysUser;
+import vip.mate.system.enums.MenuTypeEnum;
+import vip.mate.system.enums.QueryMenuTypeEnum;
 import vip.mate.system.enums.SystemCodeEnum;
+import vip.mate.system.mapper.SysMenuMapper;
 import vip.mate.system.mapper.SysUserMapper;
+import vip.mate.system.service.SysMenuService;
 import vip.mate.system.service.SysUserRoleService;
 import vip.mate.system.service.SysUserService;
+import vip.mate.system.vo.Meta;
+import vip.mate.system.vo.SysMenuVO;
 import vip.mate.system.vo.SysUserVO;
 import vip.mate.system.req.SysUserReq;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import cn.hutool.core.collection.CollectionUtil;
 import vip.mate.system.convert.SysUserConvert;
@@ -39,6 +54,7 @@ import vip.mate.core.mybatis.res.PageRes;
 public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> implements SysUserService {
 
     private final SysUserRoleService sysUserRoleService;
+    private final SysMenuService sysMenuService;
 
     @Override
     public PageRes<SysUserVO> queryPage(SysUserReq req) {
@@ -103,7 +119,11 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
 
     @Override
     public SysUserVO getData(Long id) {
+        UserVO userInfo = UserInfoContextHolder.get(id);
         final SysUser info = baseMapper.selectById(id);
+        UserVO userVO = new UserVO();
+        BeanUtils.copyProperties(info, userVO);
+        UserInfoContextHolder.refresh(StpUtil.getLoginIdAsLong(), userVO);
         return SysUserConvert.INSTANCE.convertVo(info);
     }
 
@@ -138,5 +158,49 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
         return Boolean.TRUE;
     }
 
+    @Override
+    public List<String> getPermissionByUserId(Long userId) {
+        SysUser byId = baseMapper.selectById(userId);
+        List<SysMenu> menuList;
+        if (byId.getSuperAdmin() == 1) {
+            menuList = sysMenuService.getLocalMenuList(QueryMenuTypeEnum.BUTTON.getValue());
+            return menuList.stream().map(SysMenu::getAuthority).distinct().toList();
+        }
+        menuList = sysMenuService.getUserMenuList(userId, QueryMenuTypeEnum.BUTTON.getValue());
+        return menuList.stream().map(SysMenu::getAuthority).distinct().toList();
+    }
+
+    @Override
+    public List<SysMenuVO> route(String loginId) {
+        if (ObjectUtil.isEmpty(loginId)) {
+            throw new ServerException(SystemCodeEnum.USER_ID_NULL_ERROR);
+        }
+        long userId = Long.parseLong(loginId);
+        SysUserVO userData = this.getData(userId);
+        List<SysMenu> userMenuList = null;
+        if (userData.getSuperAdmin() == 1) {
+            userMenuList = sysMenuService.getLocalMenuList(QueryMenuTypeEnum.EXCEPT_BUTTON.getValue());
+        } else {
+            userMenuList = sysMenuService.getUserMenuList(userId, QueryMenuTypeEnum.EXCEPT_BUTTON.getValue());
+        }
+
+        List<SysMenuVO> sysMenuVOS = SysMenuConvert.INSTANCE.convertList(userMenuList);
+
+        // 转换增加meta元数据
+        List<SysMenuVO> collect = sysMenuVOS.stream().map(sysMenuVO -> {
+            Meta meta = new Meta();
+            meta.setTitle(sysMenuVO.getTitle());
+            meta.setIcon(sysMenuVO.getIcon());
+            meta.setType(MenuTypeEnum.getCode(sysMenuVO.getType()).getCode());
+            meta.setAffix(sysMenuVO.getAffix() == 1 ? "true" : "");
+            meta.setHidden(sysMenuVO.getHidden());
+            meta.setHiddenBreadcrumb(sysMenuVO.getHiddenBreadcrumb());
+            meta.setTag(sysMenuVO.getTag());
+            sysMenuVO.setMeta(meta);
+            return sysMenuVO;
+        }).collect(Collectors.toList());
+
+        return TreeUtils.build(collect);
+    }
 }
 

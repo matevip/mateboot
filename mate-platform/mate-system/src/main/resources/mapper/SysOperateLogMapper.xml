@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="vip.mate.system.mapper.SysOperateLogMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="vip.mate.system.entity.SysOperateLog">
+        <id column="id" property="id" />
+        <result column="module" property="module" />
+        <result column="name" property="name" />
+        <result column="req_uri" property="reqUri" />
+        <result column="req_method" property="reqMethod" />
+        <result column="req_params" property="reqParams" />
+        <result column="method" property="method" />
+        <result column="ip" property="ip" />
+        <result column="address" property="address" />
+        <result column="user_agent" property="userAgent" />
+        <result column="business_type" property="businessType" />
+        <result column="duration" property="duration" />
+        <result column="status" property="status" />
+        <result column="user_id" property="userId" />
+        <result column="real_name" property="realName" />
+        <result column="json_result" property="jsonResult" />
+        <result column="error_msg" property="errorMsg" />
+        <result column="create_time" property="createTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+
+        t.id,
+        t.module,
+        t.name,
+        t.req_uri,
+        t.req_method,
+        t.req_params,
+        t.method,
+        t.ip,
+        t.address,
+        t.user_agent,
+        t.business_type,
+        t.duration,
+        t.status,
+        t.user_id,
+        t.real_name,
+        t.json_result,
+        t.error_msg,
+        t.create_time,
+    </sql>
+
+</mapper>
