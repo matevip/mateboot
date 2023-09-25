@@ -119,10 +119,10 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
 
     @Override
     public SysUserVO getData(Long id) {
-        UserVO userInfo = UserInfoContextHolder.get(id);
         final SysUser info = baseMapper.selectById(id);
         UserVO userVO = new UserVO();
         BeanUtils.copyProperties(info, userVO);
+        userVO.setPermissionIdList(this.getPermissionByUserId(id));
         UserInfoContextHolder.refresh(StpUtil.getLoginIdAsLong(), userVO);
         return SysUserConvert.INSTANCE.convertVo(info);
     }

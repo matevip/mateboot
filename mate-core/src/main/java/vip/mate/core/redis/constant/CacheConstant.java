@@ -24,4 +24,12 @@ public class CacheConstant {
     public static String getAccessTokenKey(String accessToken) {
         return "sys:access:" + accessToken;
     }
+
+
+    /**
+     * 日志Key
+     */
+    public static String getLogKey() {
+        return "sys:log";
+    }
 }

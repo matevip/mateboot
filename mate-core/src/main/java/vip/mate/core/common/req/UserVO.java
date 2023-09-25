@@ -57,7 +57,7 @@ public class UserVO {
     private List<Long> roleIdList;
 
     @Schema(description = "权限ID列表")
-    private List<Long> permissionIdList;
+    private List<String> permissionIdList;
 
     @Schema(description = "token信息")
     private SaTokenInfo tokenInfo;

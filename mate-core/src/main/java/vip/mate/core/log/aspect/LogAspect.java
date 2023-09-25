@@ -5,6 +5,8 @@ import cn.hutool.json.JSONUtil;
 import com.alibaba.ttl.TransmittableThreadLocal;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.StopWatch;
@@ -16,11 +18,14 @@ import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.HandlerMapping;
+import vip.mate.core.common.context.UserInfoContextHolder;
+import vip.mate.core.common.req.UserVO;
 import vip.mate.core.common.response.Result;
 import vip.mate.core.common.utils.IpUtils;
 import vip.mate.core.common.utils.ServletUtils;
 import vip.mate.core.log.annotation.Log;
 import vip.mate.core.log.enums.BusinessStatus;
+import vip.mate.core.log.handle.LogHandle;
 import vip.mate.core.log.req.SysOperateLogReq;
 
 import java.lang.reflect.Method;
@@ -40,7 +45,10 @@ import java.util.stream.Collectors;
 @Aspect
 @Slf4j
 @Component
+@RequiredArgsConstructor
 public class LogAspect {
+
+    private final LogHandle logHandle;
 
     /**
      * 计算操作消耗时间
@@ -98,7 +106,9 @@ public class LogAspect {
             handleLog.setIp(ip);
             handleLog.setAddress(IpUtils.getCityInfo(ip));
             // 获取当前用户
-            handleLog.setUserId(StpUtil.getLoginIdAsLong());
+            UserVO user = UserInfoContextHolder.get(StpUtil.getLoginIdAsLong());
+            handleLog.setUserId(user.getId());
+            handleLog.setRealName(user.getRealName());
 
             // 设置部分请求和响应数据
             handleLog.setReqUri(ServletUtils.getHttpServletRequest().getRequestURI());
@@ -129,8 +139,8 @@ public class LogAspect {
                 handleLog.setErrorMsg(StringUtils.substring(e.getMessage(), 0, 2000));
             }
 
-            System.out.println(JSONUtil.toJsonStr(handleLog));
-
+            // 保存日志
+            logHandle.saveLog(handleLog);
         } catch (Exception exp) {
             log.error("日志记录异常信息:{}", exp.getMessage());
             exp.printStackTrace();
