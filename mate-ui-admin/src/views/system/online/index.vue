@@ -8,7 +8,7 @@
 				</div>
 			</div>
 			<div class="right-panel">
-				
+
 			</div>
 		</el-header>
 		<el-main class="nopadding">
@@ -25,7 +25,8 @@
 						<el-button-group>
 							<el-popconfirm title="确定强退该用户吗？" @confirm="tableDel(scope.row)">
 								<template #reference>
-									<el-button text type="danger" icon="el-icon-delete" size="small" >强退</el-button>
+									<el-button text type="danger" icon="el-icon-delete" size="small"
+										:disabled="token == scope.row.token">强退</el-button>
 								</template>
 							</el-popconfirm>
 						</el-button-group>
@@ -37,21 +38,19 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive, nextTick, getCurrentInstance } from 'vue'
+import { ref, reactive } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { useOnlineUserPage, useKickOut } from '@/api/system/online'
 import MTable from '@/components/MTable/index.vue'
+import store from '@/store'
 
-const dialog = reactive({
-	save: false,
-	permission: false
-})
 const search = reactive({
 	name: null
 })
 const apiObj = ref(useOnlineUserPage)
 const selection = ref([])
 const tableRef = ref()
+const token = store.userStore.token
 
 
 //删除
@@ -74,14 +73,6 @@ const selectionChange = (data: any) => {
 //搜索
 const upsearch = () => {
 	tableRef.value.upData(search)
-}
-//本地更新数据
-const handleSaveSuccess = (data: any, mode: any) => {
-	if (mode == 'add') {
-		tableRef.value.refresh()
-	} else if (mode == 'edit') {
-		tableRef.value.refresh()
-	}
 }
 </script>
 
