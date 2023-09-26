@@ -49,6 +49,7 @@ public class SysRoleController {
     @ApiOperationSupport(order = 1)
     @Operation(summary = "列表查询",description = "权限字符串：sysRole:page")
     @SaCheckPermission("sysRole:list")
+    @Log(title = "角色分页", businessType = BusinessType.QUERY)
     public Result<PageRes<SysRoleVO>> queryPage(SysRoleReq req) {
         return Result.ok(sysRoleService.queryPage(req));
     }
@@ -57,6 +58,7 @@ public class SysRoleController {
     @ApiOperationSupport(order = 7)
     @Operation(summary = "列表查询",description = "权限字符串：sysRole:list")
     @SaCheckPermission("sysRole:list")
+    @Log(title = "角色列表", businessType = BusinessType.QUERY)
     public Result<List<SysRoleVO>> list() {
         List<SysRoleVO> list = sysRoleService.getList(new SysRoleReq());
         return Result.ok(list);
@@ -66,6 +68,7 @@ public class SysRoleController {
     @ApiOperationSupport(order = 2)
     @Operation(summary = "新增",description = "权限字符串：sysRole:add")
     @SaCheckPermission("sysRole:add")
+    @Log(title = "新增角色", businessType = BusinessType.INSERT)
     public Result<String> create(@Valid @RequestBody SysRole entity){
         boolean flag = sysRoleService.createData(entity);
         return flag ? Result.ok("创建成功") : Result.error("创建失败");
@@ -85,6 +88,7 @@ public class SysRoleController {
     @ApiOperationSupport(order = 4)
     @Operation(summary = "删除",description = "权限字符串：sysRole:del")
     @SaCheckPermission("sysRole:del")
+    @Log(title = "删除角色", businessType = BusinessType.DELETE)
     public Result<String> delete(@RequestParam("id") Long id){
         boolean flag = sysRoleService.removeData(id);
         return flag ? Result.ok("删除成功") : Result.error("删除失败");
@@ -93,6 +97,7 @@ public class SysRoleController {
     @GetMapping("/get")
     @ApiOperationSupport(order = 5)
     @Operation(summary = "单条查询",description = "权限字符串：sysRole:index")
+    @Log(title = "角色查询", businessType = BusinessType.QUERY)
     public Result<SysRoleVO> getOne(@RequestParam("id") Long id){
         return Result.ok(sysRoleService.getData(id));
     }
@@ -102,6 +107,7 @@ public class SysRoleController {
     @ApiOperationSupport(order = 6)
     @Operation(summary = "状态更新")
     @SaCheckPermission("sysRole:update")
+    @Log(title = "状态更新", businessType = BusinessType.UPDATE)
     public Result<String> updateStatus(@Valid @RequestBody SysRole entity) {
         sysRoleService.update(Wrappers.<SysRole>update().lambda().eq(SysRole::getId, entity.getId()).set(SysRole::getStatus, entity.getStatus()));
         return R.ok();
@@ -110,6 +116,7 @@ public class SysRoleController {
     @GetMapping("/getMenuIds")
     @ApiOperationSupport(order = 7)
     @Operation(summary = "获取角色菜单")
+    @Log(title = "获取角色菜单", businessType = BusinessType.QUERY)
     public Result<List<Long>> getMenuIds(@RequestParam("roleId") Long roleId) {
         return Result.ok(sysRoleMenuService.getMenuIdsByRoleId(roleId));
     }
@@ -118,6 +125,7 @@ public class SysRoleController {
     @ApiOperationSupport(order = 8)
     @Operation(summary = "更新角色菜单")
     @SaCheckPermission("sysRole:update")
+    @Log(title = "更新角色菜单", businessType = BusinessType.UPDATE)
     public Result<String> updateRoleMenu(@Valid @RequestBody SysRoleReq req) {
         sysRoleMenuService.saveRoleMenu(req.getId(), req.getMenuIds());
         return R.ok();

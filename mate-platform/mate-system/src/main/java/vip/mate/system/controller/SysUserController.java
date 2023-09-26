@@ -54,6 +54,7 @@ public class SysUserController {
     @ApiOperationSupport(order = 2)
     @Operation(summary = "新增", description = "权限字符串：sysUser:add")
     @SaCheckPermission("sysUser:add")
+    @Log(title = "新增用户", businessType = BusinessType.INSERT)
     public Result<String> create(@Valid @RequestBody SysUserReq req) {
         boolean flag = sysUserService.createData(req);
         return flag ? Result.ok("创建成功") : Result.error("创建失败");
@@ -63,6 +64,7 @@ public class SysUserController {
     @ApiOperationSupport(order = 3)
     @Operation(summary = "修改", description = "权限字符串：sysUser:update")
     @SaCheckPermission("sysUser:update")
+    @Log(title = "修改用户", businessType = BusinessType.UPDATE)
     public Result<String> update(@Valid @RequestBody SysUserReq req) {
         boolean flag = sysUserService.updateData(req);
         return flag ? Result.ok("修改成功") : Result.error("修改失败");
@@ -72,6 +74,7 @@ public class SysUserController {
     @ApiOperationSupport(order = 4)
     @Operation(summary = "删除", description = "权限字符串：sysUser:del")
     @SaCheckPermission("sysUser:del")
+    @Log(title = "删除用户", businessType = BusinessType.DELETE)
     public Result<String> delete(@RequestParam("id") Long id) {
         boolean flag = sysUserService.removeData(id);
         return flag ? Result.ok("删除成功") : Result.error("删除失败");
@@ -80,6 +83,7 @@ public class SysUserController {
     @GetMapping("/get")
     @ApiOperationSupport(order = 5)
     @Operation(summary = "单条查询", description = "权限字符串：sysUser:index")
+    @Log(title = "用户详情", businessType = BusinessType.QUERY)
     public Result<SysUserVO> getOne(@RequestParam("id") Long id) {
         return Result.ok(sysUserService.getData(id));
     }
@@ -87,13 +91,15 @@ public class SysUserController {
     @GetMapping("/info")
     @ApiOperationSupport(order = 6)
     @Operation(summary = "用户信息")
+    @Log(title = "用户信息", businessType = BusinessType.QUERY)
     public Result<SysUserVO> info() {
         return Result.ok(sysUserService.getData(StpUtil.getLoginIdAsLong()));
     }
 
     @GetMapping("/getRole")
     @ApiOperationSupport(order = 7)
-    @Operation(summary = "用户信息")
+    @Operation(summary = "角色信息")
+    @Log(title = "角色信息", businessType = BusinessType.QUERY)
     public Result<List<Long>> getRoleIds(@RequestParam("userId") Long userId) {
         return Result.ok(sysUserRoleService.getRoleIdsByUserId(userId));
     }

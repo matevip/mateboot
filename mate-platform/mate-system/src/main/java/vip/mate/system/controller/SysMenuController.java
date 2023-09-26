@@ -11,6 +11,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.*;
 import vip.mate.core.common.response.R;
 import vip.mate.core.common.response.Result;
+import vip.mate.core.log.annotation.Log;
+import vip.mate.core.log.enums.BusinessType;
 import vip.mate.core.mybatis.res.PageRes;
 import vip.mate.system.enums.MenuTypeEnum;
 import vip.mate.system.req.SysMenuReq;
@@ -47,6 +49,7 @@ public class SysMenuController {
     @GetMapping("/route")
     @Operation(summary = "菜单路由")
     @ApiOperationSupport(order = 1)
+    @Log(title = "菜单路由", businessType = BusinessType.QUERY)
     public Result<List<SysMenuVO>> route() {
         String loginId = StpUtil.getLoginId().toString();
         List<SysMenuVO> routes = sysUserService.route(loginId);
@@ -56,6 +59,7 @@ public class SysMenuController {
     @GetMapping("/authority")
     @Operation(summary = "用户权限集合")
     @ApiOperationSupport(order = 2)
+    @Log(title = "用户权限集合", businessType = BusinessType.QUERY)
     public Result<Set<String>> authority() {
         String loginId = StpUtil.getLoginId().toString();
         Set<String> permissions = sysMenuService.authority(loginId);
@@ -66,6 +70,7 @@ public class SysMenuController {
     @Operation(summary = "菜单列表")
     @ApiOperationSupport(order = 3)
     @SaCheckPermission("sysMenu:list")
+    @Log(title = "菜单列表", businessType = BusinessType.QUERY)
     public Result<List<SysMenuVO>> list(Integer type){
         List<SysMenuVO> list = sysMenuService.getMenuList(type);
         return R.ok(list);
@@ -74,6 +79,7 @@ public class SysMenuController {
     @GetMapping("/buttons")
     @Operation(summary = "按钮列表")
     @ApiOperationSupport(order = 4)
+    @Log(title = "按钮列表", businessType = BusinessType.QUERY)
     public Result<List<SysMenuVO>> buttons(Long id){
         List<SysMenuVO> list = sysMenuService.getButtonList(id, MenuTypeEnum.BUTTON.getValue());
         return R.ok(list);
@@ -83,6 +89,7 @@ public class SysMenuController {
     @Operation(summary = "保存菜单")
     @ApiOperationSupport(order = 5)
     @SaCheckPermission("sysMenu:update")
+    @Log(title = "保存菜单", businessType = BusinessType.UPDATE)
     public Result<String> saveAll(@Valid @RequestBody SysMenuReq req) {
         return R.ok(sysMenuService.saveAll(req));
     }
@@ -91,6 +98,7 @@ public class SysMenuController {
     @Operation(summary = "删除菜单")
     @ApiOperationSupport(order = 6)
     @SaCheckPermission("sysMenu:del")
+    @Log(title = "删除菜单", businessType = BusinessType.DELETE)
     public Result<String> deleteAll(@RequestBody Long[] ids) {
         sysMenuService.deleteAll(ids);
         return R.ok();

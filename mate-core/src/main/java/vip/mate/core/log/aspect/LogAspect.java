@@ -123,6 +123,10 @@ public class LogAspect {
             String className = joinPoint.getTarget().getClass().getName();
             String methodName = joinPoint.getSignature().getName();
             handleLog.setMethod(className + "." + methodName + "()");
+            // 根据包名截取模块名
+            String[] parts = className.split("\\.");
+            String extractedString = parts[2];
+            handleLog.setModule(extractedString);
 
             // 设置操作状态
             handleLog.setStatus(result.getCode() == 0 ? BusinessStatus.SUCCESS.ordinal() : BusinessStatus.FAIL.ordinal());
@@ -135,7 +139,7 @@ public class LogAspect {
             // 处理异常信息
             if (e != null) {
                 handleLog.setStatus(BusinessStatus.FAIL.ordinal());
-                log.error("pre doAfterThrowing Exception:{}", e.getMessage());
+                log.error("Log Exception:{}", e.getMessage());
                 handleLog.setErrorMsg(StringUtils.substring(e.getMessage(), 0, 2000));
             }
 
@@ -176,7 +180,7 @@ public class LogAspect {
         // 设置action动作
         handleLog.setBusinessType(log.businessType().ordinal());
         // 设置标题
-        handleLog.setModule(log.title());
+        handleLog.setName(log.title());
         // 是否需要保存request，参数和值
         if (log.isSaveRequestData()) {
             // 获取参数的信息，传入到数据库中。
