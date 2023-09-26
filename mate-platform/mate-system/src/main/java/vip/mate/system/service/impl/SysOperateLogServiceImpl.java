@@ -3,9 +3,12 @@ package vip.mate.system.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.thread.ThreadUtil;
+import cn.hutool.extra.spring.SpringUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.context.request.RequestAttributes;
+import vip.mate.core.common.utils.ServletUtils;
 import vip.mate.core.log.req.SysOperateLogReq;
 import vip.mate.core.redis.constant.CacheConstant;
 import vip.mate.core.redis.utils.CacheUtils;
@@ -76,7 +79,6 @@ public class SysOperateLogServiceImpl extends ServiceImpl<SysOperateLogMapper, S
     @PostConstruct
     public void saveLog() {
         ScheduledExecutorService scheduledService = ThreadUtil.createScheduledExecutor(1);
-
         // 每隔10秒钟，执行一次
         scheduledService.scheduleWithFixedDelay(() -> {
             try {
@@ -88,7 +90,6 @@ public class SysOperateLogServiceImpl extends ServiceImpl<SysOperateLogMapper, S
                     if (log == null) {
                         return;
                     }
-
                     SysOperateLog entity = BeanUtil.copyProperties(log, SysOperateLog.class);
                     baseMapper.insert(entity);
                 }

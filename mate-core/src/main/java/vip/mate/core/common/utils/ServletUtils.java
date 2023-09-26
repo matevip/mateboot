@@ -3,6 +3,7 @@ package vip.mate.core.common.utils;
 import cn.hutool.core.util.StrUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.context.request.RequestAttributes;
@@ -49,6 +50,14 @@ public class ServletUtils {
         return ((ServletRequestAttributes) requestAttributes).getResponse();
     }
 
+    public static HttpSession getSession() {
+        return getHttpServletRequest().getSession();
+    }
+
+    public static ServletRequestAttributes getRequestAttributes() {
+        RequestAttributes attributes = RequestContextHolder.getRequestAttributes();
+        return (ServletRequestAttributes) attributes;
+    }
 
     /**
      * 获取请求参数
