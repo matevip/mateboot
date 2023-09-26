@@ -1,6 +1,8 @@
 package vip.mate.core.common.utils;
 
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.http.useragent.UserAgent;
+import cn.hutool.http.useragent.UserAgentUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -29,7 +31,7 @@ public class ServletUtils {
     /**
      * 获取 HttpServletRequest 请求
      */
-    public static HttpServletRequest getHttpServletRequest() {
+    public static HttpServletRequest getRequest() {
         RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
         if (requestAttributes == null) {
             return null;
@@ -41,7 +43,7 @@ public class ServletUtils {
     /**
      * 获取 HttpServletResponse 响应
      */
-    public static HttpServletResponse getHttpServletResponse() {
+    public static HttpServletResponse getResponse() {
         RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
         if (requestAttributes == null) {
             return null;
@@ -51,7 +53,7 @@ public class ServletUtils {
     }
 
     public static HttpSession getSession() {
-        return getHttpServletRequest().getSession();
+        return getRequest().getSession();
     }
 
     public static ServletRequestAttributes getRequestAttributes() {
@@ -81,7 +83,7 @@ public class ServletUtils {
      * 获取域名
      */
     public static String getDomain() {
-        HttpServletRequest request = getHttpServletRequest();
+        HttpServletRequest request = getRequest();
 
         return getDomain(request);
     }
@@ -101,7 +103,7 @@ public class ServletUtils {
      * 获取来源
      */
     public static String getOrigin() {
-        HttpServletRequest request = getHttpServletRequest();
+        HttpServletRequest request = getRequest();
         return request.getHeader(HttpHeaders.ORIGIN);
     }
 
@@ -122,5 +124,19 @@ public class ServletUtils {
             e.printStackTrace();
         }
         return null;
+    }
+
+    /**
+     * 获取浏览器及其版本信息
+     *
+     * @param request 请求信息
+     * @return 浏览器及其版本信息
+     */
+    public static String getBrowser(HttpServletRequest request) {
+        if (null == request) {
+            return null;
+        }
+        UserAgent userAgent = UserAgentUtil.parse(request.getHeader("User-Agent"));
+        return userAgent.getBrowser().getName() + " " + userAgent.getVersion();
     }
 }

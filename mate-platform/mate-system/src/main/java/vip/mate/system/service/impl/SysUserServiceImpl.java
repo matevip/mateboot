@@ -8,10 +8,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.BeanUtils;
-import vip.mate.core.common.context.UserInfoContextHolder;
 import vip.mate.core.common.exception.ServerException;
-import vip.mate.core.common.req.UserVO;
 import vip.mate.core.common.utils.CryptoUtils;
 import vip.mate.core.common.utils.TreeUtils;
 import vip.mate.core.mybatis.service.impl.BaseServiceImpl;
@@ -120,10 +117,6 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
     @Override
     public SysUserVO getData(Long id) {
         final SysUser info = baseMapper.selectById(id);
-        UserVO userVO = new UserVO();
-        BeanUtils.copyProperties(info, userVO);
-        userVO.setPermissionIdList(this.getPermissionByUserId(id));
-        UserInfoContextHolder.refresh(StpUtil.getLoginIdAsLong(), userVO);
         return SysUserConvert.INSTANCE.convertVo(info);
     }
 

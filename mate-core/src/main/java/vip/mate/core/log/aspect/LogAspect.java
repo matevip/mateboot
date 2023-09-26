@@ -5,7 +5,6 @@ import cn.hutool.json.JSONUtil;
 import com.alibaba.ttl.TransmittableThreadLocal;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -18,8 +17,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.HandlerMapping;
-import vip.mate.core.common.context.UserInfoContextHolder;
-import vip.mate.core.common.req.UserVO;
 import vip.mate.core.common.response.Result;
 import vip.mate.core.common.utils.IpUtils;
 import vip.mate.core.common.utils.ServletUtils;
@@ -27,6 +24,8 @@ import vip.mate.core.log.annotation.Log;
 import vip.mate.core.log.enums.BusinessStatus;
 import vip.mate.core.log.handle.LogHandle;
 import vip.mate.core.log.req.SysOperateLogReq;
+import vip.mate.core.satoken.entity.LoginUser;
+import vip.mate.core.satoken.utils.UserInfoHelper;
 
 import java.lang.reflect.Method;
 import java.util.Arrays;
@@ -102,20 +101,20 @@ public class LogAspect {
                 return;
             }
             // 获取IP地址
-            String ip = IpUtils.getIpAddr(ServletUtils.getHttpServletRequest());
+            String ip = IpUtils.getIpAddr(ServletUtils.getRequest());
             handleLog.setIp(ip);
             handleLog.setAddress(IpUtils.getCityInfo(ip));
             // 获取当前用户
-            UserVO user = UserInfoContextHolder.get(StpUtil.getLoginIdAsLong());
-            handleLog.setUserId(user.getId());
-            handleLog.setRealName(user.getRealName());
+            LoginUser loginUser = UserInfoHelper.getLoginUser();
+            handleLog.setUserId(loginUser.getId());
+            handleLog.setRealName(loginUser.getRealName());
 
             // 设置部分请求和响应数据
-            handleLog.setReqUri(ServletUtils.getHttpServletRequest().getRequestURI());
-            handleLog.setReqMethod(ServletUtils.getHttpServletRequest().getMethod());
+            handleLog.setReqUri(ServletUtils.getRequest().getRequestURI());
+            handleLog.setReqMethod(ServletUtils.getRequest().getMethod());
             Result result = JSONUtil.toBean(JSONUtil.parseObj(jsonResult), Result.class);
             handleLog.setJsonResult(JSONUtil.toJsonStr(result));
-            handleLog.setUserAgent(ServletUtils.getHttpServletRequest().getHeader("User-Agent"));
+            handleLog.setUserAgent(ServletUtils.getRequest().getHeader("User-Agent"));
             // 处理设置注解上的参数
             getControllerMethodDescription(joinPoint, controllerLog, handleLog);
 
@@ -225,7 +224,7 @@ public class LogAspect {
             handleLog.setReqParams(StringUtils.substring(params, 0, 2000));
         } else {
             Map<?, ?> paramsMap =
-                    (Map<?, ?>) ServletUtils.getHttpServletRequest().getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE);
+                    (Map<?, ?>) ServletUtils.getRequest().getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE);
             handleLog.setReqParams(StringUtils.substring(paramsMap.toString(), 0, 2000));
         }
     }

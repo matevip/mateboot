@@ -2,6 +2,7 @@ package vip.mate.bootstrap.service.impl;
 
 import cn.dev33.satoken.stp.SaLoginModel;
 import cn.dev33.satoken.stp.StpUtil;
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.RandomUtil;
 import lombok.AllArgsConstructor;
@@ -17,6 +18,8 @@ import vip.mate.bootstrap.service.SysCaptchaService;
 import vip.mate.bootstrap.vo.SysTokenVO;
 import vip.mate.core.common.exception.ServerException;
 import vip.mate.core.common.utils.CryptoUtils;
+import vip.mate.core.satoken.entity.LoginUser;
+import vip.mate.core.satoken.utils.UserInfoHelper;
 import vip.mate.system.entity.SysUser;
 import vip.mate.system.service.SysClientService;
 import vip.mate.system.service.SysUserService;
@@ -61,12 +64,15 @@ public class SysAuthServiceImpl implements SysAuthService {
                 .equals(sysUser.getPassword())) {
             throw new ServerException(AuthCodeEnum.PWD_ERROR, login.getUsername(), Boolean.TRUE);
         }
-        // Sa-Token 认证
+        // 记录登录信息
         SaLoginModel model = new SaLoginModel();
         model.setDevice(sysClient.getDeviceType());
         model.setTimeout(sysClient.getTimeout());
         model.setActiveTimeout(sysClient.getActiveTimeout());
         StpUtil.login(sysUser.getId(), model);
+        LoginUser loginUser =  BeanUtil.copyProperties(sysUser, LoginUser.class);
+        loginUser.setPermissionList(sysUserService.getPermissionByUserId(sysUser.getId()));
+        UserInfoHelper.login(loginUser);
         return new SysTokenVO(StpUtil.getTokenValue());
     }
 

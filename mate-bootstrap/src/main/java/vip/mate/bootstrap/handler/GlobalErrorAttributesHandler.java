@@ -44,7 +44,7 @@ public class GlobalErrorAttributesHandler extends DefaultErrorAttributes {
                 }
             } else {
                 return BeanUtil.beanToMap(Result.get(HttpStatus.HTTP_INTERNAL_ERROR, "服务器异常，请求地址：" +
-                        ServletUtils.getHttpServletRequest().getRequestURL(), null));
+                        ServletUtils.getRequest().getRequestURL(), null));
             }
         }
 
@@ -57,7 +57,7 @@ public class GlobalErrorAttributesHandler extends DefaultErrorAttributes {
                 return BeanUtil.beanToMap(Result.error(serverException.getMsg()));
             } else {
                 return BeanUtil.beanToMap(Result.get(HttpStatus.HTTP_INTERNAL_ERROR, "服务器异常，请求地址：" +
-                        ServletUtils.getHttpServletRequest().getRequestURL(), null));
+                        ServletUtils.getRequest().getRequestURL(), null));
             }
         } else {
             // throwable为空，则直接返回默认异常
