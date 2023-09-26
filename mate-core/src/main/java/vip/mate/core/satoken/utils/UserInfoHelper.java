@@ -12,6 +12,7 @@ import vip.mate.core.satoken.constant.LoginConstant;
 import vip.mate.core.satoken.entity.LoginUser;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 /**
  * 用户信息助手
@@ -36,7 +37,7 @@ public class UserInfoHelper {
         loginUser.setIp(IpUtils.getIpAddr(ServletUtils.getRequest()));
         loginUser.setAddress(IpUtils.getCityInfo(loginUser.getIp()));
         loginUser.setBrowser(ServletUtils.getBrowser(ServletUtils.getRequest()));
-        loginUser.setLoginTime(LocalDateTime.now());
+        loginUser.setLoginTime(new Date());
         // 登录并缓存用户信息
         SaHolder.getStorage().set(LoginConstant.LOGIN_USER_KEY, loginUser);
         loginUser.setToken(StpUtil.getTokenValue());

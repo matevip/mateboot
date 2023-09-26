@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * 在线用户信息
@@ -65,5 +66,5 @@ public class OnlineUserVO implements Serializable {
      * 登录时间
      */
     @Schema(description = "登录时间")
-    private String loginTime;
+    private Date loginTime;
 }
