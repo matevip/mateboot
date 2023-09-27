@@ -33,7 +33,7 @@
         <fastjson.version>2.0.34</fastjson.version>
         <hutool.version>5.8.21</hutool.version>
         <knife4j.version>4.3.0</knife4j.version>
-        <easy-trans.version>2.2.7</easy-trans.version>
+        <easy-trans.version>2.2.8</easy-trans.version>
         <captcha.version>1.6.2</captcha.version>
         <sm-crypto.version>0.3.2</sm-crypto.version>
         <easyexcel.version>3.3.2</easyexcel.version>
