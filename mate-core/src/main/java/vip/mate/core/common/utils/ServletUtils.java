@@ -28,6 +28,8 @@ import java.util.Map;
  */
 public class ServletUtils {
 
+    private final static String USER_AGENT = "User-Agent";
+
     /**
      * 获取 HttpServletRequest 请求
      */
@@ -136,7 +138,22 @@ public class ServletUtils {
         if (null == request) {
             return null;
         }
-        UserAgent userAgent = UserAgentUtil.parse(request.getHeader("User-Agent"));
+        UserAgent userAgent = UserAgentUtil.parse(request.getHeader(USER_AGENT));
         return userAgent.getBrowser().getName() + " " + userAgent.getVersion();
     }
+
+    /**
+     * 获取操作系统及其版本信息
+     *
+     * @param request 请求信息
+     * @return 操作系统及其版本信息
+     */
+    public static String getOs(HttpServletRequest request) {
+        if (null == request) {
+            return null;
+        }
+        UserAgent userAgent = UserAgentUtil.parse(request.getHeader(USER_AGENT));
+        return userAgent.getOs().getName() + " " + userAgent.getOsVersion();
+    }
+
 }

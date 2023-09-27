@@ -36,6 +36,7 @@ public class UserInfoHelper {
         // 记录登录信息
         loginUser.setIp(IpUtils.getIpAddr(ServletUtils.getRequest()));
         loginUser.setAddress(IpUtils.getCityInfo(loginUser.getIp()));
+        loginUser.setOs(ServletUtils.getOs(ServletUtils.getRequest()));
         loginUser.setBrowser(ServletUtils.getBrowser(ServletUtils.getRequest()));
         loginUser.setLoginTime(new Date());
         // 登录并缓存用户信息

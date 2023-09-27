@@ -19,6 +19,7 @@
 				<el-table-column label="姓名" prop="realName" width="150"></el-table-column>
 				<el-table-column label="登录 IP" prop="ip" width="200"></el-table-column>
 				<el-table-column label="登录地址" prop="address" width="180"></el-table-column>
+				<el-table-column label="操作系统" prop="os" min-width="150"></el-table-column>
 				<el-table-column label="浏览器" prop="browser" min-width="150"></el-table-column>
 				<el-table-column label="登录时间" prop="loginTime" min-width="150"></el-table-column>
 				<el-table-column label="操作" fixed="right" align="center" width="170">

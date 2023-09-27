@@ -63,6 +63,11 @@ public class OnlineUserVO implements Serializable {
     private String browser;
 
     /**
+     * 操作系统
+     */
+    private String os;
+
+    /**
      * 登录时间
      */
     @Schema(description = "登录时间")
