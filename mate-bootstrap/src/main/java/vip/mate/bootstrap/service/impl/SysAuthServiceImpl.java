@@ -18,12 +18,16 @@ import vip.mate.bootstrap.service.SysCaptchaService;
 import vip.mate.bootstrap.vo.SysTokenVO;
 import vip.mate.core.common.exception.ServerException;
 import vip.mate.core.common.utils.CryptoUtils;
+import vip.mate.core.log.enums.BusinessStatus;
+import vip.mate.core.log.enums.LoginType;
 import vip.mate.core.satoken.entity.LoginUser;
 import vip.mate.core.satoken.utils.UserInfoHelper;
 import vip.mate.system.entity.SysUser;
 import vip.mate.system.service.SysClientService;
+import vip.mate.system.service.SysLoginLogService;
 import vip.mate.system.service.SysUserService;
 import vip.mate.system.vo.SysClientVO;
+import vip.mate.system.vo.SysLoginLogVO;
 
 /**
  * 权限认证服务
@@ -37,13 +41,16 @@ public class SysAuthServiceImpl implements SysAuthService {
     private final SysCaptchaService sysCaptchaService;
     private final SysClientService sysClientService;
     private final SysUserService sysUserService;
+    private final SysLoginLogService sysLoginLogService;
 
     @Override
     public SysTokenVO loginByUsername(SysUsernameLoginReq login) {
         // 验证码效验
         boolean flag = sysCaptchaService.validate(login.getKey(), login.getCaptcha());
         if (!flag) {
-            // 保存登录日志
+            // 记录登录日志
+            sysLoginLogService.saveLog(login.getUsername(), BusinessStatus.FAIL.ordinal(),
+                    LoginType.CAPTCHA_FAIL.getValue());
             throw new ServerException(AuthCodeEnum.CAPTCHA_ERROR);
         }
 
@@ -52,16 +59,22 @@ public class SysAuthServiceImpl implements SysAuthService {
         SysClientVO sysClient = sysClientService.queryByClientId(clientId);
         // 客户端认证失败
         if (ObjectUtil.isNull(sysClient) || !StringUtils.contains(sysClient.getGrantType(), grantType)) {
+            sysLoginLogService.saveLog(login.getUsername(), BusinessStatus.FAIL.ordinal(),
+                    LoginType.CLIENT_FAIL.getValue());
             throw new ServerException(AuthCodeEnum.CLIENT_ERROR, clientId, grantType);
         }
         SysUser sysUser = sysUserService.queryByUsername(login.getUsername());
         // 用户不存在
         if (ObjectUtil.isNull(sysUser)) {
+            sysLoginLogService.saveLog(login.getUsername(), BusinessStatus.FAIL.ordinal(),
+                    LoginType.ACCOUNT_FAIL.getValue());
             throw new ServerException(AuthCodeEnum.USER_ERROR, login.getUsername(), Boolean.TRUE);
         }
         // 用户名密码不正确
         if (!CryptoUtils.doHashValue(CryptoUtils.doSm4CbcEncrypt(login.getPassword()))
                 .equals(sysUser.getPassword())) {
+            sysLoginLogService.saveLog(login.getUsername(), BusinessStatus.FAIL.ordinal(),
+                    LoginType.ACCOUNT_FAIL.getValue());
             throw new ServerException(AuthCodeEnum.PWD_ERROR, login.getUsername(), Boolean.TRUE);
         }
         // 记录登录信息
@@ -70,9 +83,11 @@ public class SysAuthServiceImpl implements SysAuthService {
         model.setTimeout(sysClient.getTimeout());
         model.setActiveTimeout(sysClient.getActiveTimeout());
         StpUtil.login(sysUser.getId(), model);
-        LoginUser loginUser =  BeanUtil.copyProperties(sysUser, LoginUser.class);
+        LoginUser loginUser = BeanUtil.copyProperties(sysUser, LoginUser.class);
         loginUser.setPermissionList(sysUserService.getPermissionByUserId(sysUser.getId()));
         UserInfoHelper.login(loginUser);
+        sysLoginLogService.saveLog(login.getUsername(), BusinessStatus.SUCCESS.ordinal(),
+                LoginType.LOGIN_SUCCESS.getValue());
         return new SysTokenVO(StpUtil.getTokenValue());
     }
 
@@ -90,6 +105,8 @@ public class SysAuthServiceImpl implements SysAuthService {
 
     @Override
     public void logout() {
+        sysLoginLogService.saveLog(UserInfoHelper.getUsername(), BusinessStatus.SUCCESS.ordinal(),
+                LoginType.LOGOUT_SUCCESS.getValue());
         StpUtil.logout();
     }
 }
