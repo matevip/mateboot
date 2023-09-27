@@ -45,8 +45,7 @@ public class SysOperateLogServiceImpl extends ServiceImpl<SysOperateLogMapper, S
 
     @Override
     public PageRes<SysOperateLogVO> queryPage(SysOperateLogReq req) {
-        SysOperateLog info = SysOperateLogConvert.INSTANCE.convert(req);
-        Page<SysOperateLog> pageData = baseMapper.selectPage(new Page<>(req.getPageNo(), req.getPageSize()), Wrappers.query(info));
+        Page<SysOperateLog> pageData = baseMapper.selectPage(new Page<>(req.getPageNo(), req.getPageSize()), Wrappers.query());
         if (CollectionUtil.isEmpty(pageData.getRecords())) {
             return PageRes.empty();
         }

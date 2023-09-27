@@ -52,14 +52,17 @@ spring:
       max-file-size: 10MB
       # 设置总上传的文件大小
       max-request-size: 20MB
+  ## MVC 配置
   mvc:
     format:
+      # 日期格式化（针对 java.util.Date）
       date-time: yyyy-MM-dd HH:mm:ss
-
+  ## JSON 配置
   jackson:
-    # 日期格式化
-    date-format: yyyy-MM-dd HH:mm:ss
+    # 时区配置
     time-zone: Asia/Shanghai
+    # 日期格式化（针对 java.util.Date）
+    date-format: yyyy-MM-dd HH:mm:ss
     serialization:
       # 格式化输出
       indent_output: false

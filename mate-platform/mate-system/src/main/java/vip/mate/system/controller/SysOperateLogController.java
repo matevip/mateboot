@@ -28,7 +28,7 @@ import vip.mate.core.common.constant.MateConstant;
  * @since 2023-09-25
  */
 @RestController
-@RequestMapping(MateConstant.MATE_SYSTEM_PREFIX_URL + "/sysOperateLog")
+@RequestMapping(MateConstant.MATE_SYSTEM_PREFIX_URL + "/operate/log")
 @AllArgsConstructor
 @ApiSupport(author = "matevip", order = 1)
 @Tag(description = "sysOperateLog", name = "操作日志管理")
@@ -41,7 +41,6 @@ public class SysOperateLogController {
     @ApiOperationSupport(order = 1)
     @Operation(summary = "列表查询",description = "权限字符串：sysOperateLog:page")
     @SaCheckPermission("sysOperateLog:page")
-    @Log(title = "操作日志分页列表", businessType = BusinessType.QUERY)
     public Result<PageRes<SysOperateLogVO>> queryPage(SysOperateLogReq req) {
         return Result.ok(sysOperateLogService.queryPage(req));
     }

@@ -28,7 +28,6 @@
 							<el-tag type="danger">失败</el-tag>
 						</div>
 					</template>
-
 				</el-table-column>
 				<el-table-column label="登录 IP" prop="ip" width="120"></el-table-column>
 				<el-table-column label="登录地址" prop="address" width="120"></el-table-column>
@@ -45,7 +44,6 @@ import { ref, reactive } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { useLoginLogPage } from '@/api/system/login'
 import MTable from '@/components/MTable/index.vue'
-import store from '@/store'
 
 const search = reactive({
 	realName: null,
