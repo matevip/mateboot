@@ -4,7 +4,7 @@
 			<div class="left-panel">
 				<div class="right-panel-search">
 					<el-input v-model="search.realName" placeholder="姓名" clearable></el-input>
-					<el-date-picker v-model="search.createTime" type="datetimerange" value-format="YYYY-MM-DD HH:mm:ss" range-separator="至"
+					<el-date-picker v-model="search.queryTime" type="datetimerange" value-format="yyyy-MM-dd HH:mm:ss" range-separator="至"
 						start-placeholder="开始日期" end-placeholder="结束日期" :shortcuts="shortcuts"></el-date-picker>
 					<el-button type="primary" icon="el-icon-search" @click="upsearch"></el-button>
 				</div>
@@ -49,13 +49,11 @@ import store from '@/store'
 
 const search = reactive({
 	realName: null,
-	createTime: null,
+	queryTime: null,
 })
 const apiObj = ref(useLoginLogPage)
 const selection = ref([])
 const tableRef = ref()
-const token = store.userStore.token
-
 
 //删除
 const tableDel = async (row: any) => {

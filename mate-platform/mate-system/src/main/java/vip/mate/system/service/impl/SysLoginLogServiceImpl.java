@@ -43,10 +43,10 @@ public class SysLoginLogServiceImpl extends ServiceImpl<SysLoginLogMapper, SysLo
         LambdaQueryWrapper<SysLoginLog> queryWrapper =
                 Wrappers.<SysLoginLog>query().lambda().like(StrUtil.isNotBlank(req.getRealName()), SysLoginLog::getRealName, req.getRealName());
         // 查询时间范围
-        if (req.getCreateTime() !=null && req.getCreateTime().size() > 0) {
+        if (req.getQueryTime() !=null && req.getQueryTime().size() > 0) {
             queryWrapper
-                    .ge(SysLoginLog::getCreateTime, req.getCreateTime().get(0))
-                    .le(SysLoginLog::getCreateTime, req.getCreateTime().get(1));
+                    .ge(SysLoginLog::getCreateTime, req.getQueryTime().get(0))
+                    .le(SysLoginLog::getCreateTime, req.getQueryTime().get(1));
         }
         Page<SysLoginLog> pageData = baseMapper.selectPage(new Page<>(req.getPageNo(), req.getPageSize()), queryWrapper);
         if (CollectionUtil.isEmpty(pageData.getRecords())) {
