@@ -540,4 +540,19 @@ BEGIN;
 INSERT INTO `mate_sys_user_role` VALUES (1701950213586964482, 1701343371496370177, 1701336117057458178, 0);
 COMMIT;
 
+create table mate_sys_login_log
+(
+    id           bigint NOT NULL COMMENT 'id',
+    username     varchar(50) COMMENT '用户名',
+    real_name     varchar(50) COMMENT '姓名',
+    ip           varchar(32) COMMENT '登录IP',
+    address      varchar(32) COMMENT '登录地点',
+    browser   varchar(50) COMMENT '浏览器',
+    os   varchar(20) COMMENT '操作系统',
+    status       tinyint COMMENT '登录状态  0：失败   1：成功',
+    business_type    tinyint unsigned COMMENT '操作信息   0：登录成功   1：退出成功  2：验证码错误  3：客户端错误  3：账号密码错误',
+    create_time  datetime COMMENT '创建时间',
+    primary key (id)
+) ENGINE = InnoDB DEFAULT CHARACTER SET utf8mb4 ROW_FORMAT=DYNAMIC COMMENT ='登录日志';
+
 SET FOREIGN_KEY_CHECKS = 1;
