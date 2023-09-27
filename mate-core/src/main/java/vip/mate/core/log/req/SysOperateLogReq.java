@@ -76,4 +76,10 @@ public class SysOperateLogReq extends PageReq {
     @Schema(description = "创建时间")
     private Date createTime;
 
+    @Schema(description = "操作系统")
+    private String os;
+
+    @Schema(description = "浏览器")
+    private String browser;
+
 }

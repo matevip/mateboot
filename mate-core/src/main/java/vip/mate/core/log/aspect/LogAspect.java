@@ -130,6 +130,11 @@ public class LogAspect {
             // 设置操作状态
             handleLog.setStatus(result.getCode() == 0 ? BusinessStatus.SUCCESS.ordinal() : BusinessStatus.FAIL.ordinal());
 
+            // 系统信息
+            HttpServletRequest request = ServletUtils.getRequest();
+            handleLog.setOs(ServletUtils.getOs(request));
+            handleLog.setBrowser(ServletUtils.getBrowser(request));
+
             // 设置消耗时间
             StopWatch stopWatch = TIME_THREADLOCAL.get();
             stopWatch.stop();

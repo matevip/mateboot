@@ -51,6 +51,12 @@ public class SysOperateLogVO {
     @Schema(description = "User Agent")
     private String userAgent;
 
+    @Schema(description = "操作系统")
+    private String os;
+
+    @Schema(description = "浏览器")
+    private String browser;
+
     @Schema(description = "操作类型")
     private int businessType;
 

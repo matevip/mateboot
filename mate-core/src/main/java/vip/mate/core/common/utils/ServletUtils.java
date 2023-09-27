@@ -153,7 +153,7 @@ public class ServletUtils {
             return null;
         }
         UserAgent userAgent = UserAgentUtil.parse(request.getHeader(USER_AGENT));
-        return userAgent.getOs().getName() + " " + userAgent.getOsVersion();
+        return userAgent.getOs().getName();
     }
 
 }

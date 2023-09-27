@@ -96,4 +96,12 @@ public class SysOperateLog implements Serializable {
     @Schema(description = "创建时间")
     private Date createTime;
 
+    @Schema(description = "操作系统")
+    @TableField("os")
+    private String os;
+
+    @Schema(description = "浏览器")
+    @TableField("browser")
+    private String browser;
+
 }
