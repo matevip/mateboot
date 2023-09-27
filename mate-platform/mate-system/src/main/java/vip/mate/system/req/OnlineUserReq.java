@@ -27,5 +27,5 @@ public class OnlineUserReq extends PageReq {
     private String realName;
 
     @Schema(description = "登录时间")
-    private List<Date> loginTime;
+    private List<Long> loginTime;
 }

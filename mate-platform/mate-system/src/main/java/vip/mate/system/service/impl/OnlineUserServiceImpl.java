@@ -66,10 +66,10 @@ public class OnlineUserServiceImpl implements OnlineUserService {
         }
 
         boolean flag2 = true;
-        List<Date> loginTime = req.getLoginTime();
+        List<Long> loginTime = req.getLoginTime();
         if (CollUtil.isNotEmpty(loginTime)) {
             flag2 =
-                    DateUtil.isIn(DateUtil.date(loginUser.getLoginTime()).toJdkDate(), loginTime.get(0), loginTime.get(1));
+                    DateUtil.isIn(DateUtil.date(loginUser.getLoginTime()).toJdkDate(), DateUtil.date(loginTime.get(0)), DateUtil.date(loginTime.get(1)));
         }
         return flag1 && flag2;
     }

@@ -3,8 +3,8 @@
 		<el-header>
 			<div class="left-panel">
 				<div class="right-panel-search">
-					<el-input v-model="search.name" placeholder="姓名" clearable></el-input>
-					<el-date-picker v-model="search.date" type="datetimerange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期"></el-date-picker>
+					<el-input v-model="search.realName" placeholder="姓名" clearable></el-input>
+					<el-date-picker v-model="search.loginTime" type="datetimerange" value-format="x" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" :shortcuts="shortcuts"></el-date-picker>
 					<el-button type="primary" icon="el-icon-search" @click="upsearch"></el-button>
 				</div>
 			</div>
@@ -46,8 +46,8 @@ import MTable from '@/components/MTable/index.vue'
 import store from '@/store'
 
 const search = reactive({
-	name: null,
-	date: null,
+	realName: null,
+	loginTime: null,
 })
 const apiObj = ref(useOnlineUserPage)
 const selection = ref([])
@@ -73,8 +73,33 @@ const selectionChange = (data: any) => {
 
 //搜索
 const upsearch = () => {
-	tableRef.value.upData(search)
+	console.log(search)
+	tableRef.value.upData({...search})
 }
+
+const shortcuts = [
+  {
+    text: '今日',
+    value: [new Date().setHours(0,0,0,0), new Date()],
+  },
+  {
+    text: '今年',
+    value: () => {
+      const end = new Date()
+      const start = new Date(new Date().getFullYear(), 0)
+      return [start, end]
+    },
+  },
+  {
+    text: '近半年',
+    value: () => {
+      const end = new Date()
+      const start = new Date()
+      start.setMonth(start.getMonth() - 6)
+      return [start, end]
+    },
+  },
+]
 </script>
 
 <style></style>
