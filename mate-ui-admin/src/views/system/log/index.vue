@@ -22,16 +22,6 @@
 					</el-header>
 					<el-main class="nopadding">
 						<m-table ref="tableRef" :apiObj="apiObj" stripe highlightCurrentRow @row-click="rowClick">
-							<!-- <el-table-column label="级别" prop="level" width="60">
-								<template #default="scope">
-									<el-icon v-if="scope.row.level == 'error'"
-										style="color: #F56C6C;"><el-icon-circle-close-filled /></el-icon>
-									<el-icon v-if="scope.row.level == 'warn'"
-										style="color: #E6A23C;"><el-icon-warning-filled /></el-icon>
-									<el-icon v-if="scope.row.level == 'info'"
-										style="color: #3265f5;"><el-icon-info-filled /></el-icon>
-								</template>
-							</el-table-column> -->
 							<el-table-column label="操作类型" prop="businessType" width="180"></el-table-column>
 							<el-table-column label="日志名" prop="name" width="150"></el-table-column>
 							<el-table-column label="请求接口" prop="reqUri" width="150"></el-table-column>
@@ -159,100 +149,7 @@ const rowClick = (row: any) => {
 		infoRef.value.setData(row)
 	})
 }
-
-
 </script>
 
-<!-- <script>
-	import info from './info'
-	import MEcharts from '@/components/MEcharts'
-
-	export default {
-		name: 'log',
-		components: {
-			info,
-			MEcharts
-		},
-		data() {
-			return {
-				infoDrawer: false,
-				logsChartOption: {
-					color: ['#3265f5','#e6a23c','#f56c6c'],
-					grid: {
-						top: '0px',
-						left: '10px',
-						right: '10px',
-						bottom: '0px'
-					},
-					tooltip: {
-						trigger: 'axis'
-					},
-					xAxis: {
-						type: 'category',
-						boundaryGap: false,
-						data: ['2021-07-01', '2021-07-02', '2021-07-03', '2021-07-04', '2021-07-05', '2021-07-06', '2021-07-07', '2021-07-08', '2021-07-09', '2021-07-10', '2021-07-11', '2021-07-12', '2021-07-13', '2021-07-14', '2021-07-15']
-					},
-					yAxis: {
-						show: false,
-						type: 'value'
-					},
-					series: [{
-						data: [120, 200, 150, 80, 70, 110, 130, 120, 200, 150, 80, 70, 110, 130, 70, 110],
-						type: 'bar',
-						stack: 'log',
-						barWidth: '15px'
-					},
-					{
-						data: [15, 26, 7, 12, 13, 9, 21, 15, 26, 7, 12, 13, 9, 21, 12, 3],
-						type: 'bar',
-						stack: 'log',
-						barWidth: '15px'
-					},
-					{
-						data: [0, 0, 0, 120, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-						type: 'bar',
-						stack: 'log',
-						barWidth: '15px'
-					}]
-				},
-				category: [
-					{
-						label: '系统日志',
-						children: [
-							{label: 'debug'},
-							{label: 'info'},
-							{label: 'warn'},
-							{label: 'error'},
-							{label: 'fatal'}
-						]
-					},
-					{
-						label: '应用日志',
-						children: [
-							{label: 'selfHelp'},
-							{label: 'WechatApp'}
-						]
-					}
-				],
-				date: [],
-				apiObj: this.$API.system.log.list,
-				search: {
-					keyword: ""
-				}
-			}
-		},
-		methods: {
-			upsearch(){
-
-			},
-			rowClick(row){
-				this.infoDrawer = true
-				this.$nextTick(() => {
-					this.$refs.info.setData(row)
-				})
-			}
-		}
-	}
-</script> -->
 
 <style></style>
