@@ -42,10 +42,10 @@ public class SysLoginLogReq extends PageReq {
     private String os;
 
     @Schema(description = "登录状态  0：成功   1：失败")
-    private int status;
+    private Integer status;
 
     @Schema(description = "操作信息   0：登录成功   1：退出成功  2：验证码错误 3: 客户端错误   4：账号密码错误")
-    private int businessType;
+    private Integer businessType;
 
     @Schema(description = "查询时间")
     private List<String> queryTime;

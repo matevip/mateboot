@@ -48,11 +48,11 @@ public class SysLoginLogVO implements Serializable, TransPojo {
     private String os;
 
     @Schema(description = "登录状态  0：失败   1：成功")
-    private int status;
+    private Integer status;
 
     @Trans(type = TransType.DICTIONARY, key = "login_type", ref = "businessTypeLabel")
     @Schema(description =  "操作信息   0：登录成功   1：退出成功  2：验证码错误 3: 客户端错误   4：账号密码错误")
-    private int businessType;
+    private Integer businessType;
 
     @Schema(description = "操作信息标签")
     private String businessTypeLabel;

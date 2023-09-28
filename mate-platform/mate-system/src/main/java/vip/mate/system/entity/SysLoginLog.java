@@ -58,11 +58,11 @@ public class SysLoginLog implements Serializable {
 
     @Schema(description = "登录状态  0：功能   1：失败")
     @TableField("status")
-    private int status;
+    private Integer status;
 
     @Schema(description =  "操作信息   0：登录成功   1：退出成功  2：验证码错误 3: 客户端错误   4：账号密码错误")
     @TableField("business_type")
-    private int businessType;
+    private Integer businessType;
 
     @TableField(fill = FieldFill.INSERT)
     @Schema(description = "创建时间")

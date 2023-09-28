@@ -66,7 +66,7 @@ public class SysOperateLog implements Serializable {
 
     @Schema(description = "操作类型")
     @TableField("business_type")
-    private int businessType;
+    private Integer businessType;
 
     @Schema(description = "执行时长")
     @TableField("duration")
@@ -74,7 +74,7 @@ public class SysOperateLog implements Serializable {
 
     @Schema(description = "操作状态  0：失败   1：成功")
     @TableField("status")
-    private int status;
+    private Integer status;
 
     @Schema(description = "用户ID")
     @TableField("user_id")

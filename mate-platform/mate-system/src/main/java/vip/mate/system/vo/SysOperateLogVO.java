@@ -58,13 +58,13 @@ public class SysOperateLogVO {
     private String browser;
 
     @Schema(description = "操作类型")
-    private int businessType;
+    private Integer businessType;
 
     @Schema(description = "执行时长")
     private Integer duration;
 
     @Schema(description = "操作状态  0：失败   1：成功")
-    private int status;
+    private Integer status;
 
     @Schema(description = "用户ID")
     private Long userId;
