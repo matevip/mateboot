@@ -4,7 +4,7 @@
 			<div class="left-panel">
 				<div class="right-panel-search">
 					<el-input v-model="search.realName" placeholder="姓名" clearable></el-input>
-					<el-date-picker v-model="search.queryTime" type="datetimerange" value-format="yyyy-MM-dd HH:mm:ss" range-separator="至"
+					<el-date-picker v-model="search.queryTime" type="datetimerange" value-format="YYYY-MM-DD HH:mm:ss" range-separator="至"
 						start-placeholder="开始日期" end-placeholder="结束日期" :shortcuts="shortcuts"></el-date-picker>
 					<el-button type="primary" icon="el-icon-search" @click="upsearch"></el-button>
 				</div>
@@ -15,11 +15,11 @@
 		</el-header>
 		<el-main class="nopadding">
 			<m-table ref="tableRef" :apiObj="apiObj" row-key="id" @selection-change="selectionChange" stripe>
-				<el-table-column label="#" type="index" width="50"></el-table-column>
-				<el-table-column label="用户名" prop="username" width="120"></el-table-column>
-				<el-table-column label="姓名" prop="realName" width="120"></el-table-column>
-				<el-table-column label="登录行为" prop="businessTypeLabel" width="150"></el-table-column>
-				<el-table-column label="状态" prop="status" width="90">
+				<el-table-column label="#" type="index" min-width="50"></el-table-column>
+				<el-table-column label="用户名" prop="username" min-width="100"></el-table-column>
+				<el-table-column label="姓名" prop="realName" min-width="120"></el-table-column>
+				<el-table-column label="登录行为" prop="businessTypeLabel" min-width="100"></el-table-column>
+				<el-table-column label="状态" prop="status" min-width="90">
 					<template #default="scope">
 						<div v-if="scope.row.status == 0">
 							<el-tag type="success">成功</el-tag>
@@ -29,8 +29,8 @@
 						</div>
 					</template>
 				</el-table-column>
-				<el-table-column label="登录 IP" prop="ip" width="120"></el-table-column>
-				<el-table-column label="登录地址" prop="address" width="120"></el-table-column>
+				<el-table-column label="登录 IP" prop="ip" min-width="120"></el-table-column>
+				<el-table-column label="登录地址" prop="address" min-width="120"></el-table-column>
 				<el-table-column label="操作系统" prop="os" min-width="150"></el-table-column>
 				<el-table-column label="浏览器" prop="browser" min-width="150"></el-table-column>
 				<el-table-column label="时间" prop="createTime" min-width="150"></el-table-column>
@@ -71,7 +71,6 @@ const selectionChange = (data: any) => {
 
 //搜索
 const upsearch = () => {
-	console.log(search)
 	tableRef.value.upData({ ...search })
 }
 

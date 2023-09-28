@@ -10,8 +10,12 @@
 				<el-container>
 					<el-header>
 						<div class="left-panel">
-							<el-date-picker v-model="date" type="datetimerange" range-separator="至" start-placeholder="开始日期"
-								end-placeholder="结束日期"></el-date-picker>
+							<div class="right-panel-search">
+								<el-date-picker v-model="search.queryTime" type="datetimerange"
+									value-format="YYYY-MM-DD HH:mm:ss" range-separator="至" start-placeholder="开始日期"
+									end-placeholder="结束日期" :shortcuts="shortcuts"></el-date-picker>
+								<el-button type="primary" icon="el-icon-search" @click="upsearch"></el-button>
+							</div>
 						</div>
 						<div class="right-panel">
 
@@ -22,21 +26,21 @@
 					</el-header>
 					<el-main class="nopadding">
 						<m-table ref="tableRef" :apiObj="apiObj" stripe highlightCurrentRow @row-click="rowClick">
-							<el-table-column label="操作类型" prop="businessType" width="180"></el-table-column>
-							<el-table-column label="日志名" prop="name" width="150"></el-table-column>
-							<el-table-column label="请求接口" prop="reqUri" width="150"></el-table-column>
-							<el-table-column label="请求方法" prop="reqMethod" width="150"></el-table-column>
-							<el-table-column label="执行时长" prop="duration" width="150">
+							<el-table-column label="操作类型" prop="businessType" min-width="90"></el-table-column>
+							<el-table-column label="日志名" prop="name" min-width="130"></el-table-column>
+							<el-table-column label="请求接口" prop="reqUri" min-width="180"></el-table-column>
+							<el-table-column label="请求方法" prop="reqMethod" min-width="90"></el-table-column>
+							<el-table-column label="执行时长" prop="duration" min-width="100">
 								<template #default="scope">
 									<el-tag v-if="scope.row.duration > 100" type="danger">{{ scope.row.duration
 									}}ms</el-tag>
 									<el-tag v-else type="success">{{ scope.row.duration }}ms</el-tag>
 								</template>
 							</el-table-column>
-							<el-table-column label="姓名" prop="realName" width="150"></el-table-column>
-							<el-table-column label="客户端IP" prop="ip" width="150"></el-table-column>
-							<el-table-column label="地址" prop="address" width="150"></el-table-column>
-							<el-table-column label="状态" prop="status" width="90">
+							<el-table-column label="姓名" prop="realName" min-width="150"></el-table-column>
+							<el-table-column label="客户端IP" prop="ip" min-width="150"></el-table-column>
+							<el-table-column label="地址" prop="address" min-width="130"></el-table-column>
+							<el-table-column label="状态" prop="status" min-width="90">
 								<template #default="scope">
 									<div v-if="scope.row.status == 0">
 										<el-tag type="success">成功</el-tag>
@@ -46,7 +50,7 @@
 									</div>
 								</template>
 							</el-table-column>
-							<el-table-column label="日志时间" prop="createTime" width="170"></el-table-column>
+							<el-table-column label="日志时间" prop="createTime" min-width="170"></el-table-column>
 						</m-table>
 					</el-main>
 				</el-container>
@@ -108,7 +112,7 @@ const data = reactive({
 	},
 
 	search: {
-		keyword: ""
+		queryTime: ""
 	},
 })
 
@@ -140,7 +144,7 @@ const category = ref([
 ])
 
 const upsearch = () => {
-
+	tableRef.value.upData(search.value)
 }
 
 const rowClick = (row: any) => {
@@ -149,6 +153,30 @@ const rowClick = (row: any) => {
 		infoRef.value.setData(row)
 	})
 }
+
+const shortcuts = [
+	{
+		text: '今日',
+		value: [new Date().setHours(0, 0, 0, 0), new Date()],
+	},
+	{
+		text: '今年',
+		value: () => {
+			const end = new Date()
+			const start = new Date(new Date().getFullYear(), 0)
+			return [start, end]
+		},
+	},
+	{
+		text: '近半年',
+		value: () => {
+			const end = new Date()
+			const start = new Date()
+			start.setMonth(start.getMonth() - 6)
+			return [start, end]
+		},
+	},
+]
 </script>
 
 
