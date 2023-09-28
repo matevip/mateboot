@@ -4,6 +4,7 @@ package vip.mate.system.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.thread.ThreadUtil;
 import cn.hutool.extra.spring.SpringUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +13,7 @@ import vip.mate.core.common.utils.ServletUtils;
 import vip.mate.core.log.req.SysOperateLogReq;
 import vip.mate.core.redis.constant.CacheConstant;
 import vip.mate.core.redis.utils.CacheUtils;
+import vip.mate.system.entity.SysLoginLog;
 import vip.mate.system.entity.SysOperateLog;
 import vip.mate.system.mapper.SysOperateLogMapper;
 import vip.mate.system.service.SysOperateLogService;
@@ -45,7 +47,16 @@ public class SysOperateLogServiceImpl extends ServiceImpl<SysOperateLogMapper, S
 
     @Override
     public PageRes<SysOperateLogVO> queryPage(SysOperateLogReq req) {
-        Page<SysOperateLog> pageData = baseMapper.selectPage(new Page<>(req.getPageNo(), req.getPageSize()), Wrappers.query());
+        LambdaQueryWrapper<SysOperateLog> queryWrapper = Wrappers.<SysOperateLog>query().lambda();
+        // 查询时间范围
+        if (req.getQueryTime() !=null && req.getQueryTime().size() > 0) {
+            queryWrapper
+                    .ge(SysOperateLog::getCreateTime, req.getQueryTime().get(0))
+                    .le(SysOperateLog::getCreateTime, req.getQueryTime().get(1));
+        }
+        // 排序
+        queryWrapper.orderByDesc(SysOperateLog::getCreateTime);
+        Page<SysOperateLog> pageData = baseMapper.selectPage(new Page<>(req.getPageNo(), req.getPageSize()), queryWrapper);
         if (CollectionUtil.isEmpty(pageData.getRecords())) {
             return PageRes.empty();
         }

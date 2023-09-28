@@ -48,6 +48,8 @@ public class SysLoginLogServiceImpl extends ServiceImpl<SysLoginLogMapper, SysLo
                     .ge(SysLoginLog::getCreateTime, req.getQueryTime().get(0))
                     .le(SysLoginLog::getCreateTime, req.getQueryTime().get(1));
         }
+        // 排序
+        queryWrapper.orderByDesc(SysLoginLog::getCreateTime);
         Page<SysLoginLog> pageData = baseMapper.selectPage(new Page<>(req.getPageNo(), req.getPageSize()), queryWrapper);
         if (CollectionUtil.isEmpty(pageData.getRecords())) {
             return PageRes.empty();

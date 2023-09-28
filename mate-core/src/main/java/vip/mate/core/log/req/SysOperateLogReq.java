@@ -7,6 +7,7 @@ import lombok.experimental.Accessors;
 import vip.mate.core.mybatis.req.PageReq;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * <p>
@@ -81,5 +82,8 @@ public class SysOperateLogReq extends PageReq {
 
     @Schema(description = "浏览器")
     private String browser;
+
+    @Schema(description = "查询时间")
+    private List<String> queryTime;
 
 }
